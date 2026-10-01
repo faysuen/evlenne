@@ -167,7 +167,7 @@
 
 .heroImage {
   min-height: 300px;
-  background: url("/products/box-open.jpg") center / cover no-repeat, #e9dcc6;
+  background: url("/hero-box-mockup.png") right center / auto 145% no-repeat, #e9dcc6;
   position: relative;
 }
 
