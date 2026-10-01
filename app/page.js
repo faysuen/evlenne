@@ -16,35 +16,43 @@ const PetIcon = () => (
 );
 
 export default function Home(){
-  return <main className="home">
-    <nav className="home-nav">
-      <div className="brand-lockup production-brand"><span className="brand-name">Evlenne</span><span className="brand-sub">CUSTOM PET PORTRAIT KEEPSAKES</span></div>
-      <div className="nav-links"><a href="#inside">What’s inside</a><a href="#how">How it works</a><Link href="/studio">Create yours</Link></div>
-    </nav>
+  return <main className="home final-home">
+    <header className="final-header">
+      <div className="final-logo"><BrandLogo/></div>
+      <nav className="desktop-nav">
+        <a href="#how">How It Works</a><a href="#inside">What&apos;s Included</a><a href="#story">Our Portraits</a>
+      </nav>
+      <div className="header-actions"><Link className="header-cta" href="/studio">Create yours</Link><span className="cart-icon" aria-hidden="true">♡</span><span className="menu-icon" aria-hidden="true">☰</span></div>
+    </header>
 
-    <section className="home-hero">
-      <div className="hero-copy">
+    <section className="final-hero">
+      <div className="final-copy">
         <p className="eyebrow">A portrait made from their photograph</p>
         <h1>Keep them<br/><em>close.</em></h1>
         <p className="lead">A favorite photograph, thoughtfully transformed into a delicate portrait and made into a personal keepsake you can hold onto.</p>
         <Link className="button hero-button" href="/studio">Create their portrait <span>→</span></Link>
         <p className="hero-note">Created from your photo · Preview before ordering</p>
       </div>
-      <div className="hero-product" aria-label="Evlenne walnut keepsake box">
-        <div className="product-box">
-          <div className="product-lid"><PetIcon/></div>
-          <div className="product-tray">
-            <span className="tray-magnet tm1"/><span className="tray-magnet tm2"/><span className="tray-magnet tm3"/><span className="tray-magnet tm4"/>
-            <div className="tray-medallion"><span>♡</span></div>
-            <div className="tray-vial"><i/></div>
-            <div className="tray-card"><span>MEMORY</span><b>Always close.</b></div>
-          </div>
+      <div className="final-product" aria-label="Evlenne complete keepsake">
+        <div className="final-lid"><div className="lid-brand"><BrandLogo/></div></div>
+        <div className="final-tray">
+          <i className="mag m1"/><i className="mag m2"/><i className="mag m3"/><i className="mag m4"/>
+          <div className="pendant"><span>♡</span></div>
+          <div className="chain-line"/>
+          <div className="hair-vial"><span/></div>
+          <div className="photo-card"><div className="photo-dog">♡</div><small>Always with you</small></div>
         </div>
-        <p>30 mm portrait medallion · Keepsake vial · Memory card</p>
       </div>
     </section>
 
-    <section className="promise">
+    <section className="benefits">
+      <article><b>▣</b><span>Created from<br/>your photo</span></article>
+      <article><b>◉</b><span>Preview<br/>before ordering</span></article>
+      <article><b>♡</b><span>A lasting<br/>keepsake</span></article>
+      <article><b>◇</b><span>A meaningful<br/>gift</span></article>
+    </section>
+
+    <section className="promise" id="story">
       <p>NOT A FILTER. NOT A TEMPLATE.</p>
       <h2>A portrait that still<br/>feels like <em>them.</em></h2>
       <p className="promise-copy">Every Evlenne portrait begins with your photograph. We preserve the expression, features and little details you recognize, then refine the artwork for a small, timeless engraving.</p>
@@ -53,34 +61,19 @@ export default function Home(){
     <section className="inside" id="inside">
       <div className="section-intro"><p className="eyebrow">The complete keepsake</p><h2>More than<br/>a pendant.</h2><p className="section-copy">A quiet place for the details you never want to lose. The complete set is arranged inside a walnut keepsake box and personalized around one beloved photograph.</p></div>
       <div className="inside-grid">
-        <article><span>01</span><h3>Portrait medallion</h3><p>Your pet’s custom portrait on a 30 mm gold or silver medallion, personalized with their name and years.</p></article>
+        <article><span>01</span><h3>Portrait medallion</h3><p>Your pet&apos;s custom portrait on a 30 mm gold or silver medallion, personalized with their name and years.</p></article>
         <article><span>02</span><h3>Memory details</h3><p>A printed photograph, name &amp; years card and a small card for a memory in your own words.</p></article>
-        <article><span>03</span><h3>Something to keep</h3><p>A small keepsake vial and soft memory pouch, presented together inside the walnut box.</p></article>
+        <article><span>03</span><h3>Something to keep</h3><p>A glass keepsake vial for a small lock of fur and a soft memory pouch, presented inside the walnut box.</p></article>
         <article><span>04</span><h3>Wear it close</h3><p>Add the matching chain when you want the portrait to be something you can wear as well as keep.</p></article>
       </div>
-      <p className="inside-note">Final arrangement may vary slightly as we refine the production box and inserts.</p>
     </section>
 
     <section className="how" id="how">
       <div className="section-intro"><p className="eyebrow">Made personal</p><h2>From photo<br/>to keepsake.</h2></div>
-      <div className="steps">
-        <article><span>01</span><h3>Share a photograph</h3><p>Choose a clear photo that feels like them. It does not need to be perfect.</p></article>
-        <article><span>02</span><h3>Meet their portrait</h3><p>We create a refined engraving portrait and let you preview the composition before ordering.</p></article>
-        <article><span>03</span><h3>Made to keep</h3><p>Your approved portrait is engraved onto your chosen metal keepsake and prepared with care.</p></article>
-      </div>
+      <div className="steps"><article><span>01</span><h3>Share a photograph</h3><p>Choose a clear photo that feels like them.</p></article><article><span>02</span><h3>Meet their portrait</h3><p>Preview the refined engraving portrait before ordering.</p></article><article><span>03</span><h3>Made to keep</h3><p>Your approved portrait is engraved and prepared with care.</p></article></div>
     </section>
 
-    <section className="materials">
-      <div className="product-finishes"><div className="material-disc gold-disc"><span>♡</span></div><div className="material-disc silver-disc"><span>♡</span></div></div>
-      <div className="material-copy"><p className="eyebrow">Your keepsake</p><h2>Quietly personal.<br/>Made to last.</h2><p>Choose warm gold or classic silver. The 30 mm format gives the portrait room to breathe while remaining intimate enough to wear or keep close.</p><div className="finish-row"><span><i className="gold-dot"/>Gold</span><span><i className="silver-dot"/>Silver</span></div></div>
-    </section>
-
-    <section className="home-cta">
-      <p className="eyebrow">Begin with one photograph</p>
-      <h2>Keep their story<br/>within reach.</h2>
-      <Link className="button" href="/studio">Create their portrait <span>→</span></Link>
-    </section>
-
-    <footer className="home-footer"><div className="brand-lockup official-lockup"><BrandLogo/></div><p>Made with care in Canada</p><p>© 2026 Evlenne</p></footer>
+    <section className="home-cta"><p className="eyebrow">Begin with one photograph</p><h2>Keep their story<br/>within reach.</h2><Link className="button" href="/studio">Create their portrait <span>→</span></Link></section>
+    <footer className="home-footer"><div className="final-logo footer-logo"><BrandLogo/></div><p>Made with care in Canada</p><p>© 2026 Evlenne</p></footer>
   </main>
 }
