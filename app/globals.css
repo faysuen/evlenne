@@ -15,3 +15,10 @@
 .spinner{width:22px;height:22px;border:2px solid var(--line);border-top-color:var(--gold);border-radius:50%;animation:evspin .8s linear infinite;flex:0 0 auto}
 @keyframes evspin{to{transform:rotate(360deg)}}
 @media(max-width:760px){.preview{scroll-margin-top:12px}.processing-card{position:sticky;bottom:12px;z-index:10;box-shadow:0 8px 30px #342c2720}}
+
+
+.section-label{margin:30px 0 10px;font-size:10px;letter-spacing:.18em;color:var(--soft)}
+.style-picker{display:grid;grid-template-columns:repeat(3,1fr);max-width:460px;border:1px solid var(--line)}
+.style-picker button{border:0;border-right:1px solid var(--line);background:transparent;padding:13px 8px;color:var(--soft);cursor:pointer}.style-picker button:last-child{border-right:0}.style-picker button.active{background:var(--ink);color:#fff}
+.proof-status{display:inline-block;margin:0 auto 12px;padding:7px 10px;border:1px solid var(--line);font-size:9px;letter-spacing:.13em;color:var(--soft)}
+@media(max-width:760px){.workspace{display:flex;flex-direction:column}.panel{padding-bottom:34px}.preview{order:2;padding-top:42px}.medallion{margin-top:30px}}
