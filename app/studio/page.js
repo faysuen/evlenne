@@ -24,7 +24,6 @@ export default function Studio(){
     const local=URL.createObjectURL(file);
     setOriginal(local);setAiPortrait("");setMedallionPortrait("");setWorking(true);setError("");
     setZoom(1.55);setX(50);setY(38);
-    setStep(2); setTimeout(()=>previewRef.current?.scrollIntoView({behavior:"smooth",block:"start"}),120);
     setWorking(false);
   }
 
@@ -83,7 +82,7 @@ export default function Studio(){
 
   const go=n=>{setStep(n);window.scrollTo({top:0,behavior:"smooth"});};
   return <main className="studio-flow">
-    <header><a href="/" className="brand">EVLENNE<span>PORTRAIT STUDIO</span></a><p>Artwork preparation workspace</p></header>
+    <header className="studio-site-header"><a href="/" className="studio-site-logo"><img src="/evlenne-logo.png" alt="Evlenne — Custom pet portrait keepsakes" /></a><nav aria-label="Main"><a href="/#how">How It Works</a><a href="/#keepsakes">What's Included</a><a href="/#about">Reviews</a></nav><p>Artwork preparation workspace</p></header>
     <nav className="studio-progress" aria-label="Order progress">
       {["Photo","Portrait","Personalize","Keepsake"].map((label,i)=><button key={label} className={step===i+1?"active":step>i+1?"done":""} onClick={()=>i+1<step&&go(i+1)}><b>0{i+1}</b><span>{label}</span></button>)}
     </nav>
@@ -98,12 +97,12 @@ export default function Studio(){
         <div className="original-card"><img src={original} alt="Uploaded pet"/><span>YOUR PHOTO</span></div>
         <button className="change-photo" onClick={()=>input.current?.click()}>Choose a different photo</button>
       </div>}
-      {original&&<button className="flow-next" onClick={()=>go(2)}>Continue to portrait →</button>}
+      {original&&<button className="create-art upload-create" disabled={aiWorking} onClick={createPortrait}>{aiWorking?"Creating Evlenne portrait…":"Create Evlenne portrait →"}</button>}
     </section>}
 
     {step===2&&<section className="flow-step" ref={previewRef}>
       <p className="step">02 · REVIEW PORTRAIT</p><h1>Make it feel like them.</h1>
-      {!aiPortrait&&<><p className="muted">Create the portrait, then review the crop and finish before continuing.</p>{original&&<button className="create-art" disabled={aiWorking} onClick={createPortrait}>{aiWorking?"Creating Evlenne portrait…":"Create Evlenne portrait"}</button>}</>}
+      {!aiPortrait&&<p className="muted">Your portrait is being prepared. You’ll be able to review the crop and finish before continuing.</p>}
       {error&&<div className="artwork-note"><strong>Portrait creation failed.</strong><br/>{error}</div>}
       {aiPortrait&&<div className="portrait-review-grid">
         <div><div className={"medallion portrait-medallion clean-preview "+(metal==="silver"?"silver-preview":"gold-preview")}>{medallionPortrait&&<img className="portrait-cutout clean-cutout" src={medallionPortrait} alt="Evlenne portrait" style={{left:x+"%",top:y+"%",transform:"translate(-50%,-50%) scale("+zoom+")"}}/>}</div>
