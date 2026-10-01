@@ -1,15 +1,8 @@
-# EVLENNE Portrait Studio
+# EVLENNE
 
-Static prototype for EVLENNE's internal pet portrait / laser artwork workflow.
+EVLENNE Pet Memorial Keepsakes — Next.js website and Portrait Studio.
 
-## Deploy to Vercel
+- `/` — landing page
+- `/studio` — portrait upload and 30 mm medallion preview
 
-1. Create a new GitHub repository.
-2. Upload `index.html` and this `README.md` to the repository root.
-3. In Vercel, choose **Add New → Project** and import the GitHub repository.
-4. Framework Preset: **Other**.
-5. No build command is required.
-6. Deploy.
-7. Add `evlenne.com` (or a studio subdomain) under Project → Settings → Domains.
-
-The app runs entirely in the browser and does not upload photos to a server in this prototype.
+The current Studio supports mobile photo upload and proof preview. AI portrait generation is the next integration step.
