@@ -123,3 +123,11 @@
   .hero-object{min-height:auto!important;padding:24px 18px 34px!important}
   .hero-box{width:100%!important;max-width:520px!important}
 }
+
+/* Clean wordmark lockup: avoids the source-board crop artifact */
+.official-lockup{display:flex!important;align-items:center!important;gap:11px!important;line-height:1!important}
+.official-logo{display:none!important}
+.official-lockup::before{content:"✦";display:grid;place-items:center;width:30px;height:30px;border:1px solid #a88757;border-radius:50%;color:#a88757;font-size:13px;font-family:Georgia,serif;flex:0 0 auto}
+.official-lockup::after{content:"Evlenne";color:#342c27;font-family:Georgia,"Times New Roman",serif;font-size:34px;line-height:1;font-weight:400;letter-spacing:-.035em;white-space:nowrap}
+.home-footer .official-lockup::after{font-size:30px}
+@media(max-width:760px){.official-lockup{gap:8px!important}.official-lockup::before{width:25px;height:25px;font-size:11px}.official-lockup::after{font-size:27px}.home-footer .official-lockup::after{font-size:27px}}
