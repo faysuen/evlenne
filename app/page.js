@@ -18,10 +18,7 @@ const PetIcon = () => (
 export default function Home(){
   return <main className="home">
     <nav className="home-nav">
-      <div className="brand-lockup text-brand">
-        <span className="brand-mark" aria-hidden="true"><PetIcon/></span>
-        <span className="brand-text"><span className="brand-name">Evlenne</span><span className="brand-sub">CUSTOM PET PORTRAIT KEEPSAKES</span></span>
-      </div>
+      <div className="brand-lockup production-brand"><span className="brand-name">Evlenne</span><span className="brand-sub">CUSTOM PET PORTRAIT KEEPSAKES</span></div>
       <div className="nav-links"><a href="#inside">What’s inside</a><a href="#how">How it works</a><Link href="/studio">Create yours</Link></div>
     </nav>
 
