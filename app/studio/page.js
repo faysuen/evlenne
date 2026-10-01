@@ -14,12 +14,10 @@ export default function Studio(){
     setOriginal(local);setPortrait("");setArtwork(false);setWorking(true);
     setZoom(1.55);setX(50);setY(38);
     setTimeout(()=>previewRef.current?.scrollIntoView({behavior:"smooth",block:"start"}),120);
-    try{
-      const {removeBackground}=await import("@imgly/background-removal/dist/index.mjs");
-      const blob=await removeBackground(file);
-      setPortrait(URL.createObjectURL(blob));
-    }catch(err){console.error(err);setPortrait(local)}
-    finally{setWorking(false)}
+    // Keep the crop/position workflow build-safe for now.
+    // Background removal will move to a server API so ML/WebGPU code is not bundled by Next/Vercel.
+    setPortrait(local);
+    setWorking(false)
   }
 
   return <main>
