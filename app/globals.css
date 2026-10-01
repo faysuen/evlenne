@@ -68,3 +68,13 @@
 
 /* Studio personalization */
 .personalization{margin-top:28px;padding:24px;background:#f5f0e7;border-radius:8px}.personalization label{display:block;margin:0 0 17px;font-size:10px;letter-spacing:.6px;text-transform:uppercase;color:#756a61}.personalization label:last-child{margin-bottom:0}.personalization input,.personalization textarea{display:block;width:100%;box-sizing:border-box;margin-top:8px;border:1px solid #ded4c7;border-radius:5px;background:#fffdf9;color:#342c27;padding:12px 13px;font:14px/1.4 Georgia,serif;text-transform:none;letter-spacing:0;outline:none}.personalization textarea{min-height:92px;resize:vertical}.personalization input:focus,.personalization textarea:focus{border-color:#a88757}.personalization .optional{float:right;font-size:8px;letter-spacing:.5px;color:#9b9188}.personalization small{display:block;margin-top:5px;text-align:right;font-size:8px;color:#9b9188}.checkout-preview:not(:disabled){opacity:1;cursor:pointer}.checkout-preview:disabled{cursor:not-allowed}
+
+/* Order builder layout fix */
+.personalization-readonly{display:grid;grid-template-columns:110px 1fr;gap:9px 18px;margin:16px 0 24px;padding:16px 0;border-top:1px solid #ded4c7;border-bottom:1px solid #ded4c7}
+.personalization-readonly span{font:9px Arial,sans-serif;letter-spacing:.7px;text-transform:uppercase;color:#756a61}
+.personalization-readonly strong{font:15px Georgia,serif;font-weight:400;color:#342c27;overflow-wrap:anywhere}
+.order-builder .personalization{margin-top:34px}
+.order-builder .personalization>.step{margin-bottom:18px}
+.order-builder .personalization label{clear:both;margin-top:18px}
+.order-builder .checkout-preview:disabled{background:#8b837b;color:#fff}
+@media(max-width:760px){.personalization-readonly{grid-template-columns:90px 1fr}.order-builder>h2{font-size:28px}}
