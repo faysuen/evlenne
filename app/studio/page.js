@@ -107,28 +107,13 @@ export default function Studio(){
         <div className="memorial-copy"><h2>{name||"Their name"}</h2><p>{years||"Years together"}</p></div>
         <small>30 mm medallion preview</small>
         {aiPortrait&&<><p className="step artwork-step" id="ai-portrait">03 · EVLENNE PORTRAIT</p><div className="engraving-sheet"><img src={aiPortrait} alt="EVLENNE AI engraving portrait"/></div><small>OpenAI Low · white background · 30 mm artwork test</small></>}
-        {aiPortrait&&<section className="order-builder">
-          <p className="step">04 · CHOOSE YOUR KEEPSAKE</p>
-          <h2>How would you like to keep them close?</h2>
-          <div className="package-options">
-            <button className={packageType==="keepsake"?"selected":""} onClick={()=>setPackageType("keepsake")}><strong>Keepsake</strong><span>Portrait medallion · walnut box</span></button>
-            <button className={packageType==="complete"?"selected":""} onClick={()=>setPackageType("complete")}><i>Most complete</i><strong>Complete</strong><span>Medallion · memory pieces · walnut box</span></button>
-            <button className={packageType==="wear"?"selected":""} onClick={()=>setPackageType("wear")}><strong>Wear &amp; Keep</strong><span>Complete keepsake · matching chain</span></button>
+        {aiPortrait ? (
+          <div className="order-builder">
+            <p className="step">04 · ORDER</p>
+            <h2>Your portrait is ready.</h2>
+            <p className="muted">Product selection and checkout are being prepared.</p>
           </div>
-          <div className="personalization">
-            <label>Pet name<input value={name} onChange={e=>setName(e.target.value)} placeholder="e.g. Coco"/></label>
-            <label>Years <span className="optional">optional</span><input value={years} onChange={e=>setYears(e.target.value)} placeholder="e.g. 2015 — 2024"/></label>
-            <label>Memory card <span className="optional">optional</span><textarea maxLength="160" value={memoryText} onChange={e=>setMemoryText(e.target.value)} placeholder="A short memory, phrase or message…"></textarea><small>{memoryText.length} / 160</small></label>
-            <label>Order email<input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@example.com"/></label>
-          </div>
-          <div className="order-summary">
-            <div><span>Your selection</span><strong>{packageLabels[packageType]}</strong></div>
-            <div><span>Finish</span><strong>{metal==="gold"?"Gold":"Silver"}</strong></div>
-            <div><span>Portrait</span><strong>{name||"Custom pet portrait"}</strong></div>
-          </div>
-          <button className="checkout-preview" disabled={checkoutDisabled}>Continue to checkout</button>
-          <p className="checkout-note">Your portrait and personalization are ready to become an order. Payment will be enabled after final pricing is confirmed.</p>
-        </section>
+        ) : null}
       </div>
     </section>
   </main>
