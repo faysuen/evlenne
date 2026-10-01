@@ -49,7 +49,7 @@ export default function Studio(){
         <input ref={input} hidden type="file" accept="image/*" onChange={pick}/>
         <button className="upload" onClick={()=>input.current?.click()}>{original?"Choose another photo":"Upload pet photo"}</button>
         {error&&<div className="artwork-note"><strong>Photo processing failed.</strong><br/>{error}</div>}
-        {working&&<div className="processing-card"><span className="spinner"/><div><strong>Photo uploaded ✓</strong><p>Removing background…</p></div></div>}
+        {working&&<div className="processing-card"><span className="spinner"/><div><strong>Photo uploaded ✓</strong><p>Preparing preview…</p></div></div>}
         {portrait&&!working&&<>
           <div className="controls">
             <label>Portrait size<input type="range" min=".8" max="3" step=".05" value={zoom} onChange={e=>setZoom(+e.target.value)}/></label>
@@ -72,7 +72,7 @@ export default function Studio(){
         {portrait&&!working&&<div className="proof-status">ORIGINAL PHOTO · POSITION & CROP</div>}
         <div className="memorial-copy"><h2>{name||"Their name"}</h2><p>{years||"Years together"}</p></div>
         <small>30 mm portrait composition preview</small>
-        {aiPortrait&&<><p className="step artwork-step" id="ai-portrait">03 · EVLENNE PORTRAIT</p><div className="engraving-sheet"><img src={aiPortrait} alt="EVLENNE AI engraving portrait"/></div><small>OpenAI Low · transparent PNG · 30 mm artwork test</small></>}
+        {aiPortrait&&<><p className="step artwork-step" id="ai-portrait">03 · EVLENNE PORTRAIT</p><div className="engraving-sheet"><img src={aiPortrait} alt="EVLENNE AI engraving portrait"/></div><small>OpenAI Low · white background · 30 mm artwork test</small></>}
       </div>
     </section>
   </main>
