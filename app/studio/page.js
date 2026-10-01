@@ -93,7 +93,11 @@ export default function Studio(){
       <p className="muted">Choose a clear photo. We’ll use it to create their Evlenne portrait.</p>
       <input ref={input} hidden type="file" accept="image/*" onChange={pick}/>
       <button className="upload" onClick={()=>input.current?.click()}>{original?"Choose another photo":"Upload pet photo"}</button>
-      {original&&<div className="original-card"><img src={original} alt="Uploaded pet"/><span>ORIGINAL PHOTO</span></div>}
+      {original&&<div className="upload-success">
+        <div className="upload-success-head"><span className="upload-check">✓</span><div><strong>Photo uploaded</strong><small>Ready to create their portrait</small></div></div>
+        <div className="original-card"><img src={original} alt="Uploaded pet"/><span>YOUR PHOTO</span></div>
+        <button className="change-photo" onClick={()=>input.current?.click()}>Choose a different photo</button>
+      </div>}
       {original&&<button className="flow-next" onClick={()=>go(2)}>Continue to portrait →</button>}
     </section>}
 
