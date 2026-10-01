@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Newsreader } from "next/font/google";
 import styles from "./landing.module.css";
+import processStyles from "./process.module.css";
 
 const serif = Newsreader({ subsets: ["latin"], style: ["normal", "italic"], weight: ["400", "500"], variable: "--font-serif" });
 
@@ -12,9 +13,9 @@ const benefits = [
 ];
 
 const steps = [
-  ["01", "Upload a photo", "Choose a clear photograph that feels like them.", "/products/box-beads.jpg"],
-  ["02", "We create the portrait", "We refine the artwork for a small, timeless keepsake.", "/products/box-open.jpg"],
-  ["03", "Preview & order", "Review the details before your keepsake is made.", "/products/box-top-view.jpg"],
+  ["01", "Upload a photo", "Use a clear, well-lit photo of your pet.", "/pet-photo-golden.png", "A real photo"],
+  ["02", "We create the portrait", "Our AI transforms your photo into a clean, engraved-style portrait.", "/pet-portrait-golden.png", "Portrait render"],
+  ["03", "Preview & order", "See your portrait on the keepsake before you buy.", "/hero-product-scene.png", "Your keepsake"],
 ];
 
 function BenefitIcon({ type }) {
@@ -47,7 +48,7 @@ function Hero() {
       <Link href="/studio" className={styles.cta}>Create their portrait <span>→</span></Link>
       <p className={styles.caption}>Created from your photo · Preview before ordering</p>
     </div>
-    <div className={styles.heroProduct}><img src="/hero-product-scene.png" alt="Walnut keepsake box with a custom pet portrait pendant" /></div>
+    <div className={styles.heroProduct} role="img" aria-label="Walnut keepsake box with a custom pet portrait pendant" />
   </section>;
 }
 
@@ -66,7 +67,7 @@ function Keepsakes() {
 }
 
 function HowItWorks() {
-  return <section className={styles.how} id="how"><p className={styles.eyebrow}>From photograph to keepsake</p><h2>How it <em>works.</em></h2><p className={styles.intro}>Turn their photo into something you can keep close in just a few thoughtful steps.</p><div className={styles.stepGrid}>{steps.map(([number, title, text, image]) => <article key={number}><img src={image} alt="Walnut keepsake box detail" /><span>{number}</span><h3>{title}</h3><p>{text}</p></article>)}</div></section>;
+  return <section className={styles.how} id="how"><p className={styles.eyebrow}>From photograph to keepsake</p><h2>How it <em>works.</em></h2><p className={styles.intro}>Turn their photo into something you can keep close in just a few thoughtful steps.</p><div className={processStyles.processGrid}>{steps.map(([number, title, text, image, alt], index) => <div className={processStyles.processItem} key={number}><article><img src={image} alt={alt} /><span>{number}</span><h3>{title}</h3><p>{text}</p></article>{index < steps.length - 1 && <span className={processStyles.processArrow} aria-hidden="true">→</span>}</div>)}</div></section>;
 }
 
 function About() {
