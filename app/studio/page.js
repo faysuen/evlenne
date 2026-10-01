@@ -15,7 +15,7 @@ export default function Studio(){
     setZoom(1.55);setX(50);setY(38);
     setTimeout(()=>previewRef.current?.scrollIntoView({behavior:"smooth",block:"start"}),120);
     try{
-      const {removeBackground}=await import("@imgly/background-removal");
+      const {removeBackground}=await import("@imgly/background-removal/dist/index.mjs");
       const blob=await removeBackground(file);
       setPortrait(URL.createObjectURL(blob));
     }catch(err){console.error(err);setPortrait(local)}
