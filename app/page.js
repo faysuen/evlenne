@@ -15,7 +15,7 @@ const PetIcon = () => (
 export default function Home(){
   return <main className="home">
     <nav className="home-nav">
-      <div className="brand-lockup"><PetIcon/><div className="brand">Evlenne<span>CUSTOM PET PORTRAIT KEEPSAKES</span></div></div>
+      <div className="brand-lockup wordmark-only"><div className="brand">Evlenne<span>CUSTOM PET PORTRAIT KEEPSAKES</span></div></div>
       <div className="nav-links"><a href="#inside">What’s inside</a><a href="#how">How it works</a><Link href="/studio">Create yours</Link></div>
     </nav>
 
@@ -77,6 +77,6 @@ export default function Home(){
       <Link className="button" href="/studio">Create their portrait <span>→</span></Link>
     </section>
 
-    <footer className="home-footer"><div className="brand-lockup"><PetIcon/><div className="brand">Evlenne<span>CUSTOM PET PORTRAIT KEEPSAKES</span></div></div><p>Made with care in Canada</p><p>© 2026 Evlenne</p></footer>
+    <footer className="home-footer"><div className="brand-lockup wordmark-only"><div className="brand">Evlenne<span>CUSTOM PET PORTRAIT KEEPSAKES</span></div></div><p>Made with care in Canada</p><p>© 2026 Evlenne</p></footer>
   </main>
 }
