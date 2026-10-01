@@ -96,3 +96,12 @@
   .official-logo{width:235px!important;max-width:62vw!important}
   .home-footer .official-logo{width:245px!important;max-width:78vw!important}
 }
+
+/* Mobile official logo: remove source-board background artifact */
+.official-logo{mix-blend-mode:multiply}
+@media(max-width:760px){
+  .home-nav{gap:12px!important}
+  .home-nav .official-lockup{min-width:0;flex:1}
+  .home-nav .official-logo{width:270px!important;max-width:100%!important;mix-blend-mode:multiply}
+  .home-nav .nav-links{flex:0 0 auto}
+}
