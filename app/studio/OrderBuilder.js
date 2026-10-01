@@ -27,7 +27,7 @@ export default function OrderBuilder({metal="gold",petName="",years=""}){
       </div>
 
       <div className="personalization">
-        <p className="step">05 · PERSONALIZE</p>
+        <p className="step">ORDER DETAILS</p>
         <div className="personalization-readonly">
           <span>Pet name</span><strong>{petName||"Add their name above"}</strong>
           <span>Years</span><strong>{years||"Optional"}</strong>
