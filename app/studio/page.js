@@ -17,19 +17,8 @@ export default function Studio(){
     setOriginal(local);setPortrait("");setAiPortrait("");setWorking(true);setError("");
     setZoom(1.55);setX(50);setY(38);
     setTimeout(()=>previewRef.current?.scrollIntoView({behavior:"smooth",block:"start"}),120);
-    try{
-      const form=new FormData();
-      form.append("image",file);
-      const response=await fetch("/api/remove-background",{method:"POST",body:form});
-      if(!response.ok) throw new Error("Background removal failed");
-      const blob=await response.blob();
-      setPortrait(URL.createObjectURL(blob));
-    }catch(err){
-      console.error(err);
-      setError("We couldn't remove the background. Please try another photo.");
-    }finally{
-      setWorking(false);
-    }
+    setPortrait(local);
+    setWorking(false);
   }
 
 
@@ -56,7 +45,7 @@ export default function Studio(){
     <section className="workspace">
       <div className="panel">
         <p className="step">01 · UPLOAD</p><h1>Frame their portrait.</h1>
-        <p className="muted">Choose a clear photo. We remove the background so you can position the portrait before creating the engraving artwork.</p>
+        <p className="muted">Choose a clear photo. Position the original image, then create the EVLENNE portrait with AI.</p>
         <input ref={input} hidden type="file" accept="image/*" onChange={pick}/>
         <button className="upload" onClick={()=>input.current?.click()}>{original?"Choose another photo":"Upload pet photo"}</button>
         {error&&<div className="artwork-note"><strong>Photo processing failed.</strong><br/>{error}</div>}
@@ -76,11 +65,11 @@ export default function Studio(){
       <div className="preview" ref={previewRef}>
         <p className="step">02 · PORTRAIT PREVIEW</p>
         <div className="medallion portrait-medallion clean-preview">
-          {portrait&&!working?<img className="portrait-cutout clean-cutout" src={portrait} alt="Background-free pet portrait"
+          {portrait&&!working?<img className="portrait-cutout clean-cutout" src={portrait} alt="Original pet portrait"
             style={{left:x+"%",top:y+"%",transform:"translate(-50%,-50%) scale("+zoom+")"}}/>:
           <span>{working?"Preparing portrait…":"Upload a photo\nto begin"}</span>}
         </div>
-        {portrait&&!working&&<div className="proof-status">BACKGROUND REMOVED · POSITION & CROP</div>}
+        {portrait&&!working&&<div className="proof-status">ORIGINAL PHOTO · POSITION & CROP</div>}
         <div className="memorial-copy"><h2>{name||"Their name"}</h2><p>{years||"Years together"}</p></div>
         <small>30 mm portrait composition preview</small>
         {aiPortrait&&<><p className="step artwork-step" id="ai-portrait">03 · EVLENNE PORTRAIT</p><div className="engraving-sheet"><img src={aiPortrait} alt="EVLENNE AI engraving portrait"/></div><small>OpenAI Low · transparent PNG · 30 mm artwork test</small></>}
