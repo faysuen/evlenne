@@ -1,5 +1,6 @@
 "use client";
 import {useRef,useState} from "react";
+import OrderBuilder from "./OrderBuilder";
 
 export default function Studio(){
   const input=useRef(null), previewRef=useRef(null);
@@ -107,13 +108,7 @@ export default function Studio(){
         <div className="memorial-copy"><h2>{name||"Their name"}</h2><p>{years||"Years together"}</p></div>
         <small>30 mm medallion preview</small>
         {aiPortrait&&<><p className="step artwork-step" id="ai-portrait">03 · EVLENNE PORTRAIT</p><div className="engraving-sheet"><img src={aiPortrait} alt="EVLENNE AI engraving portrait"/></div><small>OpenAI Low · white background · 30 mm artwork test</small></>}
-        {aiPortrait ? (
-          <div className="order-builder">
-            <p className="step">04 · ORDER</p>
-            <h2>Your portrait is ready.</h2>
-            <p className="muted">Product selection and checkout are being prepared.</p>
-          </div>
-        ) : null}
+        {aiPortrait ? <OrderBuilder metal={metal} petName={name} years={years} /> : null}
       </div>
     </section>
   </main>
