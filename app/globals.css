@@ -139,3 +139,17 @@
 .home-nav .clean-brand .brand-name{font-family:Georgia,"Times New Roman",serif;font-size:34px;color:#342c27;letter-spacing:-.035em}
 .home-nav .clean-brand .brand-descriptor{font-family:Arial,sans-serif;font-size:7px;letter-spacing:.24em;color:#756a61;margin-top:3px;white-space:nowrap}
 @media(max-width:760px){.home-nav .clean-brand{grid-template-columns:47px auto;column-gap:8px}.home-nav .clean-brand .brand-icon,.home-nav .clean-brand .brand-icon .pet-icon{width:47px!important}.home-nav .clean-brand .brand-name{font-size:28px}.home-nav .clean-brand .brand-descriptor{font-size:5.5px;letter-spacing:.18em}.home-nav .nav-links a:not(:last-child){display:none!important}}
+
+/* Emergency mobile header reset — keep the brand inside the viewport */
+.home-nav{overflow:hidden}
+.home-nav .text-brand{display:flex!important;align-items:center!important;min-width:0!important;max-width:55vw!important}
+.home-nav .text-brand .brand-name{font-family:Georgia,"Times New Roman",serif;color:#342c27;font-size:32px;line-height:1;letter-spacing:-.04em;white-space:nowrap}
+@media(max-width:760px){
+ .home-nav{min-height:74px!important;height:74px!important;padding:0 20px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:16px!important}
+ .home-nav .text-brand{flex:0 1 auto!important;max-width:52vw!important}
+ .home-nav .text-brand .brand-name{font-size:29px!important}
+ .home-nav .nav-links{margin:0!important;display:flex!important;align-items:center!important;flex:0 0 auto!important}
+ .home-nav .nav-links a{display:none!important}
+ .home-nav .nav-links a:last-child{display:inline-flex!important;font-size:13px!important;white-space:nowrap!important;padding:10px 0!important;background:none!important;color:#342c27!important}
+ .home-hero{padding-top:70px!important}
+}
