@@ -16,8 +16,8 @@ const iconProps = {
   fill: "none",
   stroke: "currentColor",
   strokeWidth: 1.2,
-  strokeLinecap: "round" as const,
-  strokeLinejoin: "round" as const,
+  strokeLinecap: "round",
+  strokeLinejoin: "round",
   "aria-hidden": true,
 };
 
