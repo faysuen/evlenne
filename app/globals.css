@@ -203,3 +203,35 @@
  .home-hero .hero-button{margin-top:38px!important;width:auto!important;max-width:100%!important}
  .home-hero .hero-note{font-size:9px!important;line-height:1.5!important}
 }
+
+/* Restore visible brand + product visual without external mock imagery */
+.home-nav .text-brand{display:flex!important;align-items:center!important;gap:10px!important;max-width:none!important}
+.home-nav .brand-mark{display:block!important;width:50px!important;color:#a88757!important;flex:0 0 50px!important}
+.home-nav .brand-mark .pet-icon{display:block!important;width:100%!important;height:auto!important;color:#a88757!important}
+.home-nav .brand-text{display:flex!important;flex-direction:column!important;min-width:0!important}
+.home-nav .brand-sub{display:block!important;margin-top:4px!important;font:500 6px/1 Arial,sans-serif!important;letter-spacing:.18em!important;color:#756a61!important;white-space:nowrap!important}
+.home-hero{display:grid!important;grid-template-columns:minmax(0,.85fr) minmax(420px,1.15fr)!important;align-items:center!important;gap:clamp(50px,7vw,110px)!important}
+.hero-product{display:block!important;min-width:0!important}
+.product-box{position:relative;width:min(650px,100%);aspect-ratio:1.08/1;margin:auto;perspective:1200px}
+.product-lid,.product-tray{position:absolute;left:8%;width:84%;border-radius:24px;background:linear-gradient(135deg,#4a3024,#6b4934 45%,#3e291f);box-shadow:0 28px 60px #342c2730}
+.product-lid{top:0;height:42%;transform:rotate(-3deg);display:grid;place-items:center;border:1px solid #795843}
+.product-lid .pet-icon{width:110px;color:#b9945e}
+.product-tray{left:5%;bottom:1%;width:90%;height:57%;padding:8%;background:linear-gradient(135deg,#5a3b2b,#3f2b22);border:1px solid #795843}
+.product-tray:before{content:"";position:absolute;inset:6%;border-radius:18px;background:#f3ecdf;box-shadow:inset 0 0 0 1px #ded4c7}
+.tray-magnet{position:absolute;width:7px;height:7px;border-radius:50%;background:#c9b9a4;z-index:2}.tm1{left:8%;top:9%}.tm2{right:8%;top:9%}.tm3{left:8%;bottom:9%}.tm4{right:8%;bottom:9%}
+.tray-medallion{position:absolute;z-index:3;left:18%;top:30%;width:29%;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#f6d999,#b88942 65%,#8c642e);border:2px solid #c69a56;box-shadow:0 8px 18px #342c2730;color:#6b4a2c;font:28px Georgia}
+.tray-vial{position:absolute;z-index:3;left:52%;top:27%;width:10%;height:49%;border:2px solid #c9b9a4;border-radius:8px 8px 13px 13px;background:#ffffff55;overflow:hidden}.tray-vial:before{content:"";position:absolute;left:-8%;top:-10%;width:116%;height:16%;background:#9a7656;border-radius:3px}.tray-vial i{position:absolute;left:20%;right:20%;bottom:10%;height:48%;background:repeating-linear-gradient(72deg,#b69b7b 0 1px,transparent 1px 4px);opacity:.85}
+.tray-card{position:absolute;z-index:3;right:13%;top:27%;width:21%;height:48%;background:#fbf8f2;border:1px solid #ded4c7;padding:10px 7px;display:flex;flex-direction:column;justify-content:flex-end;text-align:center;box-shadow:0 5px 12px #342c2718}.tray-card:before{content:"";position:absolute;left:12%;right:12%;top:12%;height:45%;background:#ded4c7}.tray-card span{font:500 5px Arial;letter-spacing:.2em;color:#a88757}.tray-card b{margin-top:4px;font:400 8px Georgia;color:#756a61}
+.hero-product>p{text-align:center;margin:22px 0 0;font:500 8px Arial;letter-spacing:.16em;text-transform:uppercase;color:#756a61}
+@media(max-width:760px){
+ .home-nav .text-brand{gap:7px!important;max-width:58vw!important}
+ .home-nav .brand-mark{width:37px!important;flex-basis:37px!important}
+ .home-nav .brand-name{font-size:25px!important}
+ .home-nav .brand-sub{font-size:4.5px!important;letter-spacing:.12em!important}
+ .home-hero{display:block!important;padding-bottom:64px!important}
+ .hero-product{margin:64px -8px 0!important}
+ .product-box{width:100%!important;max-width:520px!important}
+ .product-lid,.product-tray{border-radius:16px!important}
+ .product-lid .pet-icon{width:76px!important}
+ .hero-product>p{font-size:7px!important;line-height:1.6!important;padding:0 20px!important}
+}
