@@ -12,6 +12,7 @@ export default function Studio(){
   const [x,setX]=useState(50),[y,setY]=useState(38),[aiPortrait,setAiPortrait]=useState("");
   const [aiWorking,setAiWorking]=useState(false);
   const [metal,setMetal]=useState("gold");
+  const [step,setStep]=useState(1);
   const [packageType,setPackageType]=useState("complete");
   const [memoryText,setMemoryText]=useState("");
   const [email,setEmail]=useState("");
@@ -23,7 +24,7 @@ export default function Studio(){
     const local=URL.createObjectURL(file);
     setOriginal(local);setAiPortrait("");setMedallionPortrait("");setWorking(true);setError("");
     setZoom(1.55);setX(50);setY(38);
-    setTimeout(()=>previewRef.current?.scrollIntoView({behavior:"smooth",block:"start"}),120);
+    setStep(2); setTimeout(()=>previewRef.current?.scrollIntoView({behavior:"smooth",block:"start"}),120);
     setWorking(false);
   }
 
@@ -54,7 +55,7 @@ export default function Studio(){
       const url=URL.createObjectURL(blob);
       setAiPortrait(url);
       setMedallionPortrait(await removeWhiteBackground(blob));
-      setTimeout(()=>document.getElementById("ai-portrait")?.scrollIntoView({behavior:"smooth",block:"center"}),100);
+      setStep(2); setTimeout(()=>previewRef.current?.scrollIntoView({behavior:"smooth",block:"start"}),100);
     }catch(err){console.error(err);setError(err.message||"We couldn't create the portrait. Please try again.");}
     finally{setAiWorking(false);}
   }
@@ -80,44 +81,47 @@ export default function Studio(){
     const a=document.createElement("a");a.href=canvas.toDataURL("image/png");a.download=fileStem()+"-laser-artwork.png";a.click();
   }
 
-  return <main>
+  const go=n=>{setStep(n);window.scrollTo({top:0,behavior:"smooth"});};
+  return <main className="studio-flow">
     <header><a href="/" className="brand">EVLENNE<span>PORTRAIT STUDIO</span></a><p>Artwork preparation workspace</p></header>
-    <section className="workspace">
-      <div className="panel">
-        <p className="step">01 · UPLOAD</p><h1>Frame their portrait.</h1>
-        <p className="muted">Choose a clear photo of your pet. We’ll use it to create the EVLENNE engraving portrait.</p>
-        <input ref={input} hidden type="file" accept="image/*" onChange={pick}/>
-        <button className="upload" onClick={()=>input.current?.click()}>{original?"Choose another photo":"Upload pet photo"}</button>
-        {error&&<div className="artwork-note"><strong>Photo processing failed.</strong><br/>{error}</div>}
-        {working&&<div className="processing-card"><span className="spinner"/><div><strong>Photo uploaded ✓</strong><p>Preparing preview…</p></div></div>}
-        {original&&!working&&<div className="original-card"><img src={original} alt="Uploaded pet"/><span>ORIGINAL PHOTO</span></div>}
-        {medallionPortrait&&<div className="controls">
-          <label>Portrait size<input type="range" min=".8" max="3" step=".05" value={zoom} onChange={e=>setZoom(+e.target.value)}/></label>
-          <label>Left / right<input type="range" min="25" max="75" value={x} onChange={e=>setX(+e.target.value)}/></label>
-          <label>Up / down<input type="range" min="10" max="75" value={y} onChange={e=>setY(+e.target.value)}/></label>
-        </div>}
-        {original&&!working&&<button className="create-art" disabled={aiWorking} onClick={createPortrait}>{aiWorking?"Creating Evlenne portrait…":aiPortrait?"Regenerate portrait":"Create Evlenne portrait"}</button>}
-        {aiPortrait&&<div className="artwork-note"><strong>Portrait ready.</strong><br/>Portrait artwork ready · 1024 × 1024<button className="download-art" onClick={downloadPortrait}>Download portrait</button>{medallionPortrait&&<button className="download-art" onClick={downloadLaserArtwork}>Download laser artwork</button>}</div>}
-        <label>Name<input value={name} onChange={e=>setName(e.target.value)} placeholder="e.g. Coco"/></label>
-        <label>Years<input value={years} onChange={e=>setYears(e.target.value)} placeholder="e.g. 2015 — 2024"/></label>
-      </div>
-      <div className="preview" ref={previewRef}>
-        <p className="step">02 · 30 MM MEDALLION PREVIEW</p>
-        <div className="metal-switch" role="group" aria-label="Medallion finish">
-          <button className={metal==="gold"?"active":""} onClick={()=>setMetal("gold")}>GOLD</button>
-          <button className={metal==="silver"?"active":""} onClick={()=>setMetal("silver")}>SILVER</button>
-        </div>
-        <div className={"medallion portrait-medallion clean-preview "+(metal==="silver"?"silver-preview":"gold-preview")}>
-          {medallionPortrait?<img className="portrait-cutout clean-cutout" src={medallionPortrait} alt="EVLENNE portrait on medallion"
-            style={{left:x+"%",top:y+"%",transform:"translate(-50%,-50%) scale("+zoom+")"}}/>:
-          <span>{aiWorking?"Creating portrait…":"Create your EVLENNE portrait to preview the medallion"}</span>}
-        </div>
-        {medallionPortrait&&<div className="proof-status">EVLENNE PORTRAIT · POSITION & CROP</div>}
-        <div className="memorial-copy"><h2>{name||"Their name"}</h2><p>{years||"Years together"}</p></div>
-        <small>30 mm medallion preview</small>
-        {aiPortrait&&<><p className="step artwork-step" id="ai-portrait">03 · EVLENNE PORTRAIT</p><div className="engraving-sheet"><img src={aiPortrait} alt="EVLENNE AI engraving portrait"/></div><small>Portrait artwork · prepared for 30 mm preview</small></>}
-        {aiPortrait ? <OrderBuilder metal={metal} petName={name} years={years} /> : null}
-      </div>
-    </section>
+    <nav className="studio-progress" aria-label="Order progress">
+      {["Photo","Portrait","Personalize","Keepsake"].map((label,i)=><button key={label} className={step===i+1?"active":step>i+1?"done":""} onClick={()=>i+1<step&&go(i+1)}><b>0{i+1}</b><span>{label}</span></button>)}
+    </nav>
+
+    {step===1&&<section className="flow-step">
+      <p className="step">01 · UPLOAD PHOTO</p><h1>Start with their photograph.</h1>
+      <p className="muted">Choose a clear photo. We’ll use it to create their Evlenne portrait.</p>
+      <input ref={input} hidden type="file" accept="image/*" onChange={pick}/>
+      <button className="upload" onClick={()=>input.current?.click()}>{original?"Choose another photo":"Upload pet photo"}</button>
+      {original&&<div className="original-card"><img src={original} alt="Uploaded pet"/><span>ORIGINAL PHOTO</span></div>}
+      {original&&<button className="flow-next" onClick={()=>go(2)}>Continue to portrait →</button>}
+    </section>}
+
+    {step===2&&<section className="flow-step" ref={previewRef}>
+      <p className="step">02 · REVIEW PORTRAIT</p><h1>Make it feel like them.</h1>
+      {!aiPortrait&&<><p className="muted">Create the portrait, then review the crop and finish before continuing.</p>{original&&<button className="create-art" disabled={aiWorking} onClick={createPortrait}>{aiWorking?"Creating Evlenne portrait…":"Create Evlenne portrait"}</button>}</>}
+      {error&&<div className="artwork-note"><strong>Portrait creation failed.</strong><br/>{error}</div>}
+      {aiPortrait&&<div className="portrait-review-grid">
+        <div><div className={"medallion portrait-medallion clean-preview "+(metal==="silver"?"silver-preview":"gold-preview")}>{medallionPortrait&&<img className="portrait-cutout clean-cutout" src={medallionPortrait} alt="Evlenne portrait" style={{left:x+"%",top:y+"%",transform:"translate(-50%,-50%) scale("+zoom+")"}}/>}</div>
+        <div className="metal-switch"><button className={metal==="gold"?"active":""} onClick={()=>setMetal("gold")}>GOLD</button><button className={metal==="silver"?"active":""} onClick={()=>setMetal("silver")}>SILVER</button></div></div>
+        <div className="controls"><label>Portrait size<input type="range" min=".8" max="3" step=".05" value={zoom} onChange={e=>setZoom(+e.target.value)}/></label><label>Left / right<input type="range" min="25" max="75" value={x} onChange={e=>setX(+e.target.value)}/></label><label>Up / down<input type="range" min="10" max="75" value={y} onChange={e=>setY(+e.target.value)}/></label></div>
+      </div>}
+      {aiPortrait&&<><button className="create-art secondary-action" disabled={aiWorking} onClick={createPortrait}>{aiWorking?"Creating…":"Regenerate portrait"}</button><button className="flow-next" onClick={()=>go(3)}>Looks good → Personalize</button></>}
+      <button className="flow-back" onClick={()=>go(1)}>← Back</button>
+    </section>}
+
+    {step===3&&<section className="flow-step">
+      <p className="step">03 · PERSONALIZE</p><h1>Add the details you remember.</h1>
+      <label>Pet name<input value={name} onChange={e=>setName(e.target.value)} placeholder="e.g. Coco"/></label>
+      <label>Years <span className="optional">optional</span><input value={years} onChange={e=>setYears(e.target.value)} placeholder="e.g. 2015 — 2026"/></label>
+      <div className="mini-proof"><div className={"mini-medallion "+metal}>{medallionPortrait&&<img src={medallionPortrait} alt="Portrait"/>}</div><div><strong>{name||"Their name"}</strong><span>{years||"Years together"}</span></div></div>
+      <button className="flow-next" disabled={!name.trim()} onClick={()=>go(4)}>Choose your keepsake →</button>
+      <button className="flow-back" onClick={()=>go(2)}>← Back</button>
+    </section>}
+
+    {step===4&&<section className="flow-step flow-order">
+      <OrderBuilder metal={metal} petName={name} years={years}/>
+      <button className="flow-back" onClick={()=>go(3)}>← Back</button>
+    </section>}
   </main>
 }
