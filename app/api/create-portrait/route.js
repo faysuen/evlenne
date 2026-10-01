@@ -1,7 +1,7 @@
 export const runtime = "nodejs";
 export const maxDuration = 120;
 
-const PROMPT = `Create a refined black-and-white engraving-style memorial portrait of the SAME pet in the reference photo. Preserve the pet's identity precisely: face shape, eye placement and expression, nose shape, ears, distinctive markings, and recognizable fur pattern. Crop to head and a small amount of upper chest, centered and front-facing as in the source. Remove the entire original scene and background. Render soft fur with selective delicate curved linework, restrained hatching and minimal stippling; keep light fur mostly clean white. Make the eyes and nose clear and recognizable but avoid crushed black areas. No pencil-sketch mess, no edge-detection look, no cartoon, no stencil, no decorative elements, no text, no frame. The result must remain legible when engraved on a 30 mm metal medallion. Transparent background, monochrome black/gray artwork only.`;
+const PROMPT = `Create a refined black-and-white engraving-style memorial portrait of the SAME pet in the reference photo. Preserve the pet's identity precisely: face shape, eye placement and expression, nose shape, ears, distinctive markings, and recognizable fur pattern. Crop to head and a small amount of upper chest, centered and front-facing as in the source. Remove the entire original scene and background. Render soft fur with selective delicate curved linework, restrained hatching and minimal stippling; keep light fur mostly clean white. Make the eyes and nose clear and recognizable but avoid crushed black areas. No pencil-sketch mess, no edge-detection look, no cartoon, no stencil, no decorative elements, no text, no frame. The result must remain legible when engraved on a 30 mm metal medallion. Pure clean white background, monochrome black/gray artwork only. Do not draw any background objects, scenery, border, shadow, or texture.`;
 
 export async function POST(request) {
   try {
@@ -23,7 +23,6 @@ export async function POST(request) {
         prompt:PROMPT,
         quality:"low",
         size:"1024x1024",
-        background:"transparent",
         output_format:"png",
         n:1
       }),
