@@ -2,14 +2,15 @@ import Link from "next/link";
 import { Newsreader } from "next/font/google";
 import styles from "./landing.module.css";
 import processStyles from "./process.module.css";
+import chromeStyles from "./homeChrome.module.css";
 
 const serif = Newsreader({ subsets: ["latin"], style: ["normal", "italic"], weight: ["400", "500"], variable: "--font-serif" });
 
 const benefits = [
-  ["camera", "Custom from your photo", "A clear, well-lit photo of your pet."],
-  ["pen", "AI-crafted portrait", "Refined into a clean engraving-style portrait."],
-  ["heart", "Preview before ordering", "See the keepsake before you buy."],
-  ["gift", "A meaningful keepsake", "Made to stay with you, always."],
+  ["camera", "Created from your photo", "A clear, well-lit photo of your pet."],
+  ["eye", "Preview before ordering", "See your portrait on the keepsake before you buy."],
+  ["heart", "A lasting keepsake", "Made to stay with you, always."],
+  ["gift", "A meaningful gift", "Thoughtfully made for someone you love."],
 ];
 
 const steps = [
@@ -21,40 +22,41 @@ const steps = [
 function BenefitIcon({ type }) {
   const common = { width: 30, height: 30, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.4, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true };
   if (type === "camera") return <svg {...common}><path d="M4 7h3l1.5-2h7L17 7h3v12H4z" /><circle cx="12" cy="13" r="3.5" /></svg>;
+  if (type === "eye") return <svg {...common}><path d="M2.5 12s3.4-5 9.5-5 9.5 5 9.5 5-3.4 5-9.5 5-9.5-5-9.5-5Z" /><circle cx="12" cy="12" r="2.5" /></svg>;
   if (type === "pen") return <svg {...common}><path d="M5 19 19 5" /><path d="M7 5h5v5M17 19h-5v-5" /></svg>;
   if (type === "heart") return <svg {...common}><path d="M20.8 8.8c0 5.2-8.8 10.2-8.8 10.2S3.2 14 3.2 8.8A4.4 4.4 0 0 1 12 7a4.4 4.4 0 0 1 8.8 1.8Z" /></svg>;
   return <svg {...common}><path d="M4 9h16v11H4zM2 6h20v3H2zM12 6v14M12 6c-1-3-5-3.5-5-1.2C7 6.2 9 6 12 6Zm0 0c1-3 5-3.5 5-1.2C17 6.2 15 6 12 6Z" /></svg>;
 }
 
 function Header() {
-  const links = [["Create", "#create"], ["How It Works", "#how"], ["Our Keepsakes", "#keepsakes"], ["About", "#about"]];
-  return <header className={styles.header}>
-    <Link href="/" className={styles.brand}><img src="/evlenne-logo.png" alt="Evlenne — Custom pet portrait keepsakes" /></Link>
-    <nav className={styles.nav} aria-label="Main">
+  const links = [["How It Works", "#how"], ["What's Included", "#keepsakes"], ["Reviews", "#about"]];
+  return <header className={chromeStyles.header}>
+    <Link href="/" className={chromeStyles.brand}><img src="/evlenne-logo.png" alt="Evlenne — Custom pet portrait keepsakes" /></Link>
+    <nav className={chromeStyles.nav} aria-label="Main">
       {links.map(([label, href]) => <a href={href} key={label}>{label}</a>)}
-      <button aria-label="Search" className={styles.headerIcon}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg></button>
-      <button aria-label="Shopping bag" className={styles.headerIcon}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8Z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></button>
+      <Link href="/studio" className={chromeStyles.headerCta}>Create yours</Link>
+      <button aria-label="Shopping bag" className={chromeStyles.headerIcon}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8Z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></button>
     </nav>
-    <details className={styles.menu}><summary aria-label="Menu"><i /><i /><i /></summary><div>{links.map(([label, href]) => <a href={href} key={label}>{label}</a>)}</div></details>
+    <details className={chromeStyles.menu}><summary aria-label="Menu"><i /><i /><i /></summary><div>{links.map(([label, href]) => <a href={href} key={label}>{label}</a>)}</div></details>
   </header>;
 }
 
 function Hero() {
-  return <section className={styles.hero} id="create">
-    <div className={styles.heroCopy}>
-      <p className={styles.eyebrow}>A portrait made from their photograph</p>
+  return <section className={chromeStyles.hero} id="create">
+    <div className={chromeStyles.heroCopy}>
+      <p className={chromeStyles.eyebrow}>A portrait made from their photograph</p>
       <h1>Keep them <em>close.</em></h1>
-      <p className={styles.lead}>A favorite photograph, thoughtfully transformed into a delicate portrait and made into a personal keepsake you can hold onto.</p>
-      <Link href="/studio" className={styles.cta}>Create their portrait <span>→</span></Link>
-      <p className={styles.caption}>Created from your photo · Preview before ordering</p>
+      <p className={chromeStyles.lead}>A favorite photograph, thoughtfully transformed into a delicate portrait and made into a personal keepsake you can hold onto.</p>
+      <Link href="/studio" className={chromeStyles.cta}>Create their portrait <span>→</span></Link>
+      <p className={chromeStyles.caption}>Created from your photo · Preview before ordering</p>
     </div>
-    <div className={styles.heroProduct} role="img" aria-label="Walnut keepsake box with a custom pet portrait pendant" />
+    <div className={chromeStyles.heroProduct} role="img" aria-label="Walnut keepsake box with a custom pet portrait pendant" />
   </section>;
 }
 
 function Benefits() {
-  return <section className={styles.benefits} aria-label="Why Evlenne">
-    {benefits.map(([type, title, text]) => <div className={styles.benefit} key={title}><span><BenefitIcon type={type} /></span><strong>{title}</strong><small>{text}</small></div>)}
+  return <section className={chromeStyles.benefits} aria-label="Why Evlenne">
+    {benefits.map(([type, title, text]) => <div className={chromeStyles.benefit} key={title}><span><BenefitIcon type={type} /></span><strong>{title}</strong><small>{text}</small></div>)}
   </section>;
 }
 
