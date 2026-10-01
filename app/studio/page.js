@@ -89,7 +89,7 @@ export default function Studio(){
           <label>Up / down<input type="range" min="10" max="75" value={y} onChange={e=>setY(+e.target.value)}/></label>
         </div>}
         {original&&!working&&<button className="create-art" disabled={aiWorking} onClick={createPortrait}>{aiWorking?"Creating Evlenne portrait…":aiPortrait?"Regenerate portrait":"Create Evlenne portrait"}</button>}
-        {aiPortrait&&<div className="artwork-note"><strong>Portrait ready.</strong><br/>OpenAI · Low quality · 1024 × 1024<button className="download-art" onClick={downloadPortrait}>Download portrait</button>{medallionPortrait&&<button className="download-art" onClick={downloadLaserArtwork}>Download laser artwork</button>}</div>}
+        {aiPortrait&&<div className="artwork-note"><strong>Portrait ready.</strong><br/>Portrait artwork ready · 1024 × 1024<button className="download-art" onClick={downloadPortrait}>Download portrait</button>{medallionPortrait&&<button className="download-art" onClick={downloadLaserArtwork}>Download laser artwork</button>}</div>}
         <label>Name<input value={name} onChange={e=>setName(e.target.value)} placeholder="e.g. Coco"/></label>
         <label>Years<input value={years} onChange={e=>setYears(e.target.value)} placeholder="e.g. 2015 — 2024"/></label>
       </div>
@@ -107,7 +107,7 @@ export default function Studio(){
         {medallionPortrait&&<div className="proof-status">EVLENNE PORTRAIT · POSITION & CROP</div>}
         <div className="memorial-copy"><h2>{name||"Their name"}</h2><p>{years||"Years together"}</p></div>
         <small>30 mm medallion preview</small>
-        {aiPortrait&&<><p className="step artwork-step" id="ai-portrait">03 · EVLENNE PORTRAIT</p><div className="engraving-sheet"><img src={aiPortrait} alt="EVLENNE AI engraving portrait"/></div><small>OpenAI Low · white background · 30 mm artwork test</small></>}
+        {aiPortrait&&<><p className="step artwork-step" id="ai-portrait">03 · EVLENNE PORTRAIT</p><div className="engraving-sheet"><img src={aiPortrait} alt="EVLENNE AI engraving portrait"/></div><small>Portrait artwork · prepared for 30 mm preview</small></>}
         {aiPortrait ? <OrderBuilder metal={metal} petName={name} years={years} /> : null}
       </div>
     </section>
