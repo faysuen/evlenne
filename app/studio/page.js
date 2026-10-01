@@ -53,7 +53,18 @@ export default function Studio(){
     finally{setAiWorking(false);}
   }
 
-  function downloadPortrait(){if(!aiPortrait)return;const a=document.createElement("a");a.href=aiPortrait;a.download=(name||"evlenne-pet").trim().replace(/[^a-z0-9]+/gi,"-").toLowerCase()+"-portrait.png";a.click();}
+  function fileStem(){return (name||"evlenne-pet").trim().replace(/[^a-z0-9]+/gi,"-").toLowerCase();}
+  function downloadPortrait(){if(!aiPortrait)return;const a=document.createElement("a");a.href=aiPortrait;a.download=fileStem()+"-portrait.png";a.click();}
+  async function downloadLaserArtwork(){
+    if(!medallionPortrait)return;
+    const img=new Image();img.src=medallionPortrait;await img.decode();
+    const size=1200,canvas=document.createElement("canvas");canvas.width=size;canvas.height=size;
+    const ctx=canvas.getContext("2d");ctx.fillStyle="#fff";ctx.fillRect(0,0,size,size);
+    ctx.save();ctx.beginPath();ctx.arc(size/2,size/2,size*.47,0,Math.PI*2);ctx.clip();
+    const scale=zoom,drawW=size*scale,drawH=size*scale;
+    ctx.drawImage(img,size*(x/100)-drawW/2,size*(y/100)-drawH/2,drawW,drawH);ctx.restore();
+    const a=document.createElement("a");a.href=canvas.toDataURL("image/png");a.download=fileStem()+"-laser-artwork.png";a.click();
+  }
 
   return <main>
     <header><a href="/" className="brand">EVLENNE<span>PORTRAIT STUDIO</span></a><p>Artwork preparation workspace</p></header>
@@ -71,8 +82,8 @@ export default function Studio(){
           <label>Left / right<input type="range" min="25" max="75" value={x} onChange={e=>setX(+e.target.value)}/></label>
           <label>Up / down<input type="range" min="10" max="75" value={y} onChange={e=>setY(+e.target.value)}/></label>
         </div>}
-        {original&&!working&&<button className="create-art" disabled={aiWorking} onClick={createPortrait}>{aiWorking?"Creating EVLENNE portrait…":"Create EVLENNE portrait"}</button>}
-        {aiPortrait&&<div className="artwork-note"><strong>Portrait ready.</strong><br/>OpenAI · Low quality · 1024 × 1024<button className="download-art" onClick={downloadPortrait}>Download PNG</button></div>}
+        {original&&!working&&<button className="create-art" disabled={aiWorking} onClick={createPortrait}>{aiWorking?"Creating Evlenne portrait…":aiPortrait?"Regenerate portrait":"Create Evlenne portrait"}</button>}
+        {aiPortrait&&<div className="artwork-note"><strong>Portrait ready.</strong><br/>OpenAI · Low quality · 1024 × 1024<button className="download-art" onClick={downloadPortrait}>Download portrait</button>{medallionPortrait&&<button className="download-art" onClick={downloadLaserArtwork}>Download laser artwork</button>}</div>}
         <label>Name<input value={name} onChange={e=>setName(e.target.value)} placeholder="e.g. Coco"/></label>
         <label>Years<input value={years} onChange={e=>setYears(e.target.value)} placeholder="e.g. 2015 — 2024"/></label>
       </div>
