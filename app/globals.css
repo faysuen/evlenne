@@ -131,3 +131,11 @@
 .official-lockup::after{content:"Evlenne";color:#342c27;font-family:Georgia,"Times New Roman",serif;font-size:34px;line-height:1;font-weight:400;letter-spacing:-.035em;white-space:nowrap}
 .home-footer .official-lockup::after{font-size:30px}
 @media(max-width:760px){.official-lockup{gap:8px!important}.official-lockup::before{width:25px;height:25px;font-size:11px}.official-lockup::after{font-size:27px}.home-footer .official-lockup::after{font-size:27px}}
+
+/* Evlenne header brand lockup */
+.home-nav .clean-brand{display:grid!important;grid-template-columns:58px auto;grid-template-rows:auto auto;column-gap:10px;align-items:center;line-height:1}
+.home-nav .clean-brand .brand-icon{grid-row:1/3;display:block;width:58px;color:#a88757}
+.home-nav .clean-brand .brand-icon .pet-icon{display:block!important;width:58px!important;height:auto!important;color:#a88757!important}
+.home-nav .clean-brand .brand-name{font-family:Georgia,"Times New Roman",serif;font-size:34px;color:#342c27;letter-spacing:-.035em}
+.home-nav .clean-brand .brand-descriptor{font-family:Arial,sans-serif;font-size:7px;letter-spacing:.24em;color:#756a61;margin-top:3px;white-space:nowrap}
+@media(max-width:760px){.home-nav .clean-brand{grid-template-columns:47px auto;column-gap:8px}.home-nav .clean-brand .brand-icon,.home-nav .clean-brand .brand-icon .pet-icon{width:47px!important}.home-nav .clean-brand .brand-name{font-size:28px}.home-nav .clean-brand .brand-descriptor{font-size:5.5px;letter-spacing:.18em}.home-nav .nav-links a:not(:last-child){display:none!important}}
