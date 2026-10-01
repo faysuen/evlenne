@@ -2,7 +2,7 @@
 import {useRef,useState} from "react";
 
 export default function Studio(){
-  const input=useRef(null);
+  const input=useRef(null);\n  const previewRef=useRef(null);
   const [original,setOriginal]=useState("");
   const [portrait,setPortrait]=useState("");
   const [name,setName]=useState("");
@@ -46,7 +46,7 @@ export default function Studio(){
         <button className="upload" onClick={()=>input.current?.click()}>
           {original?"Choose another photo":"Upload pet photo"}
         </button>
-        {working&&<p className="processing">Removing background… The first run may take a little longer.</p>}
+        {working&&<div className="processing-card"><span className="spinner"/><div><strong>Photo uploaded ✓</strong><p>Removing background…</p></div></div>}
         {portrait&&!working&&<div className="controls">
           <label>Portrait size
             <input type="range" min="1.25" max="4" step=".05" value={zoom} onChange={e=>setZoom(Number(e.target.value))}/>
@@ -61,7 +61,7 @@ export default function Studio(){
         <label>Name<input value={name} onChange={e=>setName(e.target.value)} placeholder="e.g. Coco"/></label>
         <label>Years<input value={years} onChange={e=>setYears(e.target.value)} placeholder="e.g. 2015 — 2024"/></label>
       </div>
-      <div className="preview">
+      <div className="preview" ref={previewRef}>
         <p className="step">02 · 30 MM PREVIEW</p>
         <div className="medallion portrait-medallion">
           {portrait&&!working
