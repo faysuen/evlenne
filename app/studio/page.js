@@ -3,7 +3,7 @@ import {useRef,useState} from "react";
 
 export default function Studio(){
   const input=useRef(null), previewRef=useRef(null);
-  const [original,setOriginal]=useState(""),[portrait,setPortrait]=useState("");
+  const [original,setOriginal]=useState("");
   const [medallionPortrait,setMedallionPortrait]=useState("");
   const [name,setName]=useState(""),[years,setYears]=useState("");
   const [error,setError]=useState("");
@@ -15,7 +15,7 @@ export default function Studio(){
   async function pick(e){
     const file=e.target.files?.[0]; if(!file)return;
     const local=URL.createObjectURL(file);
-    setOriginal(local);setPortrait("");setAiPortrait("");setMedallionPortrait("");setWorking(true);setError("");
+    setOriginal(local);setAiPortrait("");setMedallionPortrait("");setWorking(true);setError("");
     setZoom(1.55);setX(50);setY(38);
     setTimeout(()=>previewRef.current?.scrollIntoView({behavior:"smooth",block:"start"}),120);
     setWorking(false);
@@ -77,16 +77,19 @@ export default function Studio(){
         <label>Years<input value={years} onChange={e=>setYears(e.target.value)} placeholder="e.g. 2015 — 2024"/></label>
       </div>
       <div className="preview" ref={previewRef}>
-        <p className="step">02 · PORTRAIT PREVIEW</p>
-        <div className={"medallion portrait-medallion clean-preview "+(metal==="silver"?"silver-preview":"gold-preview")}>
-          {portrait&&!working?<img className="portrait-cutout clean-cutout" src={portrait} alt="Original pet portrait"
-            style={{left:x+"%",top:y+"%",transform:"translate(-50%,-50%) scale("+zoom+")"}}/>:
-          <span>{working?"Preparing portrait…":"Upload a photo
-to begin"}</span>}
+        <p className="step">02 · 30 MM MEDALLION PREVIEW</p>
+        <div className="metal-switch" role="group" aria-label="Medallion finish">
+          <button className={metal==="gold"?"active":""} onClick={()=>setMetal("gold")}>GOLD</button>
+          <button className={metal==="silver"?"active":""} onClick={()=>setMetal("silver")}>SILVER</button>
         </div>
-        {portrait&&!working&&<div className="proof-status">ORIGINAL PHOTO · POSITION & CROP</div>}
+        <div className={"medallion portrait-medallion clean-preview "+(metal==="silver"?"silver-preview":"gold-preview")}>
+          {medallionPortrait?<img className="portrait-cutout clean-cutout" src={medallionPortrait} alt="EVLENNE portrait on medallion"
+            style={{left:x+"%",top:y+"%",transform:"translate(-50%,-50%) scale("+zoom+")"}}/>:
+          <span>{aiWorking?"Creating portrait…":"Create your EVLENNE portrait to preview the medallion"}</span>}
+        </div>
+        {medallionPortrait&&<div className="proof-status">EVLENNE PORTRAIT · POSITION & CROP</div>}
         <div className="memorial-copy"><h2>{name||"Their name"}</h2><p>{years||"Years together"}</p></div>
-        <small>30 mm portrait composition preview</small>
+        <small>30 mm medallion preview</small>
         {aiPortrait&&<><p className="step artwork-step" id="ai-portrait">03 · EVLENNE PORTRAIT</p><div className="engraving-sheet"><img src={aiPortrait} alt="EVLENNE AI engraving portrait"/></div><small>OpenAI Low · white background · 30 mm artwork test</small></>}
       </div>
     </section>
