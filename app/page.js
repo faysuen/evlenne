@@ -3,6 +3,7 @@ import { Newsreader } from "next/font/google";
 import styles from "./landing.module.css";
 import processStyles from "./process.module.css";
 import chromeStyles from "./homeChrome.module.css";
+import footerStyles from "./footer.module.css";
 
 const serif = Newsreader({ subsets: ["latin"], style: ["normal", "italic"], weight: ["400", "500"], variable: "--font-serif" });
 
@@ -73,9 +74,13 @@ function HowItWorks() {
 }
 
 function About() {
-  return <section className={styles.about} id="about"><div><p className={styles.eyebrow}>A keepsake for everyday</p><h2>Made with care <em>in Canada.</em></h2><p>Each portrait is prepared with attention to detail, so you can carry the ones you love with you, always.</p><div className={styles.made}><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V8M12 12 7 9m5 3 5-4M7 9 5 5l4 1 3-4 3 4 4-1-2 5"/></svg><small>Made in Canada</small></span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 8-8 10-8-10 8-8Z"/></svg><small>Premium materials</small></span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h16v11H4zM2 6h20v3H2zM12 6v14M12 6c-1-3-5-3.5-5-1.2C7 6.2 9 6 12 6Zm0 0c1-3 5-3.5 5-1.2C17 6.2 15 6 12 6Z"/></svg><small>Thoughtful packaging</small></span></div></div><img src="/products/box-beads.jpg" alt="Open walnut keepsake box with a bracelet" /></section>;
+  return <section className={styles.about} id="about"><div><p className={styles.eyebrow}>The story behind Evlenne</p><h2>Made to keep them <em>close.</em></h2><p>In 2024, we said goodbye to Jaerong and Minki. But love does not end when a beloved pet is gone. Their faces, their little habits, and the years we shared with them stay close in the quietest moments.</p><p>Evlenne was created to turn those memories into something you can hold onto — a custom portrait keepsake made from their photograph, so that every time you see it, you remember them as they were: loved, present, and always close.</p><div className={styles.made}><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V8M12 12 7 9m5 3 5-4M7 9 5 5l4 1 3-4 3 4 4-1-2 5"/></svg><small>Made in Canada</small></span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 8-8 10-8-10 8-8Z"/></svg><small>Premium materials</small></span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h16v11H4zM2 6h20v3H2zM12 6v14M12 6c-1-3-5-3.5-5-1.2C7 6.2 9 6 12 6Zm0 0c1-3 5-3.5 5-1.2C17 6.2 15 6 12 6Z"/></svg><small>Thoughtful packaging</small></span></div></div><img src="/products/box-beads.jpg" alt="Open walnut keepsake box with a bracelet" /></section>;
+}
+
+function Footer() {
+  return <footer className={footerStyles.footer} id="footer"><div className={footerStyles.footerBrand}><img src="/evlenne-logo.png" alt="Evlenne" /><p>Custom pet portrait keepsakes made to keep them close.</p></div><div className={footerStyles.social}><span>Follow along</span><div><a href="#footer">TikTok</a><a href="#footer">Instagram</a><a href="#footer">Facebook</a></div></div><small>© {new Date().getFullYear()} Evlenne. Made with care in Canada.</small></footer>;
 }
 
 export default function Home() {
-  return <div className={`${styles.page} ${serif.variable}`}><Header /><main><Hero /><Benefits /><Keepsakes /><HowItWorks /><About /><section className={styles.finalCta}><p className={styles.eyebrow}>Ready to create</p><h2>Turn their photo into <em>a keepsake.</em></h2><Link href="/studio" className={styles.cta}>Create their portrait <span>→</span></Link></section></main></div>;
+  return <div className={`${styles.page} ${serif.variable}`}><Header /><main><Hero /><Benefits /><Keepsakes /><HowItWorks /><About /><section className={styles.finalCta}><p className={styles.eyebrow}>Ready to create</p><h2>Turn their photo into <em>a keepsake.</em></h2><Link href="/studio" className={styles.cta}>Create their portrait <span>→</span></Link></section></main><Footer /></div>;
 }
