@@ -118,7 +118,7 @@ export default function Studio(){
           <div className="personalization">
             <label>Pet name<input value={name} onChange={e=>setName(e.target.value)} placeholder="e.g. Coco"/></label>
             <label>Years <span className="optional">optional</span><input value={years} onChange={e=>setYears(e.target.value)} placeholder="e.g. 2015 — 2024"/></label>
-            {(packageType==="complete"||packageType==="wear")&&<label>Memory card <span className="optional">optional</span><textarea maxLength="160" value={memoryText} onChange={e=>setMemoryText(e.target.value)} placeholder="A short memory, phrase or message…"/><small>{memoryText.length}/160</small></label>}
+            <label>Memory card <span className="optional">optional</span><textarea maxLength="160" value={memoryText} onChange={e=>setMemoryText(e.target.value)} placeholder="A short memory, phrase or message…"></textarea><small>{memoryText.length} / 160</small></label>
             <label>Order email<input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@example.com"/></label>
           </div>
           <div className="order-summary">
