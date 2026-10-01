@@ -4,6 +4,7 @@ import styles from "./landing.module.css";
 import processStyles from "./process.module.css";
 import chromeStyles from "./homeChrome.module.css";
 import footerStyles from "./footer.module.css";
+import renderStyles from "./renderSections.module.css";
 
 const serif = Newsreader({ subsets: ["latin"], style: ["normal", "italic"], weight: ["400", "500"], variable: "--font-serif" });
 
@@ -64,17 +65,16 @@ function Benefits() {
 function Keepsakes() {
   return <section className={styles.keepsakes} id="keepsakes">
     <div className={styles.keepsakeText}><p className={styles.eyebrow}>Two timeless finishes</p><h2>Gold or <em>silver.</em></h2><p>The same heartfelt portrait, available in the finish that feels most like them.</p><Link href="/studio" className={styles.textLink}>Choose your keepsake <span>→</span></Link></div>
-    <img className={styles.pendants} src="/pendants-dogs.png" alt="Gold and silver pet portrait pendants featuring the two Evlenne dogs" />
-    <img src="/products/box-top-view.jpg" alt="Walnut keepsake box" />
+    <img className={renderStyles.productRender} src="/gold-silver-render.png" alt="Gold and silver laser-engraved pet portrait pendants beside an Evlenne walnut box" />
   </section>;
 }
 
 function HowItWorks() {
-  return <section className={styles.how} id="how"><p className={styles.eyebrow}>From photograph to keepsake</p><h2>How it <em>works.</em></h2><p className={styles.intro}>Turn their photo into something you can keep close in just a few thoughtful steps.</p><div className={processStyles.processGrid}>{steps.map(([number, title, text, image, alt], index) => <div className={processStyles.processItem} key={number}><article><img src={image} alt={alt} /><span>{number}</span><h3>{title}</h3><p>{text}</p></article>{index < steps.length - 1 && <span className={processStyles.processArrow} aria-hidden="true">→</span>}</div>)}</div></section>;
+  return <section className={styles.how} id="how"><p className={styles.eyebrow}>From photograph to keepsake</p><h2>How it <em>works.</em></h2><p className={styles.intro}>Turn their photo into something you can keep close in just a few thoughtful steps.</p><img className={renderStyles.howRender} src="/how-it-works-render.png" alt="A pet photo becoming a laser-engraved portrait and finished keepsake" /><div className={processStyles.processGrid}>{steps.map(([number, title, text, image, alt], index) => <div className={processStyles.processItem} key={number}><article><img src={image} alt={alt} /><span>{number}</span><h3>{title}</h3><p>{text}</p></article>{index < steps.length - 1 && <span className={processStyles.processArrow} aria-hidden="true">→</span>}</div>)}</div></section>;
 }
 
 function About() {
-  return <section className={styles.about} id="about"><div><p className={styles.eyebrow}>The story behind Evlenne</p><h2>Made to keep them <em>close.</em></h2><p>In 2024, we said goodbye to Jaerong and Minki. But love does not end when a beloved pet is gone. Their faces, their little habits, and the years we shared with them stay close in the quietest moments.</p><p>Evlenne was created to turn those memories into something you can hold onto — a custom portrait keepsake made from their photograph, so that every time you see it, you remember them as they were: loved, present, and always close.</p><div className={styles.made}><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V8M12 12 7 9m5 3 5-4M7 9 5 5l4 1 3-4 3 4 4-1-2 5"/></svg><small>Made in Canada</small></span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 8-8 10-8-10 8-8Z"/></svg><small>Premium materials</small></span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h16v11H4zM2 6h20v3H2zM12 6v14M12 6c-1-3-5-3.5-5-1.2C7 6.2 9 6 12 6Zm0 0c1-3 5-3.5 5-1.2C17 6.2 15 6 12 6Z"/></svg><small>Thoughtful packaging</small></span></div></div><img src="/products/box-beads.jpg" alt="Open walnut keepsake box with a bracelet" /></section>;
+  return <section className={styles.about} id="about"><div><p className={styles.eyebrow}>The story behind Evlenne</p><h2>Made to keep them <em>close.</em></h2><p>In 2024, we said goodbye to Jaerong and Minki. But love does not end when a beloved pet is gone. Their faces, their little habits, and the years we shared with them stay close in the quietest moments.</p><p>Evlenne was created to turn those memories into something you can hold onto — a custom portrait keepsake made from their photograph, so that every time you see it, you remember them as they were: loved, present, and always close.</p><div className={styles.made}><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V8M12 12 7 9m5 3 5-4M7 9 5 5l4 1 3-4 3 4 4-1-2 5"/></svg><small>Made in Canada</small></span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 8-8 10-8-10 8-8Z"/></svg><small>Premium materials</small></span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h16v11H4zM2 6h20v3H2zM12 6v14M12 6c-1-3-5-3.5-5-1.2C7 6.2 9 6 12 6Zm0 0c1-3 5-3.5 5-1.2C17 6.2 15 6 12 6Z"/></svg><small>Thoughtful packaging</small></span></div></div><img src="/made-with-care-render.png" alt="Evlenne walnut keepsake box with engraved logo and memory pieces" /></section>;
 }
 
 function Footer() {
