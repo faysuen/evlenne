@@ -86,3 +86,13 @@
 .brand-subtitle,.brand-descriptor{color:#756a61!important;letter-spacing:.18em!important}
 @media(min-width:761px){.brand-icon,.brand-mark svg,.logo-icon{width:72px!important;height:auto!important}}
 @media(max-width:760px){.brand-icon,.brand-mark svg,.logo-icon{width:48px!important;height:auto!important}.brand-lockup,.brand{gap:10px!important}}
+
+/* Official Evlenne logo asset */
+.official-lockup{display:block!important;line-height:0!important}
+.official-logo{display:block;width:360px;max-width:38vw;height:auto;object-fit:contain}
+.home-footer .official-logo{width:300px}
+@media(max-width:760px){
+  .home-nav{min-height:86px}
+  .official-logo{width:235px!important;max-width:62vw!important}
+  .home-footer .official-logo{width:245px!important;max-width:78vw!important}
+}
