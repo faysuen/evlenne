@@ -9,7 +9,7 @@ export default function Studio(){
   const [error,setError]=useState("");
   const [working,setWorking]=useState(false),[zoom,setZoom]=useState(1.55);
   const [x,setX]=useState(50),[y,setY]=useState(38),[aiPortrait,setAiPortrait]=useState("");
-  const [aiWorking,setAiWorking]=useState(false);
+  const [aiWorking,setAiWorking]=useState(false);\n  const [metal,setMetal]=useState("gold");
   const [artWorking,setArtWorking]=useState(false);
 
   async function pick(e){
@@ -77,7 +77,7 @@ export default function Studio(){
       </div>
       <div className="preview" ref={previewRef}>
         <p className="step">02 · PORTRAIT PREVIEW</p>
-        <div className="medallion portrait-medallion clean-preview">
+        <div className={"medallion portrait-medallion clean-preview "+(metal==="silver"?"silver-preview":"gold-preview")}>
           {portrait&&!working?<img className="portrait-cutout clean-cutout" src={portrait} alt="Original pet portrait"
             style={{left:x+"%",top:y+"%",transform:"translate(-50%,-50%) scale("+zoom+")"}}/>:
           <span>{working?"Preparing portrait…":"Upload a photo\nto begin"}</span>}
