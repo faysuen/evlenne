@@ -5,19 +5,29 @@ export default function Studio(){
   const input=useRef(null), previewRef=useRef(null);
   const [original,setOriginal]=useState(""),[portrait,setPortrait]=useState("");
   const [name,setName]=useState(""),[years,setYears]=useState("");
+  const [error,setError]=useState("");
   const [working,setWorking]=useState(false),[zoom,setZoom]=useState(1.55);
   const [x,setX]=useState(50),[y,setY]=useState(38),[artwork,setArtwork]=useState(false);
 
   async function pick(e){
     const file=e.target.files?.[0]; if(!file)return;
     const local=URL.createObjectURL(file);
-    setOriginal(local);setPortrait("");setArtwork(false);setWorking(true);
+    setOriginal(local);setPortrait("");setArtwork(false);setWorking(true);setError("");
     setZoom(1.55);setX(50);setY(38);
     setTimeout(()=>previewRef.current?.scrollIntoView({behavior:"smooth",block:"start"}),120);
-    // Keep the crop/position workflow build-safe for now.
-    // Background removal will move to a server API so ML/WebGPU code is not bundled by Next/Vercel.
-    setPortrait(local);
-    setWorking(false)
+    try{
+      const form=new FormData();
+      form.append("image",file);
+      const response=await fetch("/api/remove-background",{method:"POST",body:form});
+      if(!response.ok) throw new Error("Background removal failed");
+      const blob=await response.blob();
+      setPortrait(URL.createObjectURL(blob));
+    }catch(err){
+      console.error(err);
+      setError("We couldn't remove the background. Please try another photo.");
+    }finally{
+      setWorking(false);
+    }
   }
 
   return <main>
@@ -28,6 +38,7 @@ export default function Studio(){
         <p className="muted">Choose a clear photo. We remove the background so you can position the portrait before creating the engraving artwork.</p>
         <input ref={input} hidden type="file" accept="image/*" onChange={pick}/>
         <button className="upload" onClick={()=>input.current?.click()}>{original?"Choose another photo":"Upload pet photo"}</button>
+        {error&&<div className="artwork-note"><strong>Photo processing failed.</strong><br/>{error}</div>}
         {working&&<div className="processing-card"><span className="spinner"/><div><strong>Photo uploaded ✓</strong><p>Removing background…</p></div></div>}
         {portrait&&!working&&<>
           <div className="controls">
