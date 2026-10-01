@@ -93,8 +93,11 @@ export default function Home() {
     <div className={`${styles.page} ${serif.variable}`}>
       <header className={styles.header}>
         <Link href="/" className={styles.brand}>
-          <span className={styles.wordmark}>Evlenne</span>
-          <span className={styles.tagline}>Custom pet portrait keepsakes</span>
+          <img
+            className={styles.logo}
+            src="/evlenne-logo.png"
+            alt="Evlenne — Custom pet portrait keepsakes"
+          />
         </Link>
 
         <nav className={styles.nav} aria-label="Main">
