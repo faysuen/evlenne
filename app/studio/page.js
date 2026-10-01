@@ -9,8 +9,8 @@ export default function Studio(){
   const [error,setError]=useState("");
   const [working,setWorking]=useState(false),[zoom,setZoom]=useState(1.55);
   const [x,setX]=useState(50),[y,setY]=useState(38),[aiPortrait,setAiPortrait]=useState("");
-  const [aiWorking,setAiWorking]=useState(false);\n  const [metal,setMetal]=useState("gold");
-  const [artWorking,setArtWorking]=useState(false);
+  const [aiWorking,setAiWorking]=useState(false);
+  const [metal,setMetal]=useState("gold");
 
   async function pick(e){
     const file=e.target.files?.[0]; if(!file)return;
@@ -18,7 +18,6 @@ export default function Studio(){
     setOriginal(local);setPortrait("");setAiPortrait("");setMedallionPortrait("");setWorking(true);setError("");
     setZoom(1.55);setX(50);setY(38);
     setTimeout(()=>previewRef.current?.scrollIntoView({behavior:"smooth",block:"start"}),120);
-    setPortrait(local);
     setWorking(false);
   }
 
@@ -46,7 +45,9 @@ export default function Studio(){
       const response=await fetch("/api/create-portrait",{method:"POST",body:form});
       if(!response.ok){const info=await response.json().catch(()=>({}));throw new Error(info.error||"Portrait generation failed");}
       const blob=await response.blob();
-      const url=URL.createObjectURL(blob);\n      setAiPortrait(url);\n      setMedallionPortrait(await removeWhiteBackground(blob));
+      const url=URL.createObjectURL(blob);
+      setAiPortrait(url);
+      setMedallionPortrait(await removeWhiteBackground(blob));
       setTimeout(()=>document.getElementById("ai-portrait")?.scrollIntoView({behavior:"smooth",block:"center"}),100);
     }catch(err){console.error(err);setError(err.message||"We couldn't create the portrait. Please try again.");}
     finally{setAiWorking(false);}
@@ -80,7 +81,8 @@ export default function Studio(){
         <div className={"medallion portrait-medallion clean-preview "+(metal==="silver"?"silver-preview":"gold-preview")}>
           {portrait&&!working?<img className="portrait-cutout clean-cutout" src={portrait} alt="Original pet portrait"
             style={{left:x+"%",top:y+"%",transform:"translate(-50%,-50%) scale("+zoom+")"}}/>:
-          <span>{working?"Preparing portrait…":"Upload a photo\nto begin"}</span>}
+          <span>{working?"Preparing portrait…":"Upload a photo
+to begin"}</span>}
         </div>
         {portrait&&!working&&<div className="proof-status">ORIGINAL PHOTO · POSITION & CROP</div>}
         <div className="memorial-copy"><h2>{name||"Their name"}</h2><p>{years||"Years together"}</p></div>
