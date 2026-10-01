@@ -1,9 +1,14 @@
 import Link from "next/link";
 
 const PetIcon = () => (
-  <svg className="pet-icon" viewBox="0 0 88 42" aria-hidden="true">
-    <path d="M8 31c2-12 8-20 17-22 8-2 13 3 16 10 3-7 9-12 17-10 10 2 16 10 18 22M17 13l-5-7 10 3M68 13l6-7-11 3M31 27c3 4 7 6 11 6s8-2 11-6" />
-    <path d="M79 5v9M74.5 9.5h9" className="spark" />
+  <svg className="pet-icon" viewBox="0 0 96 52" aria-hidden="true">
+    <path d="M10 39c1-13 7-23 17-26 8-2 15 2 20 11 5-9 12-13 20-11 10 3 16 13 17 26" />
+    <path d="M18 17 12 8l12 4M76 17l7-9-12 4" />
+    <path d="M28 29c2 7 8 11 18 11s16-4 19-11" />
+    <path d="M37 28c2 2 4 3 9 3s7-1 9-3" />
+    <circle cx="35" cy="24" r="1.5" fill="currentColor" stroke="none"/>
+    <circle cx="58" cy="24" r="1.5" fill="currentColor" stroke="none"/>
+    <path d="M89 5v10M84 10h10" className="spark" />
   </svg>
 );
 
