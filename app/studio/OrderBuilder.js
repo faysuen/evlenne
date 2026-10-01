@@ -3,11 +3,17 @@ import {useState} from "react";
 
 export default function OrderBuilder({metal="gold",petName="",years=""}){
   const [kind,setKind]=useState("complete");
+  const [memory,setMemory]=useState("");
+  const [email,setEmail]=useState("");
   const choices=[
     ["keepsake","Keepsake","Portrait medallion · walnut box"],
     ["complete","Complete","Medallion · memory pieces · walnut box"],
     ["wear","Wear & Keep","Complete keepsake · matching chain"]
   ];
+  const selected=choices.find(c=>c[0]===kind);
+  const showMemory=kind!=="keepsake";
+  const ready=petName.trim().length>0 && email.trim().length>3;
+
   return (
     <section className="order-builder">
       <p className="step">04 · CHOOSE YOUR KEEPSAKE</p>
@@ -19,13 +25,31 @@ export default function OrderBuilder({metal="gold",petName="",years=""}){
           </button>
         ))}
       </div>
+
+      <div className="personalization">
+        <p className="step">05 · PERSONALIZE</p>
+        <div className="personalization-readonly">
+          <span>Pet name</span><strong>{petName||"Add their name above"}</strong>
+          <span>Years</span><strong>{years||"Optional"}</strong>
+        </div>
+        {showMemory ? (
+          <label>Memory card <span className="optional">optional</span>
+            <textarea maxLength={160} value={memory} onChange={e=>setMemory(e.target.value)} placeholder="A short memory, phrase or message…"></textarea>
+            <small>{memory.length} / 160</small>
+          </label>
+        ) : null}
+        <label>Order email
+          <input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@example.com" />
+        </label>
+      </div>
+
       <div className="order-summary">
-        <div><span>Selection</span><strong>{choices.find(c=>c[0]===kind)?.[1]}</strong></div>
+        <div><span>Selection</span><strong>{selected?.[1]}</strong></div>
         <div><span>Finish</span><strong>{metal==="silver"?"Silver":"Gold"}</strong></div>
         <div><span>Portrait</span><strong>{petName||"Custom pet portrait"}</strong></div>
-        {years?<div><span>Years</span><strong>{years}</strong></div>:null}
       </div>
-      <p className="checkout-note">Personalization and checkout are added after the product selection is confirmed.</p>
+      <button type="button" className="checkout-preview" disabled={!ready}>Continue to checkout</button>
+      <p className="checkout-note">{ready?"Your personalization is ready. Payment will be connected next.":"Add a pet name and order email to continue."}</p>
     </section>
   );
 }
