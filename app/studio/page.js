@@ -125,7 +125,7 @@ export default function Studio(){
             <div><span>Finish</span><strong>{metal==="gold"?"Gold":"Silver"}</strong></div>
             <div><span>Portrait</span><strong>{name||"Custom pet portrait"}</strong></div>
           </div>
-          <button className="checkout-preview" disabled={!name.trim()||!email.trim()}>Continue to checkout <span>→</span></button>
+          <button className="checkout-preview" disabled={!name.trim() || !email.trim()}>Continue to checkout <span aria-hidden="true">→</span></button>
           <p className="checkout-note">Your portrait and personalization are ready to become an order. Payment will be enabled after final pricing is confirmed.</p>
         </section>
       </div>
