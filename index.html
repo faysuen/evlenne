@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>EVLENNE Portrait Studio</title>
+<style>
+:root{--paper:#f5f0e7;--ivory:#fbf8f1;--ink:#2f2924;--muted:#7e746b;--line:#d8cfc3;--gold:#b89a63;--walnut:#6a4937}
+*{box-sizing:border-box} body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif}
+header{padding:28px 34px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:end}
+.brand{font-family:Georgia,serif;letter-spacing:.22em;font-size:24px}.sub{font-size:11px;letter-spacing:.16em;color:var(--muted);margin-top:7px}
+main{display:grid;grid-template-columns:330px 1fr;min-height:calc(100vh - 90px)}
+aside{padding:28px;border-right:1px solid var(--line);background:rgba(255,255,255,.28)}
+.workspace{padding:30px;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-content:start}
+.card{background:var(--ivory);border:1px solid var(--line);border-radius:16px;padding:18px}
+h2{font:22px Georgia,serif;margin:0 0 15px} label{font-size:12px;color:var(--muted);display:block;margin:18px 0 7px}
+input,select,button{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px;background:#fff;color:var(--ink)}
+button{cursor:pointer}.primary{background:var(--ink);color:white;border-color:var(--ink);margin-top:18px}.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.seg button.active{background:var(--ink);color:white}
+.drop{border:1px dashed #b9ad9f;border-radius:14px;padding:24px 12px;text-align:center;background:#fff;cursor:pointer}.drop strong{display:block;margin-bottom:5px}
+canvas{width:100%;height:auto;display:block;border-radius:12px;background:#eee}
+.previewWrap{display:flex;justify-content:center;align-items:center;min-height:460px;background:#e9e1d6;border-radius:12px}
+.medal{width:min(76%,430px);aspect-ratio:1;border-radius:50%;overflow:hidden;box-shadow:0 16px 38px #5c493329;position:relative}
+.medal.gold{background:linear-gradient(145deg,#d9c58f,#a88649 48%,#ead9a8)}.medal.silver{background:linear-gradient(145deg,#f5f5f3,#aeb0ad 48%,#fafafa)}
+.medal canvas{position:absolute;inset:8%;width:84%;height:84%;border-radius:50%;mix-blend-mode:multiply;background:transparent}
+.medalText{position:absolute;bottom:10%;left:10%;right:10%;text-align:center;font:14px Georgia,serif;letter-spacing:.06em}
+.small{font-size:11px;color:var(--muted);line-height:1.5}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.range{width:100%}.status{font-size:12px;margin-top:12px;color:var(--walnut)}
+@media(max-width:900px){main{grid-template-columns:1fr}.workspace{grid-template-columns:1fr}aside{border-right:0;border-bottom:1px solid var(--line)}}
+</style>
+</head>
+<body>
+<header><div><div class="brand">EVLENNE</div><div class="sub">PORTRAIT STUDIO · INTERNAL</div></div><div class="small">Laser artwork prototype</div></header>
+<main>
+<aside>
+<h2>Create portrait</h2>
+<label class="drop" id="drop" for="file" style="display:block;margin:0"><strong>Upload pet photo</strong><span class="small">Tap here to choose from Photos or Files</span></label><input id="file" type="file" accept="image/jpeg,image/png,image/webp,image/*" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+<label>Portrait treatment</label>
+<div class="seg" id="styles"><button data-v="fine">Fine</button><button class="active" data-v="balanced">Balanced</button><button data-v="bold">Bold</button></div>
+<label>Detail threshold</label><input class="range" id="threshold" type="range" min="60" max="210" value="145">
+<label>Medallion</label><div class="row"><select id="size"><option value="30">30 mm</option><option value="25">25 mm</option></select><select id="metal"><option value="gold">Gold</option><option value="silver">Silver</option></select></div>
+<label>Pet name</label><input id="name" value="COCO" maxlength="18">
+<label>Years</label><input id="years" value="2015–2024" maxlength="18">
+<button class="primary" id="export">Export laser PNG</button>
+<div class="status" id="status">Upload a photo to begin.</div>
+<p class="small">Prototype note: this version creates a laser-style high-contrast study in your browser. Final EVLENNE artwork should use the approved portrait pipeline before production.</p>
+</aside>
+<section class="workspace">
+<div class="card"><h2>Source</h2><canvas id="source" width="900" height="900"></canvas></div>
+<div class="card"><h2><span id="mm">30</span> mm preview</h2><div class="previewWrap"><div class="medal gold" id="medal"><canvas id="art" width="900" height="900"></canvas><div class="medalText"><div id="pname">COCO</div><div id="pyears" class="small">2015–2024</div></div></div></div></div>
+</section>
+</main>
+<script>
+const file=document.querySelector('#file'), drop=document.querySelector('#drop'), src=document.querySelector('#source'), art=document.querySelector('#art');
+const sctx=src.getContext('2d'), actx=art.getContext('2d'); let img=null, mode='balanced';
+function placeholder(){sctx.fillStyle='#eee8de';sctx.fillRect(0,0,900,900);sctx.fillStyle='#887c70';sctx.font='28px Georgia';sctx.textAlign='center';sctx.fillText('Upload a pet photo',450,450);actx.clearRect(0,0,900,900)}
+placeholder();
+file.onchange=e=>{const f=e.target.files[0];if(!f)return;const u=URL.createObjectURL(f);img=new Image();img.onload=()=>{drawSource();render();setTimeout(()=>URL.revokeObjectURL(u),1000);document.querySelector('#status').textContent='Preview generated — compare Fine / Balanced / Bold.'};img.onerror=()=>{document.querySelector('#status').textContent='Could not open this image. Try JPG or PNG.'};img.src=u}
+function drawSource(){let w=img.width,h=img.height,scale=Math.max(900/w,900/h),nw=w*scale,nh=h*scale;sctx.clearRect(0,0,900,900);sctx.drawImage(img,(900-nw)/2,(900-nh)/2,nw,nh)}
+function render(){
+ if(!img)return; drawSource();
+ const d=sctx.getImageData(0,0,900,900), p=d.data, t=+document.querySelector('#threshold').value;
+ let low=mode==='fine'?22:mode==='bold'?58:38, contrast=mode==='fine'?1.45:mode==='bold'?2.15:1.75;
+ for(let y=1;y<899;y++)for(let x=1;x<899;x++){let i=(y*900+x)*4;let lum=.299*p[i]+.587*p[i+1]+.114*p[i+2];let j=(y*900+x+1)*4,k=((y+1)*900+x)*4;let l2=.299*p[j]+.587*p[j+1]+.114*p[j+2],l3=.299*p[k]+.587*p[k+1]+.114*p[k+2];let edge=Math.abs(lum-l2)+Math.abs(lum-l3);let shade=lum<t-(mode==='fine'?40:mode==='bold'?5:22);let ink=edge*contrast>low || shade;let v=ink?28:255;p[i]=p[i+1]=p[i+2]=v;p[i+3]=ink?255:0}
+ actx.clearRect(0,0,900,900);actx.putImageData(d,0,0);
+}
+document.querySelectorAll('#styles button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#styles button').forEach(x=>x.classList.remove('active'));b.classList.add('active');mode=b.dataset.v;render()});
+document.querySelector('#threshold').oninput=render;
+document.querySelector('#size').onchange=e=>document.querySelector('#mm').textContent=e.target.value;
+document.querySelector('#metal').onchange=e=>{document.querySelector('#medal').className='medal '+e.target.value};
+document.querySelector('#name').oninput=e=>document.querySelector('#pname').textContent=e.target.value;
+document.querySelector('#years').oninput=e=>document.querySelector('#pyears').textContent=e.target.value;
+document.querySelector('#export').onclick=()=>{
+ if(!img){document.querySelector('#status').textContent='Please upload a photo first.';return}
+ const c=document.createElement('canvas');c.width=c.height=1200;let x=c.getContext('2d');x.fillStyle='white';x.fillRect(0,0,1200,1200);x.drawImage(art,90,55,1020,1020);x.fillStyle='#111';x.textAlign='center';x.font='36px Georgia';x.fillText(document.querySelector('#name').value,600,1100);x.font='25px Georgia';x.fillText(document.querySelector('#years').value,600,1140);
+ const a=document.createElement('a');a.download=`EVLENNE_${document.querySelector('#size').value}mm_${mode}.png`;a.href=c.toDataURL('image/png');a.click();document.querySelector('#status').textContent='Laser test PNG exported.';
+}
+</script>
+</body></html>
