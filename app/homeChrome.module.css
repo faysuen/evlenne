@@ -32,7 +32,7 @@
 .hero h1 { max-width: 510px; margin: 0 0 26px; color: #302621; font: 500 clamp(68px, 6vw, 100px)/.88 var(--font-serif, Georgia, serif); letter-spacing: -.055em; }
 .hero h1 em { display: block; color: #ad7b42; font-style: italic; }
 .lead { max-width: 470px; margin: 0 0 32px; color: #75675b; font: 400 25px/1.38 var(--font-serif, Georgia, serif); }
-.cta { display: inline-flex; align-items: center; justify-content: space-between; gap: 44px; min-width: 355px; padding: 20px 27px; background: #302621; color: #fff; font: 400 19px/1.1 var(--font-sans, Arial, sans-serif); text-decoration: none; }
+.cta { display: inline-flex; align-items: center; justify-content: space-between; gap: 44px; min-width: 355px; padding: 20px 27px; background: #302621; color: #fff !important; font: 400 19px/1.1 var(--font-sans, Arial, sans-serif); text-decoration: none; }
 .cta span { font-size: 26px; line-height: 0; }
 .caption { margin: 20px 0 0; color: #806f60; font: 400 14px/1.3 var(--font-sans, Arial, sans-serif); letter-spacing: .02em; }
 
