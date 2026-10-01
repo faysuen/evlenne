@@ -30,17 +30,6 @@ export default function Home(){
         <Link className="button hero-button" href="/studio">Create their portrait <span>→</span></Link>
         <p className="hero-note">Created from your photo · Preview before ordering</p>
       </div>
-      <div className="hero-object" aria-label="Evlenne keepsake box">
-        <div className="hero-box">
-          <div className="box-lid"><PetIcon/></div>
-          <div className="box-base">
-            <i className="magnet m1"/><i className="magnet m2"/><i className="magnet m3"/><i className="magnet m4"/>
-            <div className="hero-chain"/>
-            <div className="hero-medallion"><div className="hero-bail"/><div className="portrait-lines">♡</div></div>
-          </div>
-        </div>
-        <p>30 mm portrait medallion · Gold or silver</p>
-      </div>
     </section>
 
     <section className="promise">
@@ -75,7 +64,7 @@ export default function Home(){
     </section>
 
     <section className="home-cta">
-      <PetIcon/><p className="eyebrow">Begin with one photograph</p>
+      <p className="eyebrow">Begin with one photograph</p>
       <h2>Keep their story<br/>within reach.</h2>
       <Link className="button" href="/studio">Create their portrait <span>→</span></Link>
     </section>
