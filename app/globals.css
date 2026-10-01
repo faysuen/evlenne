@@ -330,3 +330,14 @@
  .real-product-photo img{border-radius:16px!important}
  .real-product-photo p{font-size:7px!important;padding:0 12px!important}
 }
+
+/* Studio customer flow — 01 Photo / 02 Portrait / 03 Personalize / 04 Keepsake */
+.studio-flow{min-height:100vh;background:#f5f0e7;color:#342c27}
+.studio-progress{max-width:920px;margin:0 auto;padding:26px 28px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;border-bottom:1px solid #ded4c7}
+.studio-progress button{appearance:none;border:0;background:transparent;color:#9a8f85;text-align:left;padding:10px 0;display:flex;gap:10px;align-items:center}
+.studio-progress button b{font:600 11px Arial;letter-spacing:.08em}.studio-progress button span{font:500 13px Arial}.studio-progress button.active,.studio-progress button.done{color:#342c27}.studio-progress button.active{border-bottom:2px solid #a88757}
+.flow-step{max-width:760px;margin:0 auto;padding:70px 28px 100px}.flow-step>h1{font:400 clamp(38px,6vw,68px)/.98 Georgia,serif;margin:12px 0 22px;letter-spacing:-.035em}.flow-step .muted{max-width:570px}
+.flow-next,.flow-back{display:block;width:100%;max-width:420px;margin-top:24px;padding:17px 20px;border:0;font:600 13px Arial;letter-spacing:.02em}.flow-next{background:#342c27;color:#fff}.flow-next:disabled{opacity:.35}.flow-back{background:transparent;color:#756a61;text-align:left;padding-left:0}
+.portrait-review-grid{display:grid;grid-template-columns:minmax(260px,1fr) minmax(220px,.7fr);gap:42px;align-items:center;margin-top:28px}.secondary-action{margin-top:28px}.mini-proof{margin:36px 0;display:flex;align-items:center;gap:24px;padding:24px;border:1px solid #ded4c7;background:#fbf8f2}.mini-proof div:last-child{display:flex;flex-direction:column;gap:5px}.mini-proof strong{font:400 28px Georgia}.mini-proof span{color:#756a61}.mini-medallion{width:92px;height:92px;border-radius:50%;overflow:hidden;display:grid;place-items:center;background:linear-gradient(145deg,#d8b86c,#f3df9a,#aa8544)}.mini-medallion.silver{background:linear-gradient(145deg,#bbb,#f4f4f4,#999)}.mini-medallion img{width:100%;height:100%;object-fit:contain}
+.flow-order .order-builder{margin:0!important;max-width:none!important}
+@media(max-width:700px){.studio-progress{padding:18px 18px 8px;gap:2px}.studio-progress button{display:block;text-align:center}.studio-progress button b,.studio-progress button span{display:block}.studio-progress button span{font-size:10px;margin-top:5px}.flow-step{padding:46px 20px 80px}.portrait-review-grid{grid-template-columns:1fr;gap:24px}.flow-next{max-width:none}}
