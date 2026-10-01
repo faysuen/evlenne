@@ -235,3 +235,14 @@
  .product-lid .pet-icon{width:76px!important}
  .hero-product>p{font-size:7px!important;line-height:1.6!important;padding:0 20px!important}
 }
+
+/* Production header hard reset: no temporary icon, no overflow */
+.home-nav .production-brand{display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:flex-start!important;min-width:0!important;max-width:48vw!important;overflow:hidden!important}
+.home-nav .production-brand .brand-name{display:block!important;font-family:Georgia,"Times New Roman",serif!important;font-size:32px!important;line-height:1!important;font-weight:400!important;letter-spacing:-.04em!important;color:#342c27!important;white-space:nowrap!important}
+.home-nav .production-brand .brand-sub{display:block!important;margin-top:5px!important;font:500 6px/1 Arial,sans-serif!important;letter-spacing:.16em!important;color:#756a61!important;white-space:nowrap!important}
+@media(max-width:760px){
+ .home-nav{height:72px!important;min-height:72px!important;padding:0 20px!important;overflow:hidden!important}
+ .home-nav .production-brand{max-width:58vw!important}
+ .home-nav .production-brand .brand-name{font-size:26px!important}
+ .home-nav .production-brand .brand-sub{font-size:4.5px!important;letter-spacing:.11em!important}
+}
