@@ -11,6 +11,8 @@ export default function Studio(){
   const [x,setX]=useState(50),[y,setY]=useState(38),[aiPortrait,setAiPortrait]=useState("");
   const [aiWorking,setAiWorking]=useState(false);
   const [metal,setMetal]=useState("gold");
+  const [packageType,setPackageType]=useState("complete");
+  const packageLabels={keepsake:"Keepsake",complete:"Complete",wear:"Wear & Keep"};
 
   async function pick(e){
     const file=e.target.files?.[0]; if(!file)return;
@@ -102,6 +104,22 @@ export default function Studio(){
         <div className="memorial-copy"><h2>{name||"Their name"}</h2><p>{years||"Years together"}</p></div>
         <small>30 mm medallion preview</small>
         {aiPortrait&&<><p className="step artwork-step" id="ai-portrait">03 · EVLENNE PORTRAIT</p><div className="engraving-sheet"><img src={aiPortrait} alt="EVLENNE AI engraving portrait"/></div><small>OpenAI Low · white background · 30 mm artwork test</small></>}
+        {aiPortrait&&<section className="order-builder">
+          <p className="step">04 · CHOOSE YOUR KEEPSAKE</p>
+          <h2>How would you like to keep them close?</h2>
+          <div className="package-options">
+            <button className={packageType==="keepsake"?"selected":""} onClick={()=>setPackageType("keepsake")}><strong>Keepsake</strong><span>Portrait medallion · walnut box</span></button>
+            <button className={packageType==="complete"?"selected":""} onClick={()=>setPackageType("complete")}><i>Most complete</i><strong>Complete</strong><span>Medallion · memory pieces · walnut box</span></button>
+            <button className={packageType==="wear"?"selected":""} onClick={()=>setPackageType("wear")}><strong>Wear &amp; Keep</strong><span>Complete keepsake · matching chain</span></button>
+          </div>
+          <div className="order-summary">
+            <div><span>Your selection</span><strong>{packageLabels[packageType]}</strong></div>
+            <div><span>Finish</span><strong>{metal==="gold"?"Gold":"Silver"}</strong></div>
+            <div><span>Portrait</span><strong>{name||"Custom pet portrait"}</strong></div>
+          </div>
+          <button className="checkout-preview" disabled>Continue to checkout <span>→</span></button>
+          <p className="checkout-note">Checkout opens after final product pricing and payment setup are confirmed.</p>
+        </section>
       </div>
     </section>
   </main>
