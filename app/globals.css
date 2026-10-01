@@ -246,3 +246,12 @@
  .home-nav .production-brand .brand-name{font-size:26px!important}
  .home-nav .production-brand .brand-sub{font-size:4.5px!important;letter-spacing:.11em!important}
 }
+
+/* FINAL logo lockup — approved Branding Suite artwork only */
+.home-nav .official-lockup{display:block!important;line-height:0!important;flex:0 1 430px!important;min-width:0!important}
+.home-nav .official-logo{display:block!important;width:100%!important;max-width:430px!important;height:auto!important;object-fit:contain!important;mix-blend-mode:normal!important}
+.home-nav .official-lockup::before,.home-nav .official-lockup::after{content:none!important;display:none!important}
+@media(max-width:760px){
+ .home-nav .official-lockup{display:block!important;flex:0 1 205px!important;max-width:58vw!important;min-width:0!important}
+ .home-nav .official-logo{display:block!important;width:100%!important;max-width:205px!important;height:auto!important;mix-blend-mode:normal!important}
+}
