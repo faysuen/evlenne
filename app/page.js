@@ -18,7 +18,7 @@ const PetIcon = () => (
 export default function Home(){
   return <main className="home final-home">
     <header className="final-header">
-      <div className="final-logo"><BrandLogo/></div>
+      <div className="final-logo"><BrandLogo/><span className="mobile-wordmark">Evlenne<small>CUSTOM PET PORTRAIT KEEPSAKES</small></span></div>
       <nav className="desktop-nav">
         <a href="#how">How It Works</a><a href="#inside">What&apos;s Included</a><a href="#story">Our Portraits</a>
       </nav>
