@@ -66,9 +66,17 @@ export default function Studio(){
     const img=new Image();img.src=medallionPortrait;await img.decode();
     const size=1200,canvas=document.createElement("canvas");canvas.width=size;canvas.height=size;
     const ctx=canvas.getContext("2d");ctx.fillStyle="#fff";ctx.fillRect(0,0,size,size);
-    ctx.save();ctx.beginPath();ctx.arc(size/2,size/2,size*.47,0,Math.PI*2);ctx.clip();
+    ctx.save();ctx.beginPath();ctx.arc(size/2,size/2,size*.46,0,Math.PI*2);ctx.clip();
     const scale=zoom,drawW=size*scale,drawH=size*scale;
     ctx.drawImage(img,size*(x/100)-drawW/2,size*(y/100)-drawH/2,drawW,drawH);ctx.restore();
+    const image=ctx.getImageData(0,0,size,size),d=image.data;
+    for(let i=0;i<d.length;i+=4){
+      const gray=Math.round(.299*d[i]+.587*d[i+1]+.114*d[i+2]);
+      const clean=gray>238?255:gray<38?0:Math.round((gray-38)*255/200);
+      d[i]=clean;d[i+1]=clean;d[i+2]=clean;d[i+3]=255;
+    }
+    ctx.putImageData(image,0,0);
+    ctx.strokeStyle="#bdbdbd";ctx.lineWidth=3;ctx.beginPath();ctx.arc(size/2,size/2,size*.46,0,Math.PI*2);ctx.stroke();
     const a=document.createElement("a");a.href=canvas.toDataURL("image/png");a.download=fileStem()+"-laser-artwork.png";a.click();
   }
 
