@@ -306,3 +306,14 @@
  .final-home .benefits article b{display:block!important;font-size:24px!important}.final-home .benefits article span{display:block!important;font:400 14px/1.25 Georgia,serif!important}
 }
 @media (max-width:390px){.final-home .final-copy h1{font-size:62px!important}.final-home .final-header .final-logo{flex-basis:170px!important;max-width:50vw!important}}
+
+/* Mobile production guard */
+.mobile-wordmark{display:none}
+@media(max-width:820px){
+ .final-home .final-header .final-logo .official-logo{display:none!important}
+ .final-home .mobile-wordmark{display:flex!important;flex-direction:column;font:400 27px/.9 Georgia,serif;color:#342c27;letter-spacing:-.04em;white-space:nowrap}
+ .final-home .mobile-wordmark small{margin-top:6px;font:500 4.5px/1 Arial,sans-serif;letter-spacing:.17em;color:#756a61}
+ .final-home .final-product *{box-sizing:border-box}
+ .final-home .final-lid{top:0!important;right:1%!important;width:74%!important;height:39%!important}
+ .final-home .final-tray{left:0!important;bottom:0!important;width:96%!important;height:59%!important}
+}
