@@ -18,7 +18,10 @@ const PetIcon = () => (
 export default function Home(){
   return <main className="home">
     <nav className="home-nav">
-      <div className="brand-lockup text-brand"><span className="brand-name">Evlenne</span></div>
+      <div className="brand-lockup text-brand">
+        <span className="brand-mark" aria-hidden="true"><PetIcon/></span>
+        <span className="brand-text"><span className="brand-name">Evlenne</span><span className="brand-sub">CUSTOM PET PORTRAIT KEEPSAKES</span></span>
+      </div>
       <div className="nav-links"><a href="#inside">What’s inside</a><a href="#how">How it works</a><Link href="/studio">Create yours</Link></div>
     </nav>
 
@@ -29,6 +32,18 @@ export default function Home(){
         <p className="lead">A favorite photograph, thoughtfully transformed into a delicate portrait and made into a personal keepsake you can hold onto.</p>
         <Link className="button hero-button" href="/studio">Create their portrait <span>→</span></Link>
         <p className="hero-note">Created from your photo · Preview before ordering</p>
+      </div>
+      <div className="hero-product" aria-label="Evlenne walnut keepsake box">
+        <div className="product-box">
+          <div className="product-lid"><PetIcon/></div>
+          <div className="product-tray">
+            <span className="tray-magnet tm1"/><span className="tray-magnet tm2"/><span className="tray-magnet tm3"/><span className="tray-magnet tm4"/>
+            <div className="tray-medallion"><span>♡</span></div>
+            <div className="tray-vial"><i/></div>
+            <div className="tray-card"><span>MEMORY</span><b>Always close.</b></div>
+          </div>
+        </div>
+        <p>30 mm portrait medallion · Keepsake vial · Memory card</p>
       </div>
     </section>
 
