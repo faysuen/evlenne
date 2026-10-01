@@ -6,12 +6,12 @@ export default function Studio(){
   const [original,setOriginal]=useState(""),[portrait,setPortrait]=useState("");
   const [name,setName]=useState(""),[years,setYears]=useState("");
   const [working,setWorking]=useState(false),[zoom,setZoom]=useState(2.25);
-  const [x,setX]=useState(50),[y,setY]=useState(28),[style,setStyle]=useState("balanced");
+  const [x,setX]=useState(50),[y,setY]=useState(35),[style,setStyle]=useState("fine");
 
   async function pick(e){
     const file=e.target.files?.[0]; if(!file)return;
     const local=URL.createObjectURL(file);
-    setOriginal(local);setPortrait("");setWorking(true);setZoom(2.25);setX(50);setY(28);
+    setOriginal(local);setPortrait("");setWorking(true);setZoom(1.55);setX(50);setY(38);
     setTimeout(()=>previewRef.current?.scrollIntoView({behavior:"smooth",block:"start"}),120);
     try{
       const {removeBackground}=await import("@imgly/background-removal");
