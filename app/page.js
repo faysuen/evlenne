@@ -140,7 +140,7 @@ export default function Home() {
           </Link>
           <p className={styles.caption}>Created from your photo · Preview before ordering</p>
         </div>
-        <div className={styles.heroImage} role="img" aria-label="Walnut keepsake box with a portrait medallion, fur vial and photo card" />
+        <div className={styles.heroImage} role="img" aria-label="Real walnut keepsake box photographed in an open position" />
       </section>
 
       <section className={styles.trust} aria-label="Highlights">
@@ -158,9 +158,13 @@ export default function Home() {
           Your portrait. Their memories. <em>Kept together.</em>
         </h2>
         <p className={styles.centerText}>
-          30 mm portrait medallion · walnut keepsake box · memory details · glass fur keepsake vial
+          A real walnut keepsake box, photographed as it is. The interior can be personalized around one beloved photograph.
         </p>
-        <p className={styles.note}>Final product photography coming after sample assembly.</p>
+        <div className={styles.productGallery} aria-label="Walnut keepsake box product photos">
+          <img src="/products/box-open.jpg" alt="Open walnut keepsake box on a wooden table" />
+          <img src="/products/box-flat-lay.jpg" alt="Walnut keepsake box shown open and closed" />
+          <img src="/products/box-top-view.jpg" alt="Walnut keepsake box shown from above" />
+        </div>
       </section>
 
       <section className={`${styles.section} ${styles.alt}`}>
