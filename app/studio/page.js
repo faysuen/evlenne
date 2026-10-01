@@ -15,6 +15,7 @@ export default function Studio(){
   const [memoryText,setMemoryText]=useState("");
   const [email,setEmail]=useState("");
   const packageLabels={keepsake:"Keepsake",complete:"Complete",wear:"Wear & Keep"};
+  const checkoutDisabled = name.trim().length === 0 ? true : email.trim().length === 0;
 
   async function pick(e){
     const file=e.target.files?.[0]; if(!file)return;
@@ -125,7 +126,7 @@ export default function Studio(){
             <div><span>Finish</span><strong>{metal==="gold"?"Gold":"Silver"}</strong></div>
             <div><span>Portrait</span><strong>{name||"Custom pet portrait"}</strong></div>
           </div>
-          <button className="checkout-preview" disabled={name.trim().length === 0 || email.trim().length === 0}>Continue to checkout <span aria-hidden="true">→</span></button>
+          <button className="checkout-preview" disabled={checkoutDisabled}>Continue to checkout</button>
           <p className="checkout-note">Your portrait and personalization are ready to become an order. Payment will be enabled after final pricing is confirmed.</p>
         </section>
       </div>
