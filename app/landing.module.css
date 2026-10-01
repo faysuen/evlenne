@@ -38,7 +38,7 @@
 }
 
 .nav {
-  display: none;
+  display: flex;
   align-items: center;
   gap: 36px;
   font-size: 15px;
@@ -50,8 +50,19 @@
   padding: 14px 26px;
 }
 
+.cartButton {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+
 .mobileMenu {
   position: relative;
+  display: flex;
 }
 
 .mobileMenu summary {
@@ -340,7 +351,7 @@
     display: flex;
   }
   .mobileMenu {
-    display: none;
+    display: flex;
   }
   .hero {
     grid-template-columns: 5fr 7fr;
@@ -370,6 +381,18 @@
 }
 
 @media (max-width: 639px) {
+  .header {
+    gap: 12px;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .cartButton {
+    margin-left: auto;
+  }
+
   .logo {
     width: min(230px, 62vw);
   }
