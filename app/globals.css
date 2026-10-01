@@ -36,3 +36,8 @@
 .original-card{max-width:460px;margin:18px 0;padding:12px;border:1px solid var(--line);background:var(--cream)}.original-card img{display:block;width:100%;max-height:240px;object-fit:contain;background:#eee9e1}.original-card span{display:block;margin-top:10px;font-size:9px;letter-spacing:.14em;color:var(--soft)}
 
 .gold-preview{background:linear-gradient(145deg,#d9c28e,#fff1c2,#ad8a4d)}.silver-preview{background:linear-gradient(145deg,#aeb1b3,#f8f8f6,#8c9093)}.metal-switch{display:inline-flex;margin:10px 0 16px;border:1px solid var(--line);background:var(--cream);padding:3px}.metal-switch button{border:0;background:transparent;padding:9px 18px;font-size:9px;letter-spacing:.14em;color:var(--soft);cursor:pointer}.metal-switch button.active{background:var(--ink);color:#fff}
+
+/* Finish-specific medallion rim overrides */
+.medallion.gold-preview{border-color:#c9a86c}
+.medallion.silver-preview{border-color:#9fa3a6;box-shadow:0 20px 50px #3f444820}
+.silver-preview span{color:#606468}
