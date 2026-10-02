@@ -33,7 +33,7 @@ function BenefitIcon({ type }) {
 function Header() {
   const links = [["How It Works", "#how"], ["What's Included", "#keepsakes"], ["Reviews", "#about"]];
   return <header className={chromeStyles.header}>
-    <Link href="/" className={chromeStyles.brand}><img src="/evlenne-logo.png" alt="Evlenne" /></Link>
+    <Link href="/" className={chromeStyles.brand}><img src="/evlenne-logo-mark.png" alt="Evlenne" /></Link>
     <nav className={chromeStyles.nav} aria-label="Main">
       {links.map(([label, href]) => <a href={href} key={label}>{label}</a>)}
       <Link href="/studio" className={chromeStyles.headerCta}>Create yours</Link>
@@ -78,7 +78,7 @@ function About() {
 }
 
 function Footer() {
-  return <footer className={footerStyles.footer} id="footer"><div className={footerStyles.footerBrand}><img src="/evlenne-logo.png" alt="Evlenne" /><p>Custom pet portrait keepsakes made to keep them close.</p></div><div className={footerStyles.social}><span>Follow along</span><div><a href="#footer">TikTok</a><a href="#footer">Instagram</a><a href="#footer">Facebook</a></div></div><small>© {new Date().getFullYear()} Evlenne. Made with care in Canada.</small></footer>;
+  return <footer className={footerStyles.footer} id="footer"><div className={footerStyles.footerBrand}><img src="/evlenne-logo-mark.png" alt="Evlenne" /><p>Custom pet portrait keepsakes made to keep them close.</p></div><div className={footerStyles.social}><span>Follow along</span><div><a href="#footer">TikTok</a><a href="#footer">Instagram</a><a href="#footer">Facebook</a></div></div><small>© {new Date().getFullYear()} Evlenne. Made with care in Canada.</small></footer>;
 }
 
 export default function Home() {

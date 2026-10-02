@@ -82,22 +82,24 @@ export default function Studio(){
 
   const go=n=>{setStep(n);window.scrollTo({top:0,behavior:"smooth"});};
   return <main className="studio-flow">
-    <header className="studio-site-header"><a href="/" className="studio-site-logo"><img src="/evlenne-logo.png" alt="Evlenne — Custom pet portrait keepsakes" /></a><nav aria-label="Main"><a href="/#how">How It Works</a><a href="/#keepsakes">What's Included</a><a href="/#about">Reviews</a></nav><p>Artwork preparation workspace</p></header>
+    <header className="studio-site-header"><a href="/" className="studio-site-logo"><img src="/evlenne-logo-mark.png" alt="Evlenne" /></a><nav aria-label="Main"><a href="/#how">How It Works</a><a href="/#keepsakes">What's Included</a><a href="/#about">Reviews</a></nav><p>Artwork preparation workspace</p></header>
     <nav className="studio-progress" aria-label="Order progress">
       {["Photo","Portrait","Personalize","Keepsake"].map((label,i)=><button key={label} className={step===i+1?"active":step>i+1?"done":""} onClick={()=>i+1<step&&go(i+1)}><b>0{i+1}</b><span>{label}</span></button>)}
     </nav>
 
-    {step===1&&<section className="flow-step">
-      <p className="step">01 · UPLOAD PHOTO</p><h1>Start with their photograph.</h1>
-      <p className="muted">Choose a clear photo. We’ll use it to create their Evlenne portrait.</p>
+    {step===1&&<section className="flow-step upload-step">
+      <div className="upload-intro"><p className="step">01 · PHOTO</p><h1>Start with their photograph.</h1><p className="muted">Choose a clear, well-lit photo of your pet. We’ll turn it into a portrait made to keep close.</p></div>
       <input ref={input} hidden type="file" accept="image/*" onChange={pick}/>
-      <button className="upload" onClick={()=>input.current?.click()}>{original?"Choose another photo":"Upload pet photo"}</button>
+      <div className="upload-layout">
+        <button className="upload-dropzone" onClick={()=>input.current?.click()}>
+          {original?<><img src={original} alt="Uploaded pet"/><span className="dropzone-overlay">Choose another photo</span></>:<><span className="upload-camera" aria-hidden="true">⌾</span><strong>Upload a photo</strong><span>or drag and drop here</span><small>JPG, PNG or HEIC · up to 10MB</small></>}
+        </button>
+        <aside className="upload-guidance"><p className="guidance-kicker">A good photo helps</p><h2>Let them look like themselves.</h2><ul><li>Face the camera in natural light</li><li>Keep their eyes and features clear</li><li>Use one pet per photo</li></ul><p className="guidance-note">You’ll review the portrait before choosing your keepsake.</p></aside>
+      </div>
       {original&&<div className="upload-success">
         <div className="upload-success-head"><span className="upload-check">✓</span><div><strong>Photo uploaded</strong><small>Ready to create their portrait</small></div></div>
-        <div className="original-card"><img src={original} alt="Uploaded pet"/><span>YOUR PHOTO</span></div>
-        <button className="change-photo" onClick={()=>input.current?.click()}>Choose a different photo</button>
+        <button className="create-art upload-create" disabled={aiWorking} onClick={createPortrait}>{aiWorking?"Creating Evlenne portrait…":"Create Evlenne portrait →"}</button>
       </div>}
-      {original&&<button className="create-art upload-create" disabled={aiWorking} onClick={createPortrait}>{aiWorking?"Creating Evlenne portrait…":"Create Evlenne portrait →"}</button>}
     </section>}
 
     {step===2&&<section className="flow-step" ref={previewRef}>
