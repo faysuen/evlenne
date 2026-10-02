@@ -9,7 +9,7 @@ const products=[
   ["Portrait Medallion","Wear their portrait close.","/gold-silver-render.png","Gold and silver portrait medallions"],
   ["Memorial Coin","A small piece made to keep.",null,"Product photography placeholder"],
   ["Mini Pet","Your pet, made small.",null,"Product photography placeholder"],
-  ["Fur Keepsake","Keep a little piece close.","/products/box-beads.jpg","Keepsake box with memory details"],
+  ["Fur Keepsake","Keep a little piece close.",null,"Product photography placeholder"],
   ["Pet Bracelet","A subtle everyday reminder.",null,"Product photography placeholder"],
   ["Mini Pet Magnet","A little piece of them at home.",null,"Product photography placeholder"]
 ];
