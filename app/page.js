@@ -33,7 +33,7 @@ function BenefitIcon({ type }) {
 function Header() {
   const links = [["How It Works", "#how"], ["What's Included", "#keepsakes"], ["Reviews", "#about"]];
   return <header className={chromeStyles.header}>
-    <Link href="/" className={chromeStyles.brand}><img src="/evlenne-logo.png" alt="Evlenne — Custom pet portrait keepsakes" /></Link>
+    <Link href="/" className={chromeStyles.brand}><img src="/evlenne-logo.png" alt="Evlenne" /></Link>
     <nav className={chromeStyles.nav} aria-label="Main">
       {links.map(([label, href]) => <a href={href} key={label}>{label}</a>)}
       <Link href="/studio" className={chromeStyles.headerCta}>Create yours</Link>
