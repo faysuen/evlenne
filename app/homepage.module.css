@@ -170,6 +170,9 @@
   background:#e9dfd2;
   overflow:hidden}
 .heroVisual img {
+  position:absolute;
+  inset:0;
+  object-position:72% center;
   display:block;
   width:100%;
   height:100%;
@@ -322,6 +325,7 @@
 .storyCopy .textCta {
   margin-top:18px}
 .profile {
+  /* The recovered origin story uses the same editorial type scale. */
   display:grid;
   grid-template-columns:1fr 1fr;
   align-items:center;
@@ -369,6 +373,12 @@
   text-transform:uppercase}
 .profileCopy .textCta {
   margin-top:16px}
+.beginning { padding:100px 24px; max-width:820px; margin:0 auto; text-align:center; }
+.beginning h2,.storyPage h1 { margin:0 0 30px; font:400 clamp(42px,5vw,68px)/1.05 var(--font-serif),Georgia,serif; letter-spacing:-.035em; }
+.beginning>p:not(.eyebrow),.storyPage>p:not(.eyebrow) { color:var(--taupe); font:16px/1.8 Arial,sans-serif; }
+.beginning .textCta { margin-top:16px; }
+.storyPage { max-width:820px; margin:0 auto; padding:80px 24px 110px; }
+.storyPage .primaryCta { margin-top:24px; }
 .materials {
   display:grid;
   grid-template-columns:1fr 1fr;
