@@ -10,15 +10,15 @@ const serif = Newsreader({ subsets: ["latin"], style: ["normal", "italic"], weig
 
 const benefits = [
   ["camera", "Created from your photo", "A clear, well-lit photo of your pet."],
-  ["eye", "Preview before ordering", "See your portrait on the keepsake before you buy."],
+  ["eye", "Preview before ordering", "See the engraving on your keepsake before you buy."],
   ["heart", "A lasting keepsake", "Made to stay with you, always."],
   ["gift", "A meaningful gift", "Thoughtfully made for someone you love."],
 ];
 
 const steps = [
   ["01", "Upload a photo", "Use a clear, well-lit photo of your pet.", "/pet-photo-golden.png", "A real photo"],
-  ["02", "We create the portrait", "Our AI transforms your photo into a clean, engraved-style portrait.", "/pet-portrait-golden.png", "Portrait render"],
-  ["03", "Preview & order", "See your portrait on the keepsake before you buy.", "/hero-product-scene.png", "Your keepsake"],
+  ["02", "We engrave their likeness", "Your photo becomes a fine laser engraving made for the keepsake.", "/pet-portrait-golden.png", "Laser engraving render"],
+  ["03", "Preview & order", "See the engraving on the keepsake before you buy.", "/hero-product-scene.png", "Your keepsake"],
 ];
 
 function BenefitIcon({ type }) {
@@ -46,11 +46,11 @@ function Header() {
 function Hero() {
   return <section className={chromeStyles.hero} id="create">
     <div className={chromeStyles.heroCopy}>
-      <p className={chromeStyles.eyebrow}>A portrait made from their photograph</p>
+      <p className={chromeStyles.eyebrow}>A keepsake made from their photograph</p>
       <h1>Keep them <em>close.</em></h1>
-      <p className={chromeStyles.lead}>A favorite photograph, thoughtfully transformed into a delicate portrait and made into a personal keepsake you can hold onto.</p>
-      <Link href="/studio" className={chromeStyles.cta}>Create their portrait <span>→</span></Link>
-      <p className={chromeStyles.caption}>Created from your photo · Preview before ordering</p>
+      <p className={chromeStyles.lead}>A favorite photograph, carefully transformed into a laser-engraved pendant and placed in a memorial box for the memories you want to keep close.</p>
+      <Link href="/studio" className={chromeStyles.cta}>Create their keepsake <span>→</span></Link>
+      <p className={chromeStyles.caption}>Made from your photo · Preview before ordering</p>
     </div>
     <div className={chromeStyles.heroProduct} role="img" aria-label="Walnut keepsake box with a custom pet portrait pendant" />
   </section>;
@@ -64,7 +64,7 @@ function Benefits() {
 
 function Keepsakes() {
   return <section className={styles.keepsakes} id="keepsakes">
-    <div className={styles.keepsakeText}><p className={styles.eyebrow}>Two timeless finishes</p><h2>Gold or <em>silver.</em></h2><p>The same heartfelt portrait, available in the finish that feels most like them.</p><Link href="/studio" className={styles.textLink}>Choose your keepsake <span>→</span></Link></div>
+    <div className={styles.keepsakeText}><p className={styles.eyebrow}>Two timeless finishes</p><h2>Gold or <em>silver.</em></h2><p>The same custom engraving, available in your choice of finish.</p><Link href="/studio" className={styles.textLink}>Choose your keepsake <span>→</span></Link></div>
     <img className={renderStyles.productRender} src="/gold-silver-render.png" alt="Gold and silver laser-engraved pet portrait pendants beside an Evlenne walnut box" />
   </section>;
 }
@@ -74,7 +74,7 @@ function HowItWorks() {
 }
 
 function About() {
-  return <section className={styles.about} id="about"><div><p className={styles.eyebrow}>The story behind Evlenne</p><h2>Made to keep them <em>close.</em></h2><p>In 2024, we said goodbye to Jaerong and Minki. But love does not end when a beloved pet is gone. Their faces, their little habits, and the years we shared with them stay close in the quietest moments.</p><p>Evlenne was created to turn those memories into something you can hold onto — a custom portrait keepsake made from their photograph, so that every time you see it, you remember them as they were: loved, present, and always close.</p><div className={styles.made}><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V8M12 12 7 9m5 3 5-4M7 9 5 5l4-4 3 4 4-1-2 5"/></svg><small>Made in Canada</small></span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 8-8 10-8-10 8-8Z"/></svg><small>Premium materials</small></span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h16v11H4zM2 6h20v3H2zM12 6v14M12 6c-1-3-5-3.5-5-1.2C7 6.2 9 6 12 6Zm0 0c1-3 5-3.5 5-1.2C17 6.2 15 6 12 6Z"/></svg><small>Thoughtful packaging</small></span></div></div><img className={renderStyles.aboutRender} src="/made-with-care-render.png" alt="Evlenne walnut keepsake box with engraved logo and memory pieces" /></section>;
+  return <section className={styles.about} id="about"><div><p className={styles.eyebrow}>The story behind Evlenne</p><h2>Love <em>stays.</em></h2><p>A quiet place for the memories that always stay.</p><p>In 2024, we said goodbye to Jaerong and Minki. But love does not end when a beloved pet is gone. Their faces, their little habits, and the years we shared with them stay close in the quietest moments.</p><p>Evlenne was created as a memorial keepsake box centered around a custom laser-engraved pet pendant, with room for the small things that help you remember them — a photo, a vial of fur, a memory card, or another personal piece.</p><div className={styles.made}><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V8M12 12 7 9m5 3 5-4M7 9 5 5l4-4 3 4 4-1-2 5"/></svg><small>Made in Canada</small></span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 8-8 10-8-10 8-8Z"/></svg><small>Premium materials</small></span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h16v11H4zM2 6h20v3H2zM12 6v14M12 6c-1-3-5-3.5-5-1.2C7 6.2 9 6 12 6Zm0 0c1-3 5-3.5 5-1.2C17 6.2 15 6 12 6Z"/></svg><small>Thoughtful packaging</small></span></div></div><img className={renderStyles.aboutRender} src="/made-with-care-render.png" alt="Evlenne walnut memorial box with laser-engraved pet pendant and memory pieces" /></section>;
 }
 
 function Footer() {
