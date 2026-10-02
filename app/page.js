@@ -78,7 +78,8 @@ function About() {
 }
 
 function Footer() {
-  return <footer className={footerStyles.footer} id="footer"><div className={footerStyles.footerBrand}><img src="/evlenne-logo-mark.png" alt="Evlenne" /><p>Custom pet portrait keepsakes made to keep them close.</p></div><div className={footerStyles.social}><span>Follow along</span><div><a href="#footer">TikTok</a><a href="#footer">Instagram</a><a href="#footer">Facebook</a></div></div><small>© {new Date().getFullYear()} Evlenne. Made with care in Canada.</small></footer>;
+  const icon={viewBox:"0 0 24 24","aria-hidden":true};
+  return <footer className={footerStyles.footer} id="footer"><div className={footerStyles.footerBrand}><img src="/evlenne-logo-mark.png" alt="Evlenne" /><p>Custom pet portrait keepsakes made to keep them close.</p></div><div className={footerStyles.social}><span>Follow along</span><div><a href="#footer" aria-label="TikTok"><svg {...icon}><path d="M14 4v10.3a3.7 3.7 0 1 1-3-3.65"/><path d="M14 4c.7 2.2 2.1 3.4 4.4 3.7"/></svg></a><a href="#footer" aria-label="Instagram"><svg {...icon}><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="12" cy="12" r="3.5"/><circle cx="17.3" cy="6.8" r=".8" fill="currentColor" stroke="none"/></svg></a><a href="#footer" aria-label="Facebook"><svg {...icon}><path d="M14 20v-7h2.5l.5-3H14V8.2c0-.9.3-1.7 1.7-1.7H17V3.8c-.5-.1-1.4-.2-2.3-.2C12.3 3.6 11 5 11 7.5V10H8.5v3H11v7"/></svg></a></div></div><small>© {new Date().getFullYear()} Evlenne. Made with care in Canada.</small></footer>;
 }
 
 export default function Home() {
