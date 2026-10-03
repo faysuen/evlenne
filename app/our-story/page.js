@@ -15,9 +15,10 @@ export default function OurStory() {
     <main className={styles.storyPage}>
       <p className={styles.eyebrow}>OUR BEGINNING</p>
       <h1>It started with<br /><em>Jaerong and Minki.</em></h1>
+      <img className={styles.storyPhoto} src="/our-story-pets.png" alt="Two white dogs on a soft cream blanket" />
       <p>In 2024, we said goodbye to Jaerong and Minki. Their faces, their little habits, and the years we shared with them stayed close in the quietest moments.</p>
       <p>Evlenne began with a desire to turn those memories into something you could hold — a custom portrait keepsake made from their photograph, remembering them as they were: loved, present, and close.</p>
-      <p>Today, that same idea reaches beyond a single object. A personalized portrait or Mini Pet can become keepsakes to wear, hold, display, and keep close.</p>
+      <p>Today, that same idea reaches beyond a single object. A personalized portrait can become keepsakes to wear, hold, display, and keep close.</p>
       <p>Some celebrate everyday companionship. Others hold memories. Each begins with an individual pet — their face, personality, and presence.</p>
       <Link href="/studio" className={styles.primaryCta}>Create Your Pet <span>→</span></Link>
     </main>
