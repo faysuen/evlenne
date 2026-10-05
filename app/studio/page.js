@@ -1,12 +1,12 @@
 "use client";
-import {useEffect,useRef,useState} from "react";
+import {Suspense,useEffect,useRef,useState} from "react";
 import {useSearchParams} from "next/navigation";
 import OrderBuilder from "./OrderBuilder";
 import {createPetIdentity} from "../lib/petIdentity";
 
 const SESSION_KEY="evlenne-studio-session";
 
-export default function Studio(){
+function StudioContent(){
   const searchParams=useSearchParams();
   const input=useRef(null), previewRef=useRef(null);
   const [hydrated,setHydrated]=useState(false),[original,setOriginal]=useState(""),[medallionPortrait,setMedallionPortrait]=useState("");
@@ -30,3 +30,5 @@ export default function Studio(){
     {step===4&&<section className="flow-step flow-order"><OrderBuilder metal={metal} setMetal={setMetal} petName={name} years={years} petIdentity={petIdentity} onBack={()=>go(3)}/></section>}
   </main>
 }
+
+export default function Studio(){return <Suspense fallback={<main className="studio-shell"><p className="muted">Loading Studio…</p></main>}><StudioContent/></Suspense>}
