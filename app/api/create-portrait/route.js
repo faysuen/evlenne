@@ -5,13 +5,13 @@ const PROMPT = `Create a detailed monochrome grayscale engraving portrait of the
 
 Preserve the actual pet's identity: face proportions, eyes and their spacing, expression, nose, muzzle, ears, markings, and distinctive coat. Follow the source pose. Do not replace the pet with an idealized breed illustration.
 
-Compose the complete head, both ears, and a small natural amount of upper chest, centered and comfortably inside the image with breathing room. Remove the scene and use a pure white background. No border, text, jewelry, or decorations.
+Compose a close, intimate head-and-upper-chest portrait. The head should fill most of the square, with the eyes, nose and muzzle visually prominent. Keep both ears and the complete crown inside the image, but do not leave excessive empty space. Remove the scene and use a pure white background. No border, text, jewelry, or decorations.
 
 Render a complete, readable silhouette. For pale or white fur, use controlled light-to-mid gray shading and darker selective contours to separate the crown, ears, cheeks and muzzle from the background. Do not let the top of the head or face disappear into white. White fur must retain visible depth, curl groups and natural directional texture.
 
-Use a laser-ready three-tone hierarchy: darkest marks only for pupils, nose, mouth and a few deepest facial shadows; medium gray for the eyes, ear folds, curl groups and facial shape; near-white for highlights and open fur. Make the face readable at a 30 mm pendant scale before adding any small texture. Prefer broad, flowing locks of fur over individual hairs.
+Make this a high-fidelity portrait master, not a simplified production engraving. Use a full graphite tonal range: crisp rich-black pupils, nose and mouth; strong dark framing around the eyes; confident medium-gray structure through the forehead, cheek curls, ears and muzzle; and clean white highlights. Render hair in elegant, layered locks that follow the coat direction, with enough precise texture to feel lifelike, but never fuzzy, washed out or generic. The eyes must be expressive and proportionately prominent, the muzzle full and dimensional, and the silhouette clean and confident.
 
-The result should look like a finished high-contrast grayscale pet engraving portrait: an intimate centered head-and-chest composition, polished enough for heirloom jewelry. Avoid pale blue or faint gray wireframe linework, ghostly outlines, edge-detection, flat vector stencil, cartoon styling, dense mechanical crosshatching, or sketchy unfinished marks. Favor the recognizable face, coherent fur masses and clean silhouette over microscopic detail. Output monochrome only.`;
+The result should look like a finished, premium black-and-white pet portrait made for an heirloom keepsake: detailed, luminous, emotionally recognizable and polished. Avoid pale blue or faint gray wireframe linework, ghostly outlines, soft airbrushed fuzz, flat vector stencil, cartoon styling, dense mechanical crosshatching, or sketchy unfinished marks. Preserve the recognizable face, coherent fur masses and refined detail. Output monochrome only.`;
 
 export async function POST(request) {
   try {
