@@ -116,12 +116,13 @@
 .heroCopy {
   position:relative;
   z-index:1;
-  width:48%;
-  background:rgba(247,241,232,.9);
+  width:min(62%,920px);
+  background:linear-gradient(90deg,rgba(247,241,232,1) 0%,rgba(247,241,232,.98) 42%,rgba(247,241,232,.88) 62%,rgba(247,241,232,.48) 82%,rgba(247,241,232,0) 100%);
   display:flex;
   flex-direction:column;
   justify-content:center;
-  padding:90px clamp(30px,7vw,110px)}
+  padding:90px clamp(30px,7vw,110px);
+  padding-right:clamp(110px,12vw,210px)}
 .hero h1,.sectionIntro h2,.centerIntro h2,.story h2,.profile h2,.materials h2,.finalCta h2 {
   font-family:var(--font-serif),Georgia,serif;
   font-weight:400;
@@ -179,7 +180,7 @@
 .heroVisual img {
   position:absolute;
   inset:0;
-  object-position:57% center;
+  object-position:62% center;
   display:block;
   width:100%;
   height:100%;
