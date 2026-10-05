@@ -388,3 +388,15 @@
 .identity-ready-meta span{display:flex;justify-content:space-between;gap:18px;font-size:11px;letter-spacing:.1em;color:#81766c}
 .identity-ready-meta b{font-weight:500;color:#b58a50}
 @media(max-width:700px){.identity-ready{grid-template-columns:1fr}.identity-ready-meta{border-left:0;border-top:1px solid #ded3c5;padding:20px 0 0}}
+
+/* Pet Identity product library */
+.product-library{margin:0 0 48px;padding:34px 0;border-top:1px solid #ded3c5;border-bottom:1px solid #ded3c5}
+.product-library-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+.library-product{min-height:178px;padding:20px;text-align:left;border:1px solid #ded3c5;background:#fbf8f2;color:#49362a;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start}
+.library-product small{font-size:10px;letter-spacing:.16em;color:#b58a50}
+.library-product strong{margin-top:18px;font:400 20px/1.15 Georgia,serif}
+.library-product span{margin-top:8px;color:#81766c;font-size:12px;line-height:1.45}
+.library-product em{margin-top:auto;padding-top:20px;font-style:normal;font-size:11px;letter-spacing:.08em;color:#b58a50}
+.library-product.selected{border-color:#49362a;box-shadow:inset 0 0 0 1px #49362a}
+.library-product.locked{opacity:.48;cursor:not-allowed}
+@media(max-width:700px){.product-library-grid{grid-template-columns:1fr 1fr}.library-product{min-height:165px;padding:16px}}
