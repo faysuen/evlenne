@@ -1,17 +1,11 @@
 import Link from "next/link";
-import { Newsreader } from "next/font/google";
 import styles from "../homepage.module.css";
 
-const serif = Newsreader({ subsets: ["latin"], style: ["normal", "italic"], weight: ["400", "500"], variable: "--font-serif" });
 export const metadata = { title: "Our Story | Evlenne", description: "It started with Jaerong and Minki. The beginning of Evlenne's personalized pet keepsakes." };
 
 // Historical facts recovered from 84b8602, app/page.js, About.
 export default function OurStory() {
-  return <div className={`${styles.home} ${serif.variable}`}>
-    <header className={styles.siteHeader}>
-      <Link href="/" className={styles.logo}><img src="/evlenne-logo-mark.png" alt="Evlenne" /></Link>
-      <Link href="/" className={styles.textCta}>Back to home <span>→</span></Link>
-    </header>
+  return <div className={styles.home}>
     <main className={styles.storyPage}>
       <p className={styles.eyebrow}>OUR BEGINNING</p>
       <h1>It started with<br /><em>Jaerong and Minki.</em></h1>
@@ -22,6 +16,6 @@ export default function OurStory() {
       <p>Some celebrate everyday companionship. Others hold memories. Each begins with an individual pet — their face, personality, and presence.</p>
       <Link href="/studio" className={styles.primaryCta}>Create Your Pet <span>→</span></Link>
     </main>
-    <footer className={styles.footer}><Link href="/">Evlenne homepage →</Link></footer>
+
   </div>;
 }

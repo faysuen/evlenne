@@ -434,3 +434,6 @@
 .pets-signout{border:0;background:transparent;color:var(--soft);font-size:11px;cursor:pointer;padding:8px 0}
 .pets-signout:hover{color:var(--ink)}
 @media(max-width:760px){.pets-account-actions>span{display:none}.pets-account-actions{gap:10px}.pets-signout{font-size:10px}}
+
+/* Shared site navigation surrounds every page. */
+.account-page{min-height:60vh;padding:54px 5vw 72px}.account-card{margin:0 auto}.pets-page{min-height:60vh}.pets-header{justify-content:flex-end;padding:20px 0;height:auto;min-height:72px}.studio-header{display:flex;align-items:center;justify-content:space-between}

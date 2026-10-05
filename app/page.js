@@ -1,8 +1,6 @@
 import Link from "next/link";
-import { Newsreader } from "next/font/google";
 import styles from "./homepage.module.css";
 
-const serif=Newsreader({subsets:["latin"],style:["normal","italic"],weight:["400","500"],variable:"--font-serif"});
 
 const products=[
   ["Portrait Pendant","Wear their portrait close.",null,"Product photography placeholder"],
@@ -12,12 +10,6 @@ const products=[
 ];
 
 const steps=[["01","Create your pet","Upload a favorite photo and tell us their name."],["02","We build their portrait","We turn their features into a reusable Evlenne portrait."],["03","Choose their pieces","Use the same pet identity across jewelry, keepsakes and everyday pieces."],["04","Made for them","We prepare each personalized piece individually in Canada."]];
-
-function SearchIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>}
-function AccountIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.8-3.5 3-5.2 7-5.2s6.2 1.7 7 5.2"/></svg>}
-function BagIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8Z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>}
-
-function Header(){return <header className={styles.siteHeader}><Link href="/" className={styles.logo}><img src="/evlenne-logo-mark.png" alt="Evlenne"/></Link><nav className={styles.desktopNav} aria-label="Main"><a href="#shop">Shop</a><a href="#how-it-works">How It Works</a><a href="/our-story">Our Story</a></nav><div className={styles.headerActions}><button aria-label="Search"><SearchIcon/></button><Link href="/account" aria-label="Account"><AccountIcon/></Link><button aria-label="Bag"><BagIcon/></button><Link href="/studio?mode=new" className={styles.headerCta}>Create Your Pet</Link></div><details className={styles.mobileMenu}><summary aria-label="Open menu"><i/><i/><i/></summary><div><a href="#shop">Shop</a><a href="#how-it-works">How It Works</a><a href="/our-story">Our Story</a><Link href="/studio?mode=new">Create Your Pet</Link></div></details></header>}
 
 function PhotographyPlaceholder({ label, detail = "Real photography to follow" }) { return <div className={styles.photographyPlaceholder} role="img" aria-label={`${label} — photography placeholder`}><span>{label}</span><small>{detail}</small></div>; }
 
@@ -38,6 +30,4 @@ function Beginning(){return <section className={styles.beginning} aria-labelledb
 
 function Materials(){return <section className={styles.materials}><div className={styles.materialCopy}><p className={styles.eyebrow}>THE DETAILS MATTER</p><h2>Made to be <em>kept.</em></h2></div><div className={styles.materialList}>{["316L stainless steel","Walnut keepsake boxes","Thoughtful finishing","Made individually","Carefully packaged"].map(item=><div key={item}><span>—</span><strong>{item}</strong></div>)}</div></section>}
 
-function Footer(){return <footer className={styles.footer}><div className={styles.footerTop}><img src="/evlenne-logo-mark.png" alt="Evlenne"/><p>A personalized lifestyle brand built around the pet you love.</p></div><div className={styles.footerColumns}><div><h3>Shop</h3><a href="#shop">Wear</a><a href="#shop">Carry</a><a href="#shop">Keep</a></div><div><h3>About</h3><a href="/our-story">Our Story</a><a href="#how-it-works">How It Works</a><a href="#faq">FAQ</a></div><div><h3>Help</h3><a href="#contact">Contact</a><a href="#shipping">Shipping</a><a href="#returns">Returns</a></div></div><div className={styles.footerBottom}>© {new Date().getFullYear()} Evlenne</div></footer>}
-
-export default function Home(){return <div className={`${styles.home} ${serif.variable}`}><Header/><main><Hero/><ProductCollection/><Identity/><HowItWorks/><Story/><Beginning/><Materials/><section className={styles.finalCta}><p className={styles.eyebrow}>ONE PET. A WORLD MADE PERSONAL.</p><h2>Start with<br/><em>who they are.</em></h2><Link href="/studio?mode=new" className={styles.primaryCta}>Create Your Pet <span>→</span></Link></section></main><Footer/></div>}
+export default function Home(){return <div className={styles.home}><main><Hero/><ProductCollection/><Identity/><HowItWorks/><Story/><Beginning/><Materials/><section className={styles.finalCta}><p className={styles.eyebrow}>ONE PET. A WORLD MADE PERSONAL.</p><h2>Start with<br/><em>who they are.</em></h2><Link href="/studio?mode=new" className={styles.primaryCta}>Create Your Pet <span>→</span></Link></section></main></div>}

@@ -36,7 +36,7 @@ export async function GET(request){
     }
   }
   if(error){
-    response.headers.set("Location",new URL("/account?auth_error=1",url.origin).toString());
+    response.headers.set("Location",new URL(error?.code==="bad_code_verifier" || error?.code==="flow_state_not_found" || /code verifier/i.test(error?.message || "") ? "/account?auth_error=browser_mismatch" : "/account?auth_error=invalid_link",url.origin).toString());
   }
   // Return the SAME response that received Set-Cookie during the exchange.
   return response;
