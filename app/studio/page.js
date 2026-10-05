@@ -3,6 +3,7 @@ import {Suspense,useEffect,useRef,useState} from "react";
 import {useSearchParams} from "next/navigation";
 import OrderBuilder from "./OrderBuilder";
 import {createPetIdentity} from "../lib/petIdentity";
+import {createClient} from "../lib/supabaseClient";
 
 const SESSION_KEY="evlenne-studio-session";
 
@@ -12,11 +13,12 @@ function StudioContent(){
   const [hydrated,setHydrated]=useState(false),[original,setOriginal]=useState(""),[medallionPortrait,setMedallionPortrait]=useState("");
   const [name,setName]=useState(""),[years,setYears]=useState(""),[step,setStep]=useState(1),[metal,setMetal]=useState("gold"),[packageType,setPackageType]=useState("complete"),[memoryText,setMemoryText]=useState(""),[email,setEmail]=useState("");
   const [zoom,setZoom]=useState(1.55),[x,setX]=useState(50),[y,setY]=useState(38),[aiPortrait,setAiPortrait]=useState(""),[aiWorking,setAiWorking]=useState(false),[error,setError]=useState("");
+  const [sourceFile,setSourceFile]=useState(null),[petId,setPetId]=useState(""),[saving,setSaving]=useState(false);
 
   useEffect(()=>{try{const mode=searchParams.get("mode"),saved=JSON.parse(sessionStorage.getItem(SESSION_KEY)||"null");if(mode==="new"){sessionStorage.removeItem(SESSION_KEY);setStep(1)}else if(saved){setOriginal(saved.original||"");setMedallionPortrait(saved.medallionPortrait||"");setName(saved.name||"");setYears(saved.years||"");setMetal(saved.metal||"gold");setPackageType(saved.packageType||"complete");setMemoryText(saved.memoryText||"");setEmail(saved.email||"");setZoom(saved.zoom||1.55);setX(saved.x||50);setY(saved.y||38);setAiPortrait(saved.aiPortrait||"");setStep(mode==="existing"&&saved.name&&(saved.medallionPortrait||saved.aiPortrait)?4:(saved.step||1))}}catch{}setHydrated(true)},[searchParams]);
   useEffect(()=>{if(!hydrated)return;try{sessionStorage.setItem(SESSION_KEY,JSON.stringify({original,medallionPortrait,name,years,step,metal,packageType,memoryText,email,zoom,x,y,aiPortrait}))}catch{}},[hydrated,original,medallionPortrait,name,years,step,metal,packageType,memoryText,email,zoom,x,y,aiPortrait]);
 
-  function pick(e){const file=e.target.files?.[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{setOriginal(String(reader.result));setAiPortrait("");setMedallionPortrait("");setError("");setStep(1)};reader.readAsDataURL(file)}
+  function pick(e){const file=e.target.files?.[0];if(!file)return;setSourceFile(file);const reader=new FileReader();reader.onload=()=>{setOriginal(String(reader.result));setAiPortrait("");setMedallionPortrait("");setError("");setStep(1)};reader.readAsDataURL(file)}
   async function removeWhiteBackground(blob){const bitmap=await createImageBitmap(blob),canvas=document.createElement("canvas");canvas.width=bitmap.width;canvas.height=bitmap.height;const ctx=canvas.getContext("2d",{willReadFrequently:true});ctx.drawImage(bitmap,0,0);const image=ctx.getImageData(0,0,canvas.width,canvas.height),d=image.data;for(let i=0;i<d.length;i+=4){const r=d[i],g=d[i+1],b=d[i+2],min=Math.min(r,g,b),max=Math.max(r,g,b);if(min>246&&max-min<10)d[i+3]=0;else if(min>226&&max-min<16)d[i+3]=Math.round(255*(246-min)/20)}ctx.putImageData(image,0,0);return canvas.toDataURL("image/png")}
   async function createArtwork(){if(!original||aiWorking)return;setAiWorking(true);setError("");try{const source=await fetch(original).then(r=>r.blob()),form=new FormData();form.append("image",source,"pet-photo.jpg");const response=await fetch("/api/create-portrait",{method:"POST",body:form});if(!response.ok){const info=await response.json().catch(()=>({}));throw new Error(info.error||"Artwork generation failed")}const blob=await response.blob();setAiPortrait(URL.createObjectURL(blob));setMedallionPortrait(await removeWhiteBackground(blob))}catch(err){setError(err.message||"We couldn't create the artwork. Please try again.")}finally{setAiWorking(false)}}
   const petIdentity=createPetIdentity({id:"session-pet",name,years,sourcePhoto:original,masterPortrait:aiPortrait,engravingPortrait:medallionPortrait});
