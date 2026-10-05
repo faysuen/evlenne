@@ -1,19 +1,17 @@
 export const runtime = "nodejs";
-export const maxDuration = 120;
+export const maxDuration = 300;
 
-const PROMPT = `Create a clean black-and-white engraving portrait of the SAME pet in the reference photo, designed as a reusable master portrait for the Evlenne Pet Identity system. The same master must remain recognizable and adaptable across small metal jewelry, portrait coins, leather accessories, travel pieces, and future personalized products.
+const PROMPT = `Create a detailed monochrome grayscale engraving portrait of the SAME pet in the reference photo. This is a portrait master for a personalized keepsake, with the visual character of a fine photographic graphite engraving rather than a sparse outline drawing.
 
-Preserve the pet's identity exactly: face shape, eye size and spacing, expression, nose and muzzle shape, ears, markings, and distinctive features. Do not beautify, breed-standardize, or invent features.
+Preserve the actual pet's identity: face proportions, eyes and their spacing, expression, nose, muzzle, ears, markings, and distinctive coat. Follow the source pose. Do not replace the pet with an idealized breed illustration.
 
-Show the head and a small amount of upper chest, centered, following the source pose. Remove the original scene and use a pure white background.
+Compose the complete head, both ears, and a small natural amount of upper chest, centered and comfortably inside the image with breathing room. Remove the scene and use a pure white background. No border, text, jewelry, or decorations.
 
-Use an elegant, restrained engraving style with clean selective linework. Keep white or light fur mostly as clean white negative space instead of drawing every strand. Use fewer, cleaner lines and prioritize likeness over fur texture. Concentrate detail around the facial features and silhouette.
+Render a complete, readable silhouette. For pale or white fur, use controlled light-to-mid gray shading and darker selective contours to separate the crown, ears, cheeks and muzzle from the background. Do not let the top of the head or face disappear into white. White fur must retain visible depth, curl groups and natural directional texture.
 
-Keep the eyes recognizable and natural. Avoid dark rings around the eyes. Keep highlights in the eyes. Avoid overly dark nose shading or large solid-black areas.
+Use balanced tonal modeling: crisp dark facial landmarks, natural eye highlights, clearly shaped nose and mouth, and visible midtones throughout the head. Keep eye surrounds proportionate and avoid oversized solid-black patches. Group individual hairs into meaningful locks and curls; make their direction recognizable without covering the portrait in noisy hairline hatching.
 
-No pencil-sketch texture, dense crosshatching, noisy micro-lines, edge-detection look, cartoon styling, stencil styling, heavy outlines, scenery, border, text, or decorative elements.
-
-Final result: a refined, highly recognizable master portrait of this specific pet. Keep the composition product-neutral and scalable: clear enough for a 30 mm engraving, elegant enough for jewelry, and consistent enough to reuse across the Evlenne product library.`;
+The result should look like a finished, high-contrast grayscale pet engraving portrait with substantial coat texture and soft dimensional shading. Avoid pale blue or faint gray wireframe linework, ghostly outlines, edge-detection, flat vector stencil, cartoon styling, dense mechanical crosshatching, or sketchy unfinished marks. Favor the recognizable face and coherent fur masses over microscopic detail. Output monochrome only.`;
 
 export async function POST(request) {
   try {
@@ -33,7 +31,7 @@ export async function POST(request) {
         model:"gpt-image-2",
         images:[{image_url:dataUrl}],
         prompt:PROMPT,
-        quality:"low",
+        quality:"high",
         size:"1024x1024",
         output_format:"png",
         n:1

@@ -52,7 +52,17 @@ function StudioContent(){
     catch{if(request===photoRequest.current)setPhotoError("This photo couldn’t be opened. Choose another photo, or export your iPhone photo as JPG.")}
     finally{if(request===photoRequest.current)setPhotoBusy(false)}
   }
-  async function removeWhiteBackground(blob){const bitmap=await createImageBitmap(blob),canvas=document.createElement("canvas");canvas.width=bitmap.width;canvas.height=bitmap.height;const ctx=canvas.getContext("2d",{willReadFrequently:true});ctx.drawImage(bitmap,0,0);const image=ctx.getImageData(0,0,canvas.width,canvas.height),d=image.data;for(let i=0;i<d.length;i+=4){const r=d[i],g=d[i+1],b=d[i+2],min=Math.min(r,g,b),max=Math.max(r,g,b);if(min>246&&max-min<10)d[i+3]=0;else if(min>226&&max-min<16)d[i+3]=Math.round(255*(246-min)/20)}ctx.putImageData(image,0,0);return canvas.toDataURL("image/png")}
+  async function removeWhiteBackground(blob){
+    const bitmap=await createImageBitmap(blob),canvas=document.createElement("canvas");canvas.width=bitmap.width;canvas.height=bitmap.height;
+    const ctx=canvas.getContext("2d",{willReadFrequently:true});ctx.drawImage(bitmap,0,0);bitmap.close();
+    const image=ctx.getImageData(0,0,canvas.width,canvas.height),d=image.data,w=canvas.width,h=canvas.height;
+    // Remove only near-white background connected to an edge; preserve white fur inside the portrait.
+    const seen=new Uint8Array(w*h),queue=new Uint32Array(w*h);let head=0,tail=0;
+    function visit(p){if(seen[p])return;seen[p]=1;const i=p*4,min=Math.min(d[i],d[i+1],d[i+2]),max=Math.max(d[i],d[i+1],d[i+2]);if(d[i+3]===0||(min>226&&max-min<16))queue[tail++]=p;}
+    for(let col=0;col<w;col++){visit(col);visit((h-1)*w+col)}for(let row=0;row<h;row++){visit(row*w);visit(row*w+w-1)}
+    while(head<tail){const p=queue[head++],i=p*4,min=Math.min(d[i],d[i+1],d[i+2]);d[i+3]=min>246?0:Math.min(d[i+3],Math.round(255*(246-min)/20));const col=p%w;if(col>0)visit(p-1);if(col<w-1)visit(p+1);if(p>=w)visit(p-w);if(p<(h-1)*w)visit(p+w);}
+    ctx.putImageData(image,0,0);return canvas.toDataURL("image/png");
+  }
   async function createArtwork(){if(!original||!photoReady||photoBusy||aiWorking)return;setAiWorking(true);setError("");try{const source=await preparePortraitUpload(original),form=new FormData();form.append("image",source,"pet-photo.jpg");const response=await fetch("/api/create-portrait",{method:"POST",body:form});if(!response.ok){const info=await response.json().catch(()=>({}));throw new Error(info.error||(response.status===413?"This photo was too large to send. Please refresh Studio and try again.":response.status===504?"Portrait generation took too long. Please try again.":`Portrait generation failed (HTTP ${response.status}). Please try again.`))}const blob=await response.blob();setAiPortrait(await readPhoto(blob));setMedallionPortrait(await removeWhiteBackground(blob))}catch(err){setError(err.message||"We couldn't create the artwork. Please try again.")}finally{setAiWorking(false)}}
   async function savePetIdentity(){
     if(!name.trim()||saving)return;
