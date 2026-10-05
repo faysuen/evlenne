@@ -427,3 +427,10 @@
 .account-divider:before,.account-divider:after{content:"";height:1px;background:#ded3c5;flex:1}
 .account-card .account-divider+form{margin-top:18px}
 .account-privacy{margin:20px 0 0!important;text-align:center;font-size:11px!important;color:#9a8d80!important}
+
+/* My Pets account controls */
+.pets-account-actions{display:flex;align-items:center;gap:16px}
+.pets-account-actions>span{max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:var(--soft)}
+.pets-signout{border:0;background:transparent;color:var(--soft);font-size:11px;cursor:pointer;padding:8px 0}
+.pets-signout:hover{color:var(--ink)}
+@media(max-width:760px){.pets-account-actions>span{display:none}.pets-account-actions{gap:10px}.pets-signout{font-size:10px}}
