@@ -15,7 +15,26 @@ function StudioContent(){
   const [zoom,setZoom]=useState(1.55),[x,setX]=useState(50),[y,setY]=useState(38),[aiPortrait,setAiPortrait]=useState(""),[aiWorking,setAiWorking]=useState(false),[error,setError]=useState("");
   const [sourceFile,setSourceFile]=useState(null),[petId,setPetId]=useState(""),[saving,setSaving]=useState(false);
 
-  useEffect(()=>{try{const mode=searchParams.get("mode"),saved=JSON.parse(sessionStorage.getItem(SESSION_KEY)||"null");if(mode==="new"){sessionStorage.removeItem(SESSION_KEY);setStep(1)}else if(saved){setOriginal(saved.original||"");setMedallionPortrait(saved.medallionPortrait||"");setName(saved.name||"");setYears(saved.years||"");setMetal(saved.metal||"gold");setPackageType(saved.packageType||"complete");setMemoryText(saved.memoryText||"");setEmail(saved.email||"");setZoom(saved.zoom||1.55);setX(saved.x||50);setY(saved.y||38);setAiPortrait(saved.aiPortrait||"");setStep(mode==="existing"&&saved.name&&(saved.medallionPortrait||saved.aiPortrait)?4:(saved.step||1))}}catch{}setHydrated(true)},[searchParams]);
+  useEffect(()=>{let live=true;(async()=>{try{
+    const requestedPet=searchParams.get("pet"),mode=searchParams.get("mode");
+    if(requestedPet){
+      const supabase=createClient();
+      const {data:{user}}=await supabase.auth.getUser();
+      if(!user){window.location.assign("/account");return}
+      const {data:pet,error}=await supabase.from("pets").select("id,name,years,status,pet_assets(kind,storage_path)").eq("id",requestedPet).single();
+      if(error)throw error;
+      if(!live)return;
+      setPetId(pet.id);setName(pet.name||"");setYears(pet.years||"");
+      const master=pet.pet_assets?.find(a=>a.kind==="portrait_master"),engraving=pet.pet_assets?.find(a=>a.kind==="portrait_engraving");
+      if(master?.storage_path){const {data}=await supabase.storage.from("pet-assets").createSignedUrl(master.storage_path,3600);if(live)setAiPortrait(data?.signedUrl||"")}
+      if(engraving?.storage_path){const {data}=await supabase.storage.from("pet-assets").createSignedUrl(engraving.storage_path,3600);if(live)setMedallionPortrait(data?.signedUrl||"")}
+      if(live)setStep(pet.status==="portrait_ready"?4:2);
+    }else{
+      const saved=JSON.parse(sessionStorage.getItem(SESSION_KEY)||"null");
+      if(mode==="new"){sessionStorage.removeItem(SESSION_KEY);setStep(1)}
+      else if(saved){setOriginal(saved.original||"");setMedallionPortrait(saved.medallionPortrait||"");setName(saved.name||"");setYears(saved.years||"");setMetal(saved.metal||"gold");setPackageType(saved.packageType||"complete");setMemoryText(saved.memoryText||"");setEmail(saved.email||"");setZoom(saved.zoom||1.55);setX(saved.x||50);setY(saved.y||38);setAiPortrait(saved.aiPortrait||"");setStep(saved.step||1)}
+    }
+  }catch(err){if(live)setError(err.message||"We couldn't load this Pet Identity.")}finally{if(live)setHydrated(true)}})();return()=>{live=false}},[searchParams]);
   useEffect(()=>{if(!hydrated)return;try{sessionStorage.setItem(SESSION_KEY,JSON.stringify({original,medallionPortrait,name,years,step,metal,packageType,memoryText,email,zoom,x,y,aiPortrait}))}catch{}},[hydrated,original,medallionPortrait,name,years,step,metal,packageType,memoryText,email,zoom,x,y,aiPortrait]);
 
   function pick(e){const file=e.target.files?.[0];if(!file)return;setSourceFile(file);const reader=new FileReader();reader.onload=()=>{setOriginal(String(reader.result));setAiPortrait("");setMedallionPortrait("");setError("");setStep(1)};reader.readAsDataURL(file)}
