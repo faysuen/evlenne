@@ -411,3 +411,6 @@
 .identity-attachment span{letter-spacing:.12em;color:#81766c}.identity-attachment strong{font-weight:500;color:#49362a}
 .product-next{margin-top:24px;padding:22px;background:#f7f1e8;display:grid;gap:8px}
 .product-next>strong{font:400 22px Georgia,serif}.product-next>span{color:#81766c;font-size:12px}.product-next .checkout-preview{margin-top:12px}
+
+.selection-summary{margin-top:18px;padding:14px 18px;border:1px solid #ded3c5;display:grid;gap:4px}
+.selection-summary>span{font-size:9px;letter-spacing:.16em;color:#b58a50}.selection-summary>strong{font-size:12px;font-weight:500;color:#49362a}.selection-summary>small{color:#81766c}
