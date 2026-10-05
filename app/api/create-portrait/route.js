@@ -1,7 +1,7 @@
 export const runtime = "nodejs";
 export const maxDuration = 120;
 
-const PROMPT = `Create a clean black-and-white engraving portrait of the SAME pet in the reference photo, optimized for a 30 mm metal medallion.
+const PROMPT = `Create a clean black-and-white engraving portrait of the SAME pet in the reference photo, designed as a reusable master portrait for the Evlenne Pet Identity system. The same master must remain recognizable and adaptable across small metal jewelry, portrait coins, leather accessories, travel pieces, and future personalized products.
 
 Preserve the pet's identity exactly: face shape, eye size and spacing, expression, nose and muzzle shape, ears, markings, and distinctive features. Do not beautify, breed-standardize, or invent features.
 
@@ -13,7 +13,7 @@ Keep the eyes recognizable and natural. Avoid dark rings around the eyes. Keep h
 
 No pencil-sketch texture, dense crosshatching, noisy micro-lines, edge-detection look, cartoon styling, stencil styling, heavy outlines, scenery, border, text, or decorative elements.
 
-Final result: a refined, recognizable memorial portrait that remains clean and readable when engraved at 30 mm.`;
+Final result: a refined, highly recognizable master portrait of this specific pet. Keep the composition product-neutral and scalable: clear enough for a 30 mm engraving, elegant enough for jewelry, and consistent enough to reuse across the Evlenne product library.`;
 
 export async function POST(request) {
   try {
