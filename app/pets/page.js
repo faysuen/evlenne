@@ -2,17 +2,40 @@
 import Link from "next/link";
 import {useEffect,useState} from "react";
 import {createClient} from "../lib/supabaseClient";
+import styles from "./pets.module.css";
+
+function Plus(){return <span className={styles.plus} aria-hidden="true">+</span>}
+function Arrow(){return <span className={styles.arrow} aria-hidden="true">→</span>}
+function Paw({portrait=false}){return <span className={portrait?styles.portraitPaw:styles.paw} aria-hidden="true"><img src={portrait?"/brand/pets-portrait-paw.svg":"/brand/pets-paw.svg"} alt=""/></span>}
 
 export default function PetsPage(){
- const [pets,setPets]=useState([]),[loading,setLoading]=useState(true),[signedIn,setSignedIn]=useState(true),[email,setEmail]=useState("");
- useEffect(()=>{let live=true;(async()=>{try{const supabase=createClient();const {data:{user}}=await supabase.auth.getUser();if(!user){if(live){setSignedIn(false);setLoading(false)}return}if(live)setEmail(user.email||"");const {data,error}=await supabase.from("pets").select("id,name,years,status,pet_assets(id,kind,storage_path,approved)").order("created_at",{ascending:false});if(error)throw error;const hydrated=await Promise.all((data||[]).map(async pet=>{const portrait=pet.pet_assets?.find(a=>a.kind==="portrait_engraving"||a.kind==="portrait_master");let portraitUrl="";if(portrait?.storage_path){const {data:signed}=await supabase.storage.from("pet-assets").createSignedUrl(portrait.storage_path,3600);portraitUrl=signed?.signedUrl||""}return {...pet,portraitUrl}}));if(live)setPets(hydrated)}catch(e){console.error(e)}finally{if(live)setLoading(false)}})();return()=>{live=false}},[]);
- if(loading)return <main className="pets-page"><p className="pets-empty">Loading your pets…</p></main>;
- async function signOut(){const supabase=createClient();await supabase.auth.signOut();window.location.assign("/");}
- if(!signedIn)return <main className="pets-page"><section className="pets-hero"><p className="step">YOUR PETS</p><h1>Their world starts here.</h1><p>Sign in to keep every Pet Identity ready across devices.</p><Link href="/account" className="pet-create-link">Sign in →</Link></section></main>;
- return <main className="pets-page">
-  <div className="pets-header"><div className="pets-account-actions"><span>{email}</span><Link href="/studio?mode=new" className="pets-create">+ Create a pet</Link><button type="button" className="pets-signout" onClick={signOut}>Sign out</button></div></div>
-  <section className="pets-hero"><p className="step">YOUR PETS</p><h1>Their world starts here.</h1><p>Each Pet Identity keeps their approved portrait and personal details ready for whatever you create next.</p></section>
-  <section className="pets-grid">{pets.map(pet=>{const paw=pet.pet_assets?.some(a=>a.kind==="paw"),fur=pet.pet_assets?.some(a=>a.kind==="fur");return <article className="pet-profile-card" key={pet.id}><div className="pet-profile-portrait">{pet.portraitUrl?<img src={pet.portraitUrl} alt={pet.name+" portrait"}/>:<span>PORTRAIT</span>}</div><div className="pet-profile-copy"><p>PET IDENTITY</p><h2>{pet.name}</h2>{pet.years&&<span>{pet.years}</span>}<div className="pet-status"><b>PORTRAIT</b><em>{pet.status==="portrait_ready"?"READY ✓":"IN PROGRESS"}</em></div><div className="pet-status"><b>PAW</b><em>{paw?"READY ✓":"ADD +"}</em></div><div className="pet-status"><b>FUR</b><em>{fur?"READY ✓":"ADD +"}</em></div><Link href={"/studio?pet="+pet.id} className="pet-create-link">Create with {pet.name} →</Link></div></article>})}<Link href="/studio?mode=new" className="add-pet-card"><span>+</span><strong>Add a pet</strong><small>Create another Pet Identity</small></Link></section>
-  {!pets.length&&<p className="pets-empty">Create your first Pet Identity to see them here.</p>}
+ const [pets,setPets]=useState([]),[loading,setLoading]=useState(true),[signedIn,setSignedIn]=useState(false),[email,setEmail]=useState(""),[error,setError]=useState(""),[signingOut,setSigningOut]=useState(false);
+ useEffect(()=>{let live=true;(async()=>{try{
+   const supabase=createClient();const {data:{user},error:authError}=await supabase.auth.getUser();
+   if(authError && authError.name!=="AuthSessionMissingError")throw authError;
+   if(!user)return;
+   if(live){setSignedIn(true);setEmail(user.email||"");}
+   const {data,error:queryError}=await supabase.from("pets").select("id,name,years,status,pet_assets(id,kind,storage_path,approved)").order("created_at",{ascending:false});
+   if(queryError)throw queryError;
+   const hydrated=await Promise.all((data||[]).map(async pet=>{
+     const portrait=pet.pet_assets?.find(a=>a.kind==="portrait_engraving"||a.kind==="portrait_master");let portraitUrl="";
+     if(portrait?.storage_path){const {data:signed}=await supabase.storage.from("pet-assets").createSignedUrl(portrait.storage_path,3600);portraitUrl=signed?.signedUrl||"";}
+     return {...pet,portraitUrl};
+   }));if(live)setPets(hydrated);
+ }catch{if(live)setError("We couldn’t load your pets. Please try again.");}finally{if(live)setLoading(false);}})();return()=>{live=false};},[]);
+ async function signOut(){setSigningOut(true);try{const {error}=await createClient().auth.signOut();if(error)throw error;window.location.assign("/");}catch{setError("We couldn’t sign you out. Please try again.");setSigningOut(false);}}
+ return <PetsView {...{pets,loading,signedIn,email,error,signingOut,signOut}}/>;
+}
+
+export function PetsView({pets=[],loading=false,signedIn=false,email="",error="",signingOut=false,signOut=()=>{}}){
+ return <main className={styles.page}>
+  <div className={styles.topline}><nav aria-label="Breadcrumb"><Link href="/">Home</Link><span aria-hidden="true">/</span><span>My pets</span></nav>{signedIn&&<details className={styles.account}><summary><span className={styles.accountDot}/><span>My account</span><span aria-hidden="true">⌄</span></summary><div><span>{email}</span><button type="button" onClick={signOut} disabled={signingOut}>{signingOut?"Signing out…":"Sign out"}</button></div></details>}</div>
+  <section className={styles.heading}><div><p className={styles.eyebrow}>YOUR EVLENNE WORLD</p><h1>My pets.</h1><p>One identity for every piece you make with them.</p></div>{signedIn&&!loading&&pets.length>0&&<Link href="/studio?mode=new" className={styles.primary}><Plus/>Create a pet</Link>}</section>
+  {error?<section className={styles.empty} role="alert"><span className={styles.emblem}><Paw/></span><h2>Let’s try that again.</h2><p>{error}</p><button className={styles.primary} onClick={()=>window.location.reload()}>Try again <Arrow/></button></section>
+   :loading?<div className={styles.loading} role="status"><div className={styles.skeleton}/><div className={styles.skeleton}/><div className={styles.skeleton}/><span>Loading your pets…</span></div>
+   :!signedIn?<section className={styles.empty}><span className={styles.emblem}><Paw/></span><p className={styles.eyebrow}>A PLACE FOR THEIR WORLD</p><h2>Keep them close.<br/><em>Come back anytime.</em></h2><p>Sign in to find your pets, their portraits and the pieces you create together.</p><Link href="/account" className={styles.primary}>Sign in to your account <Arrow/></Link></section>
+   :pets.length===0?<section className={styles.empty}><span className={styles.emblem}><Paw/></span><p className={styles.eyebrow}>EVERY WORLD STARTS WITH ONE PET</p><h2>Make a little space<br/><em>just for them.</em></h2><p>Start with a favorite photo. We’ll keep their portrait and personal details together, ready for every piece you create.</p><Link href="/studio?mode=new" className={styles.primary}><Plus/>Create your first pet</Link><span className={styles.note}>Their photo. Their personality. A world made personal.</span></section>
+   :<section className={styles.collection} aria-label="Your pet identities"><div className={styles.grid}>{pets.map(pet=><article className={styles.card} key={pet.id}><Link className={styles.portrait} href={"/studio?pet="+pet.id} aria-label={"View "+pet.name}>{pet.portraitUrl?<img src={pet.portraitUrl} alt={pet.name+" portrait"}/>:<div className={styles.portraitPending}><Paw portrait/><span>Their portrait is taking shape</span></div>}</Link><div className={styles.cardCopy}><p className={styles.eyebrow}>PET IDENTITY</p><h2>{pet.name}</h2>{pet.years&&<p className={styles.years}>{pet.years}</p>}<div className={styles.features}><span>Portrait <b>{pet.status==="portrait_ready"?"Ready":"In progress"}</b></span><span>Paw <b>{pet.pet_assets?.some(a=>a.kind==="paw")?"Added":"Not added"}</b></span><span>Fur <b>{pet.pet_assets?.some(a=>a.kind==="fur")?"Added":"Not added"}</b></span></div><Link href={"/studio?pet="+pet.id} className={styles.cardLink}>Create with {pet.name}<Arrow/></Link></div></article>)}<Link href="/studio?mode=new" className={styles.addCard}><span><Plus/></span><h2>Another pet.<br/>Another world.</h2><p>Add someone else you love.</p><b>Create a pet <Arrow/></b></Link></div></section>}
+  {!loading&&!error&&<aside className={styles.details}><div><span>01</span><h3>A portrait of their own</h3><p>Made from a photo you love.</p></div><div><span>02</span><h3>All the little details</h3><p>Their name, their story, their identity.</p></div><div><span>03</span><h3>Create with them again</h3><p>One pet, a growing world of pieces.</p></div></aside>}
  </main>;
 }
