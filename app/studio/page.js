@@ -1,7 +1,7 @@
 "use client";
 import {Suspense,useEffect,useRef,useState} from "react";
 import {useSearchParams} from "next/navigation";
-import {preparePhoto,readPhoto} from "../lib/preparePhoto";
+import {preparePhoto,readPhoto,preparePortraitUpload} from "../lib/preparePhoto";
 import atelier from "./atelier.module.css";
 import {StudioProgress,PhotoStep,ArtworkStep,FinishStep} from "./Atelier";
 import OrderBuilder from "./OrderBuilder";
@@ -53,7 +53,7 @@ function StudioContent(){
     finally{if(request===photoRequest.current)setPhotoBusy(false)}
   }
   async function removeWhiteBackground(blob){const bitmap=await createImageBitmap(blob),canvas=document.createElement("canvas");canvas.width=bitmap.width;canvas.height=bitmap.height;const ctx=canvas.getContext("2d",{willReadFrequently:true});ctx.drawImage(bitmap,0,0);const image=ctx.getImageData(0,0,canvas.width,canvas.height),d=image.data;for(let i=0;i<d.length;i+=4){const r=d[i],g=d[i+1],b=d[i+2],min=Math.min(r,g,b),max=Math.max(r,g,b);if(min>246&&max-min<10)d[i+3]=0;else if(min>226&&max-min<16)d[i+3]=Math.round(255*(246-min)/20)}ctx.putImageData(image,0,0);return canvas.toDataURL("image/png")}
-  async function createArtwork(){if(!original||!photoReady||photoBusy||aiWorking)return;setAiWorking(true);setError("");try{const source=await fetch(original).then(r=>r.blob()),form=new FormData();form.append("image",source,"pet-photo.jpg");const response=await fetch("/api/create-portrait",{method:"POST",body:form});if(!response.ok){const info=await response.json().catch(()=>({}));throw new Error(info.error||"Artwork generation failed")}const blob=await response.blob();setAiPortrait(await readPhoto(blob));setMedallionPortrait(await removeWhiteBackground(blob))}catch(err){setError(err.message||"We couldn't create the artwork. Please try again.")}finally{setAiWorking(false)}}
+  async function createArtwork(){if(!original||!photoReady||photoBusy||aiWorking)return;setAiWorking(true);setError("");try{const source=await preparePortraitUpload(original),form=new FormData();form.append("image",source,"pet-photo.jpg");const response=await fetch("/api/create-portrait",{method:"POST",body:form});if(!response.ok){const info=await response.json().catch(()=>({}));throw new Error(info.error||(response.status===413?"This photo was too large to send. Please refresh Studio and try again.":response.status===504?"Portrait generation took too long. Please try again.":`Portrait generation failed (HTTP ${response.status}). Please try again.`))}const blob=await response.blob();setAiPortrait(await readPhoto(blob));setMedallionPortrait(await removeWhiteBackground(blob))}catch(err){setError(err.message||"We couldn't create the artwork. Please try again.")}finally{setAiWorking(false)}}
   async function savePetIdentity(){
     if(!name.trim()||saving)return;
     setSaving(true);setError("");

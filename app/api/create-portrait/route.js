@@ -22,7 +22,7 @@ export async function POST(request) {
     const incoming=await request.formData();
     const image=incoming.get("image");
     if(!image || typeof image==="string") return Response.json({error:"No image uploaded."},{status:400});
-    if(image.size>20*1024*1024) return Response.json({error:"Image is too large."},{status:413});
+    if(image.size>3*1024*1024) return Response.json({error:"This photo is too large to send. Please refresh Studio and try again."},{status:413});
 
     const bytes=Buffer.from(await image.arrayBuffer());
     const dataUrl=`data:${image.type||"image/jpeg"};base64,${bytes.toString("base64")}`;

@@ -16,3 +16,23 @@ export async function preparePhoto(file){
   const url=await readPhoto(photo);await validatePhoto(url);
   return {file:photo,url};
 }
+
+// Keep multipart uploads below the hosting platform's request limit.
+export async function preparePortraitUpload(photoUrl){
+  const image=new Image();
+  await new Promise((resolve,reject)=>{image.onload=resolve;image.onerror=()=>reject(new Error('Your photo could not be opened. Please choose it again.'));image.src=photoUrl});
+  const canvas=document.createElement('canvas');
+  const scale=Math.min(1,2048/Math.max(image.naturalWidth,image.naturalHeight));
+  canvas.width=Math.max(1,Math.round(image.naturalWidth*scale));
+  canvas.height=Math.max(1,Math.round(image.naturalHeight*scale));
+  const ctx=canvas.getContext('2d');
+  if(!ctx)throw new Error('Your browser could not prepare this photo. Please try another browser.');
+  ctx.fillStyle='#ffffff';ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.drawImage(image,0,0,canvas.width,canvas.height);
+  for(const quality of [.9,.8,.7,.6]){
+    const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',quality));
+    if(!blob)throw new Error('Your photo could not be prepared. Please choose it again.');
+    if(blob.size<=3*1024*1024)return blob;
+  }
+  throw new Error('This photo is too detailed to send. Please choose a smaller photo.');
+}
