@@ -14,7 +14,7 @@ const DRAFT_DB="evlenne-studio-draft";
 const DRAFT_STORE="sessions";
 function openDraftDB(){return new Promise((resolve,reject)=>{if(typeof indexedDB==="undefined"){reject(new Error("IndexedDB unavailable"));return}const req=indexedDB.open(DRAFT_DB,1);req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains(DRAFT_STORE))req.result.createObjectStore(DRAFT_STORE)};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error||new Error("Draft storage unavailable"))})}
 async function readDraft(){try{const db=await openDraftDB();return await new Promise((resolve,reject)=>{const req=db.transaction(DRAFT_STORE,"readonly").objectStore(DRAFT_STORE).get("current");req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error)})}catch{return null}}
-async function writeDraft(value){try{const db=await openDraftDB();await new Promise((resolve,reject)=>{const req=db.transaction(DRAFT_STORE,"readwrite").objectStore(DRAFT_STORE).put(value,"current");req.onsuccess=()=>resolve();req.onerror=()=>reject(req.error)})}catch{}}
+async function writeDraft(value){const db=await openDraftDB();return await new Promise((resolve,reject)=>{const tx=db.transaction(DRAFT_STORE,"readwrite");tx.objectStore(DRAFT_STORE).put(value,"current");tx.oncomplete=()=>resolve(true);tx.onerror=()=>reject(tx.error||new Error("Draft write failed"));tx.onabort=()=>reject(tx.error||new Error("Draft write aborted"))})}
 async function clearDraft(){try{const db=await openDraftDB();await new Promise((resolve,reject)=>{const req=db.transaction(DRAFT_STORE,"readwrite").objectStore(DRAFT_STORE).delete("current");req.onsuccess=()=>resolve();req.onerror=()=>reject(req.error)})}catch{}}
 
 function StudioContent(){
@@ -86,7 +86,27 @@ function StudioContent(){
     while(head<tail){const p=queue[head++],i=p*4,min=Math.min(d[i],d[i+1],d[i+2]);d[i+3]=min>246?0:Math.min(d[i+3],Math.round(255*(246-min)/20));const col=p%w;if(col>0)visit(p-1);if(col<w-1)visit(p+1);if(p>=w)visit(p-w);if(p<(h-1)*w)visit(p+w);}
     ctx.putImageData(image,0,0);return canvas.toDataURL("image/png");
   }
-  async function createArtwork(){if(!original||!photoReady||photoBusy||aiWorking)return;setAiWorking(true);setError("");const controller=new AbortController(),timeout=window.setTimeout(()=>controller.abort(),115000);try{const source=await preparePortraitUpload(original),form=new FormData();form.append("image",source,"pet-photo.jpg");const response=await fetch("/api/create-portrait",{method:"POST",body:form,signal:controller.signal});if(!response.ok){const info=await response.json().catch(()=>({}));throw new Error(info.error||(response.status===413?"This photo was too large to send. Please refresh Studio and try again.":response.status===504?"Portrait generation took too long. Please try again.":`Portrait generation failed (HTTP ${response.status}). Please try again.`))}const portrait=await readPhoto(await response.blob());setAiPortrait(portrait);setMedallionPortrait(portrait)}catch(err){setError(err.name==="AbortError"?"Portrait generation took too long. Please try again.":err.message||"We couldn't create the artwork. Please try again.")}finally{window.clearTimeout(timeout);setAiWorking(false)}}
+  async function createArtwork(){
+    if(!original||!photoReady||photoBusy||aiWorking)return;
+    setAiWorking(true);setError("");
+    const controller=new AbortController(),timeout=window.setTimeout(()=>controller.abort(),115000);
+    try{
+      const source=await preparePortraitUpload(original),form=new FormData();
+      form.append("image",source,"pet-photo.jpg");
+      const response=await fetch("/api/create-portrait",{method:"POST",body:form,signal:controller.signal});
+      if(!response.ok){
+        const info=await response.json().catch(()=>({}));
+        throw new Error(info.error||(response.status===413?"This photo was too large to send. Please refresh Studio and try again.":response.status===504?"Portrait generation took too long. Please try again.":"Portrait generation failed. Please try again."));
+      }
+      const portrait=await readPhoto(await response.blob());
+      const durableDraft={original,medallionPortrait:portrait,name,years,step:2,metal,packageType,memoryText,email,zoom,x,y,aiPortrait:portrait,petId};
+      await writeDraft(durableDraft);
+      try{sessionStorage.setItem(SESSION_KEY,JSON.stringify({...durableDraft,original:"",medallionPortrait:"",aiPortrait:""}))}catch{}
+      setAiPortrait(portrait);setMedallionPortrait(portrait);setStep(2);
+    }catch(err){
+      setError(err.name==="AbortError"?"Portrait generation took too long. Please try again.":err.message||"We couldn't create the artwork. Please try again.");
+    }finally{window.clearTimeout(timeout);setAiWorking(false)}
+  }
   async function savePetIdentity(){
     if(!name.trim()||saving)return;
     setSaving(true);setError("");
