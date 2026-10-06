@@ -10,6 +10,13 @@ import {createClient} from "../lib/supabaseClient";
 
 const SESSION_KEY="evlenne-studio-session";
 
+const DRAFT_DB="evlenne-studio-draft";
+const DRAFT_STORE="sessions";
+function openDraftDB(){return new Promise((resolve,reject)=>{if(typeof indexedDB==="undefined"){reject(new Error("IndexedDB unavailable"));return}const req=indexedDB.open(DRAFT_DB,1);req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains(DRAFT_STORE))req.result.createObjectStore(DRAFT_STORE)};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error||new Error("Draft storage unavailable"))})}
+async function readDraft(){try{const db=await openDraftDB();return await new Promise((resolve,reject)=>{const req=db.transaction(DRAFT_STORE,"readonly").objectStore(DRAFT_STORE).get("current");req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error)})}catch{return null}}
+async function writeDraft(value){try{const db=await openDraftDB();await new Promise((resolve,reject)=>{const req=db.transaction(DRAFT_STORE,"readwrite").objectStore(DRAFT_STORE).put(value,"current");req.onsuccess=()=>resolve();req.onerror=()=>reject(req.error)})}catch{}}
+async function clearDraft(){try{const db=await openDraftDB();await new Promise((resolve,reject)=>{const req=db.transaction(DRAFT_STORE,"readwrite").objectStore(DRAFT_STORE).delete("current");req.onsuccess=()=>resolve();req.onerror=()=>reject(req.error)})}catch{}}
+
 function StudioContent(){
   const searchParams=useSearchParams();
   const input=useRef(null),photoRequest=useRef(0);
@@ -36,17 +43,28 @@ function StudioContent(){
       if(engraving?.storage_path){const {data}=await supabase.storage.from("pet-assets").createSignedUrl(engraving.storage_path,3600);if(live)setMedallionPortrait(data?.signedUrl||"")}
       if(live)setStep(pet.status==="portrait_ready"?4:2);
     }else{
-      const saved=JSON.parse(sessionStorage.getItem(SESSION_KEY)||"null");
+      let saved=null;
+      try{saved=JSON.parse(sessionStorage.getItem(SESSION_KEY)||"null")}catch{}
+      // sessionStorage is only a small cache. The actual Studio draft (including
+      // large photos/portraits) lives in IndexedDB so leaving Studio or navigating
+      // to another page cannot silently lose the work when storage quota is exceeded.
+      const durable=await readDraft();
+      if(durable)saved={...(saved||{}),...durable};
       if(mode==="new"){
-        sessionStorage.removeItem(SESSION_KEY);
-        setStep(1);
-        // "new" is a one-time entry instruction. Remove it from the URL immediately
-        // so a later remount (including 03 → 01 navigation) cannot wipe the draft.
+        // "new" is a one-time entry instruction. Do not erase an unfinished draft
+        // just because the user left Studio and came back through the homepage.
+        if(!saved||saved.step>=4){sessionStorage.removeItem(SESSION_KEY);await clearDraft();saved=null;setStep(1)}else{setStep(saved.step||1)}
         window.history.replaceState(null,"","/studio");
-      }else if(saved){if(saved.original){setPhotoBusy(true);try{const blob=await fetch(saved.original).then(r=>r.blob());const restored=await preparePhoto(new File([blob],"pet-photo",{type:blob.type}));if(live){setOriginal(restored.url);setSourceFile(restored.file);setPhotoReady(true)}}catch{if(live)setPhotoError("This photo couldn’t be opened. Choose another photo, or export your iPhone photo as JPG.")}finally{if(live)setPhotoBusy(false)}}setPetId(saved.petId||"");setMedallionPortrait(saved.medallionPortrait||"");setName(saved.name||"");setYears(saved.years||"");setMetal(saved.metal||"gold");setPackageType(saved.packageType||"complete");setMemoryText(saved.memoryText||"");setEmail(saved.email||"");setZoom(saved.zoom||1.55);setX(saved.x||50);setY(saved.y||38);setAiPortrait(saved.aiPortrait||"");setStep(saved.step||1)}
+      }
+      if(saved){if(saved.original){setPhotoBusy(true);try{const blob=await fetch(saved.original).then(r=>r.blob());const restored=await preparePhoto(new File([blob],"pet-photo",{type:blob.type}));if(live){setOriginal(restored.url);setSourceFile(restored.file);setPhotoReady(true)}}catch{if(live)setPhotoError("This photo couldn’t be opened. Choose another photo, or export your iPhone photo as JPG.")}finally{if(live)setPhotoBusy(false)}}setPetId(saved.petId||"");setMedallionPortrait(saved.medallionPortrait||"");setName(saved.name||"");setYears(saved.years||"");setMetal(saved.metal||"gold");setPackageType(saved.packageType||"complete");setMemoryText(saved.memoryText||"");setEmail(saved.email||"");setZoom(saved.zoom||1.55);setX(saved.x||50);setY(saved.y||38);setAiPortrait(saved.aiPortrait||"");setStep(saved.step||1)}
     }
   }catch(err){if(live)setError(err.message||"We couldn't load this Pet Identity.")}finally{if(live)setHydrated(true)}})();return()=>{live=false}},[searchParams]);
-  useEffect(()=>{if(!hydrated)return;try{sessionStorage.setItem(SESSION_KEY,JSON.stringify({original,medallionPortrait,name,years,step,metal,packageType,memoryText,email,zoom,x,y,aiPortrait,petId}))}catch{}},[hydrated,original,medallionPortrait,name,years,step,metal,packageType,memoryText,email,zoom,x,y,aiPortrait]);
+  useEffect(()=>{if(!hydrated)return;const draft={original,medallionPortrait,name,years,step,metal,packageType,memoryText,email,zoom,x,y,aiPortrait,petId};
+    // Keep a lightweight copy in sessionStorage and the complete draft in IndexedDB.
+    // This avoids the silent 5 MB-class Web Storage quota problem with photo data URLs.
+    try{sessionStorage.setItem(SESSION_KEY,JSON.stringify({...draft,original:"",medallionPortrait:"",aiPortrait:""}))}catch{}
+    writeDraft(draft);
+  },[hydrated,original,medallionPortrait,name,years,step,metal,packageType,memoryText,email,zoom,x,y,aiPortrait,petId]);
 
   async function pick(e){
     const file=e.target.files?.[0];if(!file)return;e.target.value="";
