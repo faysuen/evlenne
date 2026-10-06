@@ -22,7 +22,7 @@ function StudioContent(){
   const input=useRef(null),photoRequest=useRef(0);
   const [hydrated,setHydrated]=useState(false),[original,setOriginal]=useState(""),[medallionPortrait,setMedallionPortrait]=useState("");
   const [name,setName]=useState(""),[years,setYears]=useState(""),[step,setStep]=useState(1),[metal,setMetal]=useState("gold"),[packageType,setPackageType]=useState("complete"),[memoryText,setMemoryText]=useState(""),[email,setEmail]=useState("");
-  const [zoom,setZoom]=useState(1.55),[x,setX]=useState(50),[y,setY]=useState(38),[aiPortrait,setAiPortrait]=useState(""),[aiWorking,setAiWorking]=useState(false),[error,setError]=useState("");
+  const [zoom,setZoom]=useState(1.55),[x,setX]=useState(50),[y,setY]=useState(50),[aiPortrait,setAiPortrait]=useState(""),[aiWorking,setAiWorking]=useState(false),[error,setError]=useState("");
   const [photoBusy,setPhotoBusy]=useState(false),[photoReady,setPhotoReady]=useState(false),[photoError,setPhotoError]=useState("");
   const [sourceFile,setSourceFile]=useState(null),[petId,setPetId]=useState(""),[saving,setSaving]=useState(false);
 
