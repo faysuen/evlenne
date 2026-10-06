@@ -37,11 +37,16 @@ function StudioContent(){
       if(live)setStep(pet.status==="portrait_ready"?4:2);
     }else{
       const saved=JSON.parse(sessionStorage.getItem(SESSION_KEY)||"null");
-      if(mode==="new"){sessionStorage.removeItem(SESSION_KEY);setStep(1)}
-      else if(saved){if(saved.original){setPhotoBusy(true);try{const blob=await fetch(saved.original).then(r=>r.blob());const restored=await preparePhoto(new File([blob],"pet-photo",{type:blob.type}));if(live){setOriginal(restored.url);setSourceFile(restored.file);setPhotoReady(true)}}catch{if(live)setPhotoError("This photo couldn’t be opened. Choose another photo, or export your iPhone photo as JPG.")}finally{if(live)setPhotoBusy(false)}}setMedallionPortrait(saved.medallionPortrait||"");setName(saved.name||"");setYears(saved.years||"");setMetal(saved.metal||"gold");setPackageType(saved.packageType||"complete");setMemoryText(saved.memoryText||"");setEmail(saved.email||"");setZoom(saved.zoom||1.55);setX(saved.x||50);setY(saved.y||38);setAiPortrait(saved.aiPortrait||"");setStep(saved.step||1)}
+      if(mode==="new"){
+        sessionStorage.removeItem(SESSION_KEY);
+        setStep(1);
+        // "new" is a one-time entry instruction. Remove it from the URL immediately
+        // so a later remount (including 03 → 01 navigation) cannot wipe the draft.
+        window.history.replaceState(null,"","/studio");
+      }else if(saved){if(saved.original){setPhotoBusy(true);try{const blob=await fetch(saved.original).then(r=>r.blob());const restored=await preparePhoto(new File([blob],"pet-photo",{type:blob.type}));if(live){setOriginal(restored.url);setSourceFile(restored.file);setPhotoReady(true)}}catch{if(live)setPhotoError("This photo couldn’t be opened. Choose another photo, or export your iPhone photo as JPG.")}finally{if(live)setPhotoBusy(false)}}setPetId(saved.petId||"");setMedallionPortrait(saved.medallionPortrait||"");setName(saved.name||"");setYears(saved.years||"");setMetal(saved.metal||"gold");setPackageType(saved.packageType||"complete");setMemoryText(saved.memoryText||"");setEmail(saved.email||"");setZoom(saved.zoom||1.55);setX(saved.x||50);setY(saved.y||38);setAiPortrait(saved.aiPortrait||"");setStep(saved.step||1)}
     }
   }catch(err){if(live)setError(err.message||"We couldn't load this Pet Identity.")}finally{if(live)setHydrated(true)}})();return()=>{live=false}},[searchParams]);
-  useEffect(()=>{if(!hydrated)return;try{sessionStorage.setItem(SESSION_KEY,JSON.stringify({original,medallionPortrait,name,years,step,metal,packageType,memoryText,email,zoom,x,y,aiPortrait}))}catch{}},[hydrated,original,medallionPortrait,name,years,step,metal,packageType,memoryText,email,zoom,x,y,aiPortrait]);
+  useEffect(()=>{if(!hydrated)return;try{sessionStorage.setItem(SESSION_KEY,JSON.stringify({original,medallionPortrait,name,years,step,metal,packageType,memoryText,email,zoom,x,y,aiPortrait,petId}))}catch{}},[hydrated,original,medallionPortrait,name,years,step,metal,packageType,memoryText,email,zoom,x,y,aiPortrait]);
 
   async function pick(e){
     const file=e.target.files?.[0];if(!file)return;e.target.value="";
