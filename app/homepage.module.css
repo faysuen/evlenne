@@ -217,13 +217,15 @@
 .productImage {
   aspect-ratio:1/1.08;
   background:#eee4d8;
-  overflow:hidden}
+  overflow:hidden;
+  position:relative}
 .productImage img {
   width:100%;
   height:100%;
   display:block;
   object-fit:cover;
   transition:transform .3s}
+.productImage .productMock{position:absolute;width:200%;height:200%;max-width:none;object-fit:fill;transition:transform .3s}.productImage .coin{left:0;top:0}.productImage .pendant{left:-100%;top:0}.productImage .travelTag{left:0;top:-100%}.productImage .pawKeepsake{left:-100%;top:-100%}
 .productItem:hover .productImage img {
   transform:scale(1.03)}
 .productItem h3 {
