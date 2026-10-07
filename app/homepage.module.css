@@ -6,11 +6,13 @@
   --taupe:#81766c;
   --gold:#b58a50;
   --line:#ded3c5;
-  min-height:100vh;
   background:var(--ivory);
   color:var(--brown);
   font-family:Arial,sans-serif;
   }
+.home>main {
+  min-height:100vh;
+}
 .home a {
   color:inherit;
   text-decoration:none}
@@ -690,7 +692,9 @@
   display:block;
   margin-bottom:8px;
   color:var(--brown);
-  font:30px/1 var(--font-serif),Georgia,serif;
+  width:32px;
+  height:32px;
+  flex:0 0 auto;
 }
 .heroPromises strong {
   font:400 14px/1.2 var(--font-serif),Georgia,serif;
@@ -703,5 +707,5 @@
 @media(max-width:700px) {
   .heroPromises {grid-template-columns:repeat(2,1fr)}
   .heroPromises>div {min-height:104px;border-bottom:1px solid var(--line)}
-  .heroVisual img {object-position:center center}
+  .heroVisual img {object-position:74% center}
 }
