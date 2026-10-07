@@ -20,7 +20,7 @@ async function clearDraft(){try{const db=await openDraftDB();await new Promise((
 function StudioContent(){
   const searchParams=useSearchParams();
   const input=useRef(null),photoRequest=useRef(0);
-  const [hydrated,setHydrated]=useState(false),[original,setOriginal]=useState(""),[medallionPortrait,setMedallionPortrait]=useState("");
+  const [hydrated,setHydrated]=useState(false),[original,setOriginal]=useState(""),[medallionPortrait,setMedallionPortrait]=useState(""),[selectedProduct]=useState(()=>searchParams.get("product")||"portrait-coin");
   const [name,setName]=useState(""),[years,setYears]=useState(""),[step,setStep]=useState(1),[metal,setMetal]=useState("gold"),[packageType,setPackageType]=useState("complete"),[memoryText,setMemoryText]=useState(""),[email,setEmail]=useState("");
   const [zoom,setZoom]=useState(1.55),[x,setX]=useState(50),[y,setY]=useState(50),[aiPortrait,setAiPortrait]=useState(""),[aiWorking,setAiWorking]=useState(false),[error,setError]=useState("");
   const [photoBusy,setPhotoBusy]=useState(false),[photoReady,setPhotoReady]=useState(false),[photoError,setPhotoError]=useState("");
@@ -156,7 +156,7 @@ function StudioContent(){
     {step===1&&<PhotoStep {...{input,pick,original,photoReady,photoBusy,photoError,setPhotoReady,setPhotoError,go}}/>}
     {step===2&&<ArtworkStep {...{name,original,aiPortrait,medallionPortrait,aiWorking,error,createArtwork,zoom,setZoom,x,setX,y,setY,go}}/>}
     {step===3&&<FinishStep {...{name,setName,years,setYears,metal,setMetal,medallionPortrait,zoom,x,y,saving,error,savePetIdentity,go}}/>}
-    {step===4&&<section className="flow-step flow-order"><OrderBuilder metal={metal} setMetal={setMetal} petName={name} years={years} petIdentity={petIdentity} onBack={()=>go(3)}/></section>}
+    {step===4&&<section className="flow-step flow-order"><OrderBuilder initialProduct={selectedProduct} metal={metal} setMetal={setMetal} petName={name} years={years} petIdentity={petIdentity} onBack={()=>go(3)}/></section>}
   </main>
 }
 

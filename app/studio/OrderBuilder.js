@@ -14,9 +14,10 @@ const productLibrary=[
 
 function Choice({active,onClick,children}){return <button type="button" className={"choice-pill "+(active?"selected":"")} onClick={onClick}>{children}</button>}
 
-export default function OrderBuilder({metal="gold",setMetal,petName="",petIdentity=null,onBack}){
-  const [selectedProduct,setSelectedProduct]=useState("portrait-coin");
-  const [productOption,setProductOption]=useState("30 mm");
+export default function OrderBuilder({initialProduct="portrait-coin",metal="gold",setMetal,petName="",petIdentity=null,onBack}){
+  const initial=productLibrary.find(item=>item.id===initialProduct)||productLibrary[0];
+  const [selectedProduct,setSelectedProduct]=useState(initial.id);
+  const [productOption,setProductOption]=useState(initial.options?.[0]||"");
   const [finish,setFinish]=useState(metal||"gold");
   useEffect(()=>setFinish(metal||"gold"),[metal]);
   const product=useMemo(()=>productLibrary.find(item=>item.id===selectedProduct)||productLibrary[0],[selectedProduct]);
