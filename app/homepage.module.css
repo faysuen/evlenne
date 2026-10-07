@@ -225,9 +225,7 @@
   display:block;
   object-fit:cover;
   transition:transform .3s}
-.productImage .productMock{position:absolute;width:200%;height:200%;max-width:none;object-fit:fill;transition:transform .3s}.productImage .coin{left:0;top:0}.productImage .pendant{left:-100%;top:0}.productImage .travelTag{left:0;top:-100%}.productImage .pawKeepsake{left:-100%;top:-100%}
-.productItem:hover .productImage img {
-  transform:scale(1.03)}
+.productImage .productMock{position:absolute;inset:0;display:block;background-image:url('/products/evlenne-pet-keepsakes.png');background-size:200% 200%;background-repeat:no-repeat;transition:transform .3s}.productImage .coin{background-position:0 0}.productImage .pendant{background-position:100% 0}.productImage .travelTag{background-position:0 100%}.productImage .pawKeepsake{background-position:100% 100%}.productItem:hover .productImage .productMock{transform:scale(1.03)}
 .productItem h3 {
   margin:18px 0 6px;
   font:400 17px var(--font-serif),Georgia,serif}
