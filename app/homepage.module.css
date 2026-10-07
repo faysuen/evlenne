@@ -113,7 +113,7 @@
   position:relative;
   isolation:isolate;
   display:flex;
-  min-height:650px;
+  min-height:730px;
   border-bottom:1px solid var(--line)}
 .heroCopy {
   position:relative;
@@ -123,7 +123,7 @@
   display:flex;
   flex-direction:column;
   justify-content:center;
-  padding:90px clamp(30px,7vw,110px);
+  padding:170px clamp(30px,7vw,110px) 90px;
   padding-right:clamp(70px,8vw,140px)}
 .hero h1,.sectionIntro h2,.centerIntro h2,.story h2,.profile h2,.materials h2,.finalCta h2 {
   font-family:var(--font-serif),Georgia,serif;
@@ -176,7 +176,7 @@
   position:absolute;
   inset:0;
   z-index:-1;
-  min-height:650px;
+  min-height:730px;
   background:#e9dfd2;
   overflow:hidden}
 .heroVisual img {
@@ -553,7 +553,7 @@
   min-height:0}
 .heroCopy {
   width:100%;
-  padding:70px 24px 60px}
+  padding:134px 24px 60px}
 .hero h1 {
   font-size:clamp(48px,14vw,64px)}
 .heroLead {
@@ -709,3 +709,11 @@
   .heroPromises>div {min-height:104px;border-bottom:1px solid var(--line)}
   .heroVisual img {object-position:74% center}
 }
+
+/* A light overlay lets the homepage photograph continue behind navigation. */
+.home.homepageHeader {position:absolute;top:0;left:0;width:100%;z-index:20;background:transparent}
+.homepageHeader .siteHeader {min-height:80px;padding:12px clamp(24px,5vw,76px);background:rgba(251,248,242,.48);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(222,211,197,.35)}
+.homepageHeader .logo {width:168px}
+.homepageHeader .headerCta {padding:10px 14px;background:transparent;border:1px solid rgba(73,54,42,.45);color:var(--brown)!important;font-size:12px}
+.homepageHeader .mobileMenu>div {top:100%}
+@media(max-width:700px){.homepageHeader .siteHeader {min-height:64px;padding:8px 20px}.homepageHeader .logo {width:144px}}
