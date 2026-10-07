@@ -516,7 +516,7 @@
   display:block;
   margin-left:0}
 }
-@media(max-width:1000px) {
+@media(max-width:1180px) {
   .desktopNav {
   gap:18px}
 .headerActions {
@@ -524,7 +524,7 @@
 .headerCta {
   padding:11px 12px}
 .productGrid {
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(2,minmax(0,1fr));
   row-gap:42px}
 .productImage {
   aspect-ratio:1/1}
