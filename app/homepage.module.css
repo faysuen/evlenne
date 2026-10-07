@@ -711,9 +711,13 @@
 }
 
 /* A light overlay lets the homepage photograph continue behind navigation. */
-.home.homepageHeader {position:absolute;top:0;left:0;width:100%;z-index:20;background:transparent}
+.home.homepageHeader {position:fixed;top:0;left:0;width:100%;z-index:20;background:transparent}
 .homepageHeader .siteHeader {min-height:80px;padding:12px clamp(24px,5vw,76px);background:rgba(251,248,242,.48);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(222,211,197,.35)}
 .homepageHeader .logo {width:168px}
 .homepageHeader .headerCta {padding:10px 14px;background:transparent;border:1px solid rgba(73,54,42,.45);color:var(--brown)!important;font-size:12px}
 .homepageHeader .mobileMenu>div {top:100%}
 @media(max-width:700px){.homepageHeader .siteHeader {min-height:64px;padding:8px 20px}.homepageHeader .logo {width:144px}}
+
+.homepageHeader .siteHeader {transition:background .2s ease,box-shadow .2s ease}
+.headerScrolled .siteHeader {background:rgba(251,248,242,.94);box-shadow:0 3px 16px rgba(48,38,33,.06)}
+@media(prefers-reduced-motion:reduce){.homepageHeader .siteHeader {transition:none}}
