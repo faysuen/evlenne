@@ -668,3 +668,40 @@
 .footerBottom {
   padding-top:18px}
 }
+
+
+/* Hero photo + trust strip */
+.heroPromises {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  border-bottom:1px solid var(--line);
+  background:var(--cream);
+}
+.heroPromises>div {
+  min-height:112px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:18px 12px;
+}
+.promiseIcon {
+  display:block;
+  margin-bottom:8px;
+  color:var(--brown);
+  font:30px/1 var(--font-serif),Georgia,serif;
+}
+.heroPromises strong {
+  font:400 14px/1.2 var(--font-serif),Georgia,serif;
+}
+.heroPromises small {
+  margin-top:4px;
+  color:var(--taupe);
+  font-size:11px;
+}
+@media(max-width:700px) {
+  .heroPromises {grid-template-columns:repeat(2,1fr)}
+  .heroPromises>div {min-height:104px;border-bottom:1px solid var(--line)}
+  .heroVisual img {object-position:center center}
+}
