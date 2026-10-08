@@ -28,6 +28,13 @@ function StudioContent(){
 
   useEffect(()=>{let live=true;(async()=>{try{
     const requestedPet=searchParams.get("pet"),mode=searchParams.get("mode");
+    if(mode==="discard"){
+      sessionStorage.removeItem(SESSION_KEY);
+      await clearDraft();
+      if(live){setStep(1);setPetId("");setSelectedProduct("portrait-coin");}
+      window.history.replaceState(null,"","/studio");
+      return;
+    }
     if(requestedPet){
       const supabase=createClient();
       const {data:{user}}=await supabase.auth.getUser();
@@ -163,8 +170,15 @@ function StudioContent(){
   }
   const petIdentity=createPetIdentity({id:petId||"session-pet",name,years,sourcePhoto:original,masterPortrait:aiPortrait,engravingPortrait:medallionPortrait});
   const go=n=>{setStep(n);window.scrollTo({top:0,behavior:"smooth"})};
+  function discardSession(){
+    if(aiWorking||saving)return;
+    if(!window.confirm("Discard this Studio session? Your unsaved photo, portrait, and customization will be removed from this device. Saved pets in My Pets will not be deleted."))return;
+    // A full navigation avoids stale state effects writing the discarded draft back.
+    window.location.assign("/studio?mode=discard");
+  }
   return <main className={`${atelier.studio} studio-atelier`}>
     <StudioProgress step={step} go={go}/>
+    {hydrated&&<div className={atelier.discardBar}><button type="button" className={atelier.discardButton} onClick={discardSession} disabled={aiWorking||saving}>Discard session</button></div>}
     {step===1&&<ProductStep {...{selectedProduct,setSelectedProduct,go}}/>}
     {step===2&&<PhotoStep {...{input,pick,original,photoReady,photoBusy,photoError,setPhotoReady,setPhotoError,go}}/>}
     {step===3&&<ArtworkStep {...{name,original,aiPortrait,medallionPortrait,aiWorking,error,createArtwork,zoom,setZoom,x,setX,y,setY,go}}/>}
