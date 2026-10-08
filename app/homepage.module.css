@@ -723,3 +723,10 @@
 @media(prefers-reduced-motion:reduce){.homepageHeader .siteHeader {transition:none}}
 
 .jewelryGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}@media(max-width:760px){.jewelryGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}}
+
+/* Mobile navigation: keep every entry in the same compact, full-width row. */
+.mobileMenu>div{z-index:100;box-sizing:border-box;width:min(300px,calc(100vw - 32px));min-width:0;padding:6px;background:#fbf8f2;border:1px solid #ded3c5;border-radius:8px;box-shadow:0 18px 42px #30262124;overflow:hidden}
+.mobileMenu>div>a,.mobileMenu>div>button{box-sizing:border-box;display:flex;align-items:center;justify-content:flex-start;width:100%;min-height:46px;height:auto;margin:0;padding:12px 16px;border:0;border-bottom:1px solid #e7ded2;border-radius:0;background:transparent;color:#49382f;text-align:left;text-decoration:none;font:400 14px/1.4 Arial,sans-serif;letter-spacing:0;text-transform:none;box-shadow:none;appearance:none;-webkit-appearance:none;cursor:pointer}
+.mobileMenu>div>:last-child{border-bottom:0}
+.mobileMenu>div>a:hover,.mobileMenu>div>button:hover{background:#f3ede4}
+@media(max-width:700px){.mobileMenu>div{position:absolute;top:calc(100% - 3px);right:16px;max-width:calc(100vw - 32px)}}
