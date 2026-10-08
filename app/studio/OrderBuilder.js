@@ -4,6 +4,11 @@ import {personalizationForProduct} from "../lib/petIdentity";
 
 const productLibrary=[
   {family:"WEAR",id:"portrait-pendant",name:"Portrait Pendant",note:"Their portrait, close to you.",finish:true,options:["45 cm chain","50 cm chain"]},
+  {family:"WEAR",id:"petite-tag-bracelet",name:"Petite Tag Bracelet",note:"A small square portrait tag.",finish:true,options:["Gold","Silver"]},
+  {family:"WEAR",id:"signature-face-bracelet",name:"Signature Face Bracelet",note:"A silhouette shaped for them.",finish:true,options:["Standard"]},
+  {family:"WEAR",id:"together-bracelet",name:"Together Bracelet",note:"Two pets, one connection.",finish:true,options:["Two portraits"]},
+  {family:"WEAR",id:"signature-silhouette-pendant",name:"Silhouette Pendant",note:"Their unique outline.",finish:true,options:["45 cm chain","50 cm chain"]},
+  {family:"WEAR",id:"signature-portrait-ring",name:"Portrait Ring",note:"A keepsake close at hand.",finish:true,options:["Size to be confirmed"]},
   {family:"WEAR",id:"portrait-bracelet",name:"Portrait Bracelet",note:"A quiet everyday piece.",finish:true,options:["16 cm","18 cm","20 cm"]},
   {family:"CARRY",id:"leather-travel-tag",name:"Leather Travel Tag",note:"Take them wherever you go.",finish:false,options:["Mocha","Ivory","Etoupe"]},
   {family:"CARRY",id:"bag-charm",name:"Bag Charm",note:"A small piece of them, with you.",finish:true,options:["Classic","Mini"]},
