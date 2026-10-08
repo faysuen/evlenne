@@ -47,8 +47,8 @@ function StudioContent(){
       setPetId(pet.id);setName(pet.name||"");setYears(pet.years||"");
       const master=pet.pet_assets?.find(a=>a.kind==="portrait_master"),engraving=pet.pet_assets?.find(a=>a.kind==="portrait_engraving");
       if(master?.storage_path){const {data}=await supabase.storage.from("pet-assets").createSignedUrl(master.storage_path,3600);if(live)setAiPortrait(data?.signedUrl||"")}
-      if(engraving?.storage_path){const {data}=await supabase.storage.from("pet-assets").createSignedUrl(engraving.storage_path,3600);if(live)setMedallionPortrait(data?.signedUrl||"")}
-      if(live)setStep(pet.status==="portrait_ready"?5:3);
+      if(master?.storage_path){const {data}=await supabase.storage.from("pet-assets").createSignedUrl(master.storage_path,3600);if(live)setMedallionPortrait(data?.signedUrl||"")}else if(engraving?.storage_path){const {data}=await supabase.storage.from("pet-assets").createSignedUrl(engraving.storage_path,3600);if(live)setMedallionPortrait(data?.signedUrl||"")}
+      if(live)setStep(3);
     }else{
       let saved=null;
       try{saved=JSON.parse(sessionStorage.getItem(SESSION_KEY)||"null")}catch{}
@@ -154,6 +154,7 @@ function StudioContent(){
         if(petError)throw petError;
         id=pet.id;setPetId(id);
       }
+      if(petId){const {error:updateError}=await supabase.from("pets").update({name:name.trim(),years:years.trim(),status:"portrait_ready"}).eq("id",id).eq("user_id",user.id);if(updateError)throw updateError;}
       const assets=[];
       if(sourceFile){
         const ext=(sourceFile.name.split(".").pop()||"jpg").toLowerCase();
@@ -196,7 +197,7 @@ function StudioContent(){
     {hydrated&&<div className={atelier.discardBar}><button type="button" className={atelier.discardButton} onClick={discardSession} disabled={aiWorking||saving}>Discard session</button></div>}
     {step===1&&<ProductStep {...{selectedProduct,setSelectedProduct,go}}/>}
     {step===2&&<PhotoStep {...{input,pick,original,photoReady,photoBusy,photoError,setPhotoReady,setPhotoError,go}}/>}
-    {step===3&&<ArtworkStep {...{name,original,aiPortrait,medallionPortrait,aiWorking,error,createArtwork,rotation,setRotation,zoom,setZoom,x,setX,y,setY,go}}/>}
+    {step===3&&<ArtworkStep {...{name,original,aiPortrait,medallionPortrait,aiWorking,error,createArtwork,rotation,setRotation,zoom,setZoom,x,setX,y,setY,go,petId,saving,savePetIdentity}}/>}
     {step===4&&<FinishStep {...{selectedProduct,name,setName,years,setYears,metal,setMetal,medallionPortrait,rotation,zoom,x,y,saving,error,savePetIdentity,go}}/>}
     {step===5&&<section className="flow-step flow-order"><OrderBuilder initialProduct={selectedProduct} metal={metal} setMetal={setMetal} petName={name} years={years} petIdentity={petIdentity} onBack={()=>go(4)}/></section>}
   </main>
