@@ -1,17 +1,15 @@
 export const runtime = "nodejs";
 export const maxDuration = 120;
 
-const PROMPT = `Create a detailed monochrome grayscale engraving portrait of the SAME pet in the reference photo. This is a portrait master for a personalized keepsake, with the visual character of a fine photographic graphite engraving rather than a sparse outline drawing.
+const PROMPT = `Transform the provided photograph into an elegant CUSTOM PET FACE LINE-ENGRAVING DESIGN suitable for a tiny gold or silver jewelry charm, as in a fine bespoke laser-engraved dog-face bracelet or ring.
 
-Preserve the actual pet's identity: face proportions, eyes and their spacing, expression, nose, muzzle, ears, markings, and distinctive coat. Follow the source pose. Do not replace the pet with an idealized breed illustration.
+Identity is essential: depict the SAME pet, keeping its distinctive ear shape and position, eye spacing, muzzle proportions, nose, markings, and characteristic hairstyle. Do not substitute a generic breed or invent features.
 
-Compose a close, intimate head-and-upper-chest portrait. The face should fill about 85–90% of the square, like a premium close-up pet portrait: make the eyes, nose and muzzle large and immediately readable. Keep both ears and the complete crown inside the image, but crop tightly around the pet and do not leave empty space around the silhouette. Remove the scene and use a pure white background. No border, text, jewelry, or decorations.
+Artwork only: one front-facing or source-matching three-quarter pet HEAD, centered on a clean pure WHITE background. Complete ears and top of head visible, no cut-off anatomy. No jewelry, metal, coin, frame, collar, words, props, or scene. Pet head silhouette should be suitable for later conversion into a die-cut or laser-cut metal charm. Preserve a clear outer contour and avoid tiny fragile protrusions.
 
-Render a complete, readable silhouette. For pale or white fur, use controlled light-to-mid gray shading and darker selective contours to separate the crown, ears, cheeks and muzzle from the background. Do not let the top of the head or face disappear into white. White fur must retain visible depth, curl groups and natural directional texture.
+Style: refined hand-drawn ENGRAVING LINE ART, not a photograph, not a graphite sketch, not a tonal shaded portrait. Use deliberate clean dark hairline strokes for eyes, nose, mouth, ear edges and a SMALL NUMBER of flowing coat-direction lines. Create expressive recognizable eyes with tiny dark pupils and restrained highlights. Use negative space liberally. Minimize dense fur strokes and avoid micro-hatching. Approximately 20–45 meaningful contour and feature lines rather than hundreds of fine hair strands. Render like a real laser-etched drawing on polished jewelry, with simplified but precise features that remain legible when reduced to a 12–18 mm charm.
 
-Make this a high-fidelity portrait master, not a simplified production engraving. Use a bold, laser-ready graphite tonal range: crisp rich-black pupils, nose and mouth; pronounced dark framing around the eyes; decisive medium-to-dark gray structure through the forehead, cheek curls, ears and muzzle; and controlled clean white highlights. Render hair in elegant, layered locks that follow the coat direction, with enough precise texture to feel lifelike, but never fuzzy, washed out or generic. The eyes must be expressive and proportionately prominent, the muzzle full and dimensional, and the silhouette clean and confident.
-
-The result should look like a finished, premium black-and-white pet portrait made for an heirloom keepsake: detailed, luminous, emotionally recognizable and polished. Avoid pale blue or faint gray wireframe linework, ghostly outlines, soft airbrushed fuzz, flat vector stencil, cartoon styling, dense mechanical crosshatching, or sketchy unfinished marks. Preserve the recognizable face, coherent fur masses and refined detail. Output monochrome only.`;
+Strictly monochrome black strokes on pure white; no gray wash, no gradients, no filled black patches except tiny eyes/nose accents, no photographic textures, no stippling, no embossed 3D shading, no decorative illustration flourishes, no cartoon exaggeration. Crisp sharp outlines and graceful restrained detail. Output a single isolated head illustration, square 1024px.`
 
 export async function POST(request) {
   try {
