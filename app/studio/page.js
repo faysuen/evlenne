@@ -98,7 +98,7 @@ function StudioContent(){
         const info=await response.json().catch(()=>({}));
         throw new Error(info.error||(response.status===413?"This photo was too large to send. Please refresh Studio and try again.":response.status===504?"Portrait generation took too long. Please try again.":"Portrait generation failed. Please try again."));
       }
-      const portrait=await readPhoto(await response.blob());
+      const portrait=await removeWhiteBackground(await response.blob());
       const durableDraft={original,medallionPortrait:portrait,name,years,step:2,metal,packageType,memoryText,email,zoom,x,y,aiPortrait:portrait,petId};
       await writeDraft(durableDraft);
       try{sessionStorage.setItem(SESSION_KEY,JSON.stringify({...durableDraft,original:"",medallionPortrait:"",aiPortrait:""}))}catch{}
