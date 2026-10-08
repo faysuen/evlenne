@@ -22,3 +22,8 @@
 .preview_square{width:80%;margin:auto;border-radius:9%;aspect-ratio:1}
 .preview_face{width:78%;margin:auto;border-radius:42% 42% 48% 48%;aspect-ratio:1}
 @media(max-width:700px){.pieceGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.pieceCard{min-height:200px;padding:18px 8px}.pieceShape{width:75px;height:75px}.shape_oval{width:60px}.shape_square{width:68px;height:68px}.shape_face{width:68px}.pieceCard strong{font-size:15px}.preview_oval,.preview_square,.preview_face{width:82%}}
+
+/* Explicit draft reset, visually secondary to the Studio workflow. */
+.discardBar{display:flex;justify-content:flex-end;padding:8px clamp(18px,4vw,56px) 0;max-width:1440px;margin:0 auto}
+.discardButton{appearance:none;border:0;background:transparent;color:#8b7765;font:500 12px/1.5 Arial,sans-serif;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:10px 4px}
+.discardButton:hover{color:#6d4035}.discardButton:disabled{opacity:.4;cursor:not-allowed}
