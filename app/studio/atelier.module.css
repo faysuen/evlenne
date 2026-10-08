@@ -34,3 +34,6 @@
 .dropzone:has(.uploaded){height:auto;min-height:430px;gap:14px;justify-content:flex-start}
 .uploaded{flex:1;gap:10px}
 @media(max-width:700px){.photoFrame{height:270px}.dropzone:has(.uploaded){min-height:390px}}
+
+/* Respect the exact capitalization entered by the customer on the engraved name. */
+.engravingName strong{text-transform:none;letter-spacing:.045em}
