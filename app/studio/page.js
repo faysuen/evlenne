@@ -22,7 +22,7 @@ function StudioContent(){
   const input=useRef(null),photoRequest=useRef(0);
   const [hydrated,setHydrated]=useState(false),[original,setOriginal]=useState(""),[medallionPortrait,setMedallionPortrait]=useState(""),[selectedProduct,setSelectedProduct]=useState(()=>searchParams.get("product")||"portrait-coin");
   const [name,setName]=useState(""),[years,setYears]=useState(""),[step,setStep]=useState(1),[metal,setMetal]=useState("gold"),[packageType,setPackageType]=useState("complete"),[memoryText,setMemoryText]=useState(""),[email,setEmail]=useState("");
-  const [zoom,setZoom]=useState(1.55),[x,setX]=useState(50),[y,setY]=useState(50),[aiPortrait,setAiPortrait]=useState(""),[aiWorking,setAiWorking]=useState(false),[error,setError]=useState("");
+  const [rotation,setRotation]=useState(0),[zoom,setZoom]=useState(1.55),[x,setX]=useState(50),[y,setY]=useState(50),[aiPortrait,setAiPortrait]=useState(""),[aiWorking,setAiWorking]=useState(false),[error,setError]=useState("");
   const [photoBusy,setPhotoBusy]=useState(false),[photoReady,setPhotoReady]=useState(false),[photoError,setPhotoError]=useState("");
   const [sourceFile,setSourceFile]=useState(null),[petId,setPetId]=useState(""),[saving,setSaving]=useState(false);
 
@@ -63,21 +63,21 @@ function StudioContent(){
         if(!saved||saved.step>=5){sessionStorage.removeItem(SESSION_KEY);await clearDraft();saved=null;setStep(1)}else{setStep(saved.step||1)}
         window.history.replaceState(null,"","/studio");
       }
-      if(saved){if(saved.original){setPhotoBusy(true);try{const blob=await fetch(saved.original).then(r=>r.blob());const restored=await preparePhoto(new File([blob],"pet-photo",{type:blob.type}));if(live){setOriginal(restored.url);setSourceFile(restored.file);setPhotoReady(true)}}catch{if(live)setPhotoError("This photo couldn’t be opened. Choose another photo, or export your iPhone photo as JPG.")}finally{if(live)setPhotoBusy(false)}}setSelectedProduct(searchParams.get("product")||saved.selectedProduct||"portrait-coin");setPetId(saved.petId||"");setMedallionPortrait(saved.medallionPortrait||"");setName(saved.name||"");setYears(saved.years||"");setMetal(saved.metal||"gold");setPackageType(saved.packageType||"complete");setMemoryText(saved.memoryText||"");setEmail(saved.email||"");setZoom(saved.zoom||1.55);setX(saved.x||50);setY(saved.y||38);setAiPortrait(saved.aiPortrait||"");setStep(saved.step||1)}
+      if(saved){if(saved.original){setPhotoBusy(true);try{const blob=await fetch(saved.original).then(r=>r.blob());const restored=await preparePhoto(new File([blob],"pet-photo",{type:blob.type}));if(live){setOriginal(restored.url);setSourceFile(restored.file);setPhotoReady(true)}}catch{if(live)setPhotoError("This photo couldn’t be opened. Choose another photo, or export your iPhone photo as JPG.")}finally{if(live)setPhotoBusy(false)}}setSelectedProduct(searchParams.get("product")||saved.selectedProduct||"portrait-coin");setPetId(saved.petId||"");setMedallionPortrait(saved.medallionPortrait||"");setName(saved.name||"");setYears(saved.years||"");setMetal(saved.metal||"gold");setPackageType(saved.packageType||"complete");setMemoryText(saved.memoryText||"");setEmail(saved.email||"");setRotation(Number(saved.rotation)||0);setZoom(saved.zoom||1.55);setX(saved.x||50);setY(saved.y||38);setAiPortrait(saved.aiPortrait||"");setStep(saved.step||1)}
     }
   }catch(err){if(live)setError(err.message||"We couldn't load this Pet Identity.")}finally{if(live)setHydrated(true)}})();return()=>{live=false}},[searchParams]);
-  useEffect(()=>{if(!hydrated)return;const draft={selectedProduct,original,medallionPortrait,name,years,step,metal,packageType,memoryText,email,zoom,x,y,aiPortrait,petId};
+  useEffect(()=>{if(!hydrated)return;const draft={rotation,selectedProduct,original,medallionPortrait,name,years,step,metal,packageType,memoryText,email,zoom,x,y,aiPortrait,petId};
     // Keep a lightweight copy in sessionStorage and the complete draft in IndexedDB.
     // This avoids the silent 5 MB-class Web Storage quota problem with photo data URLs.
     try{sessionStorage.setItem(SESSION_KEY,JSON.stringify({...draft,original:"",medallionPortrait:"",aiPortrait:""}))}catch{}
     writeDraft(draft);
-  },[hydrated,selectedProduct,original,medallionPortrait,name,years,step,metal,packageType,memoryText,email,zoom,x,y,aiPortrait,petId]);
+  },[hydrated,rotation,selectedProduct,original,medallionPortrait,name,years,step,metal,packageType,memoryText,email,zoom,x,y,aiPortrait,petId]);
 
   async function pick(e){
     const file=e.target.files?.[0];if(!file)return;e.target.value="";
     const request=++photoRequest.current;
     if(file.size>20*1024*1024){setPhotoBusy(false);setPhotoError("Choose a photo smaller than 20 MB.");setPhotoReady(false);return;}
-    setPhotoBusy(true);setPhotoReady(false);setPhotoError("");setOriginal("");setSourceFile(null);setAiPortrait("");setMedallionPortrait("");setError("");setStep(2);
+    setPhotoBusy(true);setPhotoReady(false);setPhotoError("");setOriginal("");setSourceFile(null);setAiPortrait("");setMedallionPortrait("");setRotation(0);setError("");setStep(2);
     try{const photo=await preparePhoto(file);if(request!==photoRequest.current)return;setOriginal(photo.url);setSourceFile(photo.file);setPhotoReady(true)}
     catch{if(request===photoRequest.current)setPhotoError("This photo couldn’t be opened. Choose another photo, or export your iPhone photo as JPG.")}
     finally{if(request===photoRequest.current)setPhotoBusy(false)}
@@ -118,13 +118,28 @@ function StudioContent(){
         throw new Error(info.error||(response.status===413?"This photo was too large to send. Please refresh Studio and try again.":response.status===504?"Portrait generation took too long. Please try again.":"Portrait generation failed. Please try again."));
       }
       const portrait=await removeWhiteBackground(await response.blob());
-      const durableDraft={selectedProduct,original,medallionPortrait:portrait,name,years,step:3,metal,packageType,memoryText,email,zoom,x,y,aiPortrait:portrait,petId};
+      setRotation(0);
+      const durableDraft={rotation:0,selectedProduct,original,medallionPortrait:portrait,name,years,step:3,metal,packageType,memoryText,email,zoom,x,y,aiPortrait:portrait,petId};
       await writeDraft(durableDraft);
       try{sessionStorage.setItem(SESSION_KEY,JSON.stringify({...durableDraft,original:"",medallionPortrait:"",aiPortrait:""}))}catch{}
       setAiPortrait(portrait);setMedallionPortrait(portrait);setStep(3);
     }catch(err){
       setError(err.name==="AbortError"?"Portrait generation took too long. Please try again.":err.message||"We couldn't create the artwork. Please try again.");
     }finally{window.clearTimeout(timeout);setAiWorking(false)}
+  }
+  async function rotateEngraving(dataUrl,angle){
+    if(!angle)return fetch(dataUrl).then(r=>r.blob());
+    const source=await fetch(dataUrl).then(r=>r.blob());
+    const bitmap=await createImageBitmap(source);
+    const radians=angle*Math.PI/180;
+    const width=Math.ceil(Math.abs(bitmap.width*Math.cos(radians))+Math.abs(bitmap.height*Math.sin(radians)));
+    const height=Math.ceil(Math.abs(bitmap.width*Math.sin(radians))+Math.abs(bitmap.height*Math.cos(radians)));
+    const canvas=document.createElement("canvas");canvas.width=width;canvas.height=height;
+    const context=canvas.getContext("2d");
+    if(!context){bitmap.close();throw new Error("Could not rotate engraving artwork.");}
+    context.translate(width/2,height/2);context.rotate(radians);
+    context.drawImage(bitmap,-bitmap.width/2,-bitmap.height/2);bitmap.close();
+    return await new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(new Error("Could not export rotated artwork.")),"image/png"));
   }
   async function savePetIdentity(){
     if(!name.trim()||saving)return;
@@ -154,7 +169,7 @@ function StudioContent(){
         assets.push({pet_id:id,kind:"portrait_master",storage_path:path,approved:true});
       }
       if(medallionPortrait){
-        const blob=await fetch(medallionPortrait).then(r=>r.blob()),path=user.id+"/"+id+"/portrait-engraving.png";
+        const blob=await rotateEngraving(medallionPortrait,rotation),path=user.id+"/"+id+"/portrait-engraving.png";
         const {error}=await supabase.storage.from("pet-assets").upload(path,blob,{upsert:true,contentType:"image/png"});
         if(error)throw error;
         assets.push({pet_id:id,kind:"portrait_engraving",storage_path:path,approved:true});
@@ -181,8 +196,8 @@ function StudioContent(){
     {hydrated&&<div className={atelier.discardBar}><button type="button" className={atelier.discardButton} onClick={discardSession} disabled={aiWorking||saving}>Discard session</button></div>}
     {step===1&&<ProductStep {...{selectedProduct,setSelectedProduct,go}}/>}
     {step===2&&<PhotoStep {...{input,pick,original,photoReady,photoBusy,photoError,setPhotoReady,setPhotoError,go}}/>}
-    {step===3&&<ArtworkStep {...{name,original,aiPortrait,medallionPortrait,aiWorking,error,createArtwork,zoom,setZoom,x,setX,y,setY,go}}/>}
-    {step===4&&<FinishStep {...{selectedProduct,name,setName,years,setYears,metal,setMetal,medallionPortrait,zoom,x,y,saving,error,savePetIdentity,go}}/>}
+    {step===3&&<ArtworkStep {...{name,original,aiPortrait,medallionPortrait,aiWorking,error,createArtwork,rotation,setRotation,zoom,setZoom,x,setX,y,setY,go}}/>}
+    {step===4&&<FinishStep {...{selectedProduct,name,setName,years,setYears,metal,setMetal,medallionPortrait,rotation,zoom,x,y,saving,error,savePetIdentity,go}}/>}
     {step===5&&<section className="flow-step flow-order"><OrderBuilder initialProduct={selectedProduct} metal={metal} setMetal={setMetal} petName={name} years={years} petIdentity={petIdentity} onBack={()=>go(4)}/></section>}
   </main>
 }
