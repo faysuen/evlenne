@@ -22,7 +22,7 @@ export default function PetsPage(){
    if(queryError)throw queryError;
    const hydrated=await Promise.all((data||[]).map(async pet=>{
      const portrait=pet.pet_assets?.find(a=>a.kind==="portrait_engraving"||a.kind==="portrait_master");let portraitUrl="";
-     if(portrait?.storage_path){const {data:signed}=await supabase.storage.from("pet-assets").createSignedUrl(portrait.storage_path,3600);portraitUrl=signed?.signedUrl||"";}
+     if(portrait?.storage_path){const {data:signed}=await supabase.storage.from("pet-assets").createSignedUrl(portrait.storage_path,3600);portraitUrl=signed?.signedUrl? signed.signedUrl+(signed.signedUrl.includes("?")?"&":"?")+"v="+encodeURIComponent(portrait.id):"";}
      return {...pet,portraitUrl};
    }));if(live)setPets(hydrated);
  }catch{if(live)setError("We couldn’t load your pets. Please try again.");}finally{if(live)setLoading(false);}})();return()=>{live=false};},[]);
