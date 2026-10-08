@@ -44,3 +44,8 @@
 .controlPanel .rotateActions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.35fr);gap:8px;width:100%;margin:-8px 0 2px;align-items:stretch}
 .controlPanel .rotateActions button{width:100%;min-width:0;min-height:42px!important;padding:8px 6px!important;white-space:nowrap;font-size:11px!important;line-height:1.2;border-radius:5px}
 @media(max-width:420px){.controlPanel .rotateActions{grid-template-columns:1fr 1fr 1.3fr;gap:6px}.controlPanel .rotateActions button{font-size:10px!important;padding:8px 4px!important}}
+
+/* Uploaded source photo must always remain fully visible, without cropping the head. */
+.dropzone .uploaded .photoFrame{height:clamp(260px,34vw,420px);width:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#eee7d9;border-radius:6px}
+.dropzone .uploaded .photoFrame img{display:block;width:100%;height:100%;object-fit:contain!important;object-position:center!important}
+@media(max-width:700px){.dropzone .uploaded .photoFrame{height:300px}}
