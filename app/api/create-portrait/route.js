@@ -1,15 +1,17 @@
 export const runtime = "nodejs";
 export const maxDuration = 120;
 
-const PROMPT = `Transform the provided photograph into an elegant CUSTOM PET FACE LINE-ENGRAVING DESIGN suitable for a tiny gold or silver jewelry charm, as in a fine bespoke laser-engraved dog-face bracelet or ring.
+const BASE_PROMPT = `Create an exceptionally refined, bespoke PET PORTRAIT LINE ENGRAVING from the supplied photograph. The result must be unmistakably the SAME individual pet, not a generic breed illustration. Faithfully preserve head shape, exact ear placement, eye spacing and expression, muzzle length, nose shape, distinctive coat markings, asymmetries, and characteristic fur growth. Do not beautify away defining features, invent accessories, or change the pose unnecessarily.
 
-Identity is essential: depict the SAME pet, keeping its distinctive ear shape and position, eye spacing, muzzle proportions, nose, markings, and characteristic hairstyle. Do not substitute a generic breed or invent features.
+Produce a centered head-and-ears portrait with complete silhouette, clean pure white background, and no jewelry, medal, border, text, collar, props, or scenery. The design must be a carefully composed engraving illustration, not a photo filter, pencil sketch, comic, icon, or clipart. Draw controlled, elegant, tapered DARK linework with purposeful variation in line length and direction following the real fur. Maintain negative space between neighboring strokes. Make the eyes, nose, and mouth immediately legible; preserve their natural expression. Use fine but clear contours, coherent fur grouping, and selective emphasis rather than uniform outlines. No random scribbles, chaotic crosshatching, grayscale shading, gradients, stippling, photographic textures, or filled background. No large solid black areas except essential tiny nose/pupil details. Crisp monochrome ink on white, square composition.
 
-Artwork only: one front-facing or source-matching three-quarter pet HEAD, centered on a clean pure WHITE background. Complete ears and top of head visible, no cut-off anatomy. No jewelry, metal, coin, frame, collar, words, props, or scene. Pet head silhouette should be suitable for later conversion into a die-cut or laser-cut metal charm. Preserve a clear outer contour and avoid tiny fragile protrusions.
+Treat the input photo as identity ground truth. Never replace the actual pet with a stylized lookalike. This is engraving artwork intended to be faithfully reproduced on metal.`;
 
-Style: refined hand-drawn ENGRAVING LINE ART, not a photograph, not a graphite sketch, not a tonal shaded portrait. Use deliberate clean dark hairline strokes for eyes, nose, mouth, ear edges and a SMALL NUMBER of flowing coat-direction lines. Create expressive recognizable eyes with tiny dark pupils and restrained highlights. Use negative space liberally. Minimize dense fur strokes and avoid micro-hatching. Approximately 20–45 meaningful contour and feature lines rather than hundreds of fine hair strands. Render like a real laser-etched drawing on polished jewelry, with simplified but precise features that remain legible when reduced to a 12–18 mm charm.
+const DETAIL_PROMPTS = {
+  jewelry: `JEWELRY DETAIL / 12–20 mm engraving: Prioritize recognition and visual elegance at miniature scale. Keep the exact distinctive face and expression while simplifying fur into well-spaced, intentional contours and short flowing groups. Preserve important curls or tufts where identity depends on them. Avoid dense clusters near the eyes, nose, and mouth, hairline gaps that will close when reduced, and microscopic marks. Strong hierarchy: eyes/nose/muzzle first, silhouette second, coat texture third. The result should still read clearly when printed at 15 mm.`,
+  keepsake: `KEEPSAKE DETAIL / 25–45 mm engraving: Preserve the same pet identity with richer, organized fur direction and expressive coat detail, like an excellent artisan-engraved pet portrait. Use layered but separated short and medium strokes, with more detail around distinctive curls, eyebrows, ears, and muzzle, without hiding the eyes or turning fur into noise. Keep generous negative space and clean contours; no tonal photo shading. The design must remain legible as a laser-engraved metal medallion.`
+};
 
-Strictly monochrome black strokes on pure white; no gray wash, no gradients, no filled black patches except tiny eyes/nose accents, no photographic textures, no stippling, no embossed 3D shading, no decorative illustration flourishes, no cartoon exaggeration. Crisp sharp outlines and graceful restrained detail. Output a single isolated head illustration, square 1024px.`
 
 export async function POST(request) {
   try {
@@ -17,6 +19,7 @@ export async function POST(request) {
     if(!key) return Response.json({error:"OpenAI API key is not configured."},{status:500});
     const incoming=await request.formData();
     const image=incoming.get("image");
+    const detail=incoming.get("detail")==="keepsake"?"keepsake":"jewelry";
     if(!image || typeof image==="string") return Response.json({error:"No image uploaded."},{status:400});
     if(image.size>3*1024*1024) return Response.json({error:"This photo is too large to send. Please refresh Studio and try again."},{status:413});
 
@@ -30,7 +33,7 @@ export async function POST(request) {
       body:JSON.stringify({
         model:"gpt-image-2",
         images:[{image_url:dataUrl}],
-        prompt:PROMPT,
+        prompt:`${BASE_PROMPT}\n\n${DETAIL_PROMPTS[detail]}`,
         quality:"medium",
         size:"1024x1024",
         output_format:"jpeg",
