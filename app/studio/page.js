@@ -76,15 +76,27 @@ function StudioContent(){
     finally{if(request===photoRequest.current)setPhotoBusy(false)}
   }
   async function removeWhiteBackground(blob){
-    const bitmap=await createImageBitmap(blob),canvas=document.createElement("canvas");canvas.width=bitmap.width;canvas.height=bitmap.height;
-    const ctx=canvas.getContext("2d",{willReadFrequently:true});ctx.drawImage(bitmap,0,0);bitmap.close();
-    const image=ctx.getImageData(0,0,canvas.width,canvas.height),d=image.data,w=canvas.width,h=canvas.height;
-    // Remove only near-white background connected to an edge; preserve white fur inside the portrait.
-    const seen=new Uint8Array(w*h),queue=new Uint32Array(w*h);let head=0,tail=0;
-    function visit(p){if(seen[p])return;seen[p]=1;const i=p*4,min=Math.min(d[i],d[i+1],d[i+2]),max=Math.max(d[i],d[i+1],d[i+2]);if(d[i+3]===0||(min>226&&max-min<16))queue[tail++]=p;}
-    for(let col=0;col<w;col++){visit(col);visit((h-1)*w+col)}for(let row=0;row<h;row++){visit(row*w);visit(row*w+w-1)}
-    while(head<tail){const p=queue[head++],i=p*4,min=Math.min(d[i],d[i+1],d[i+2]);d[i+3]=min>246?0:Math.min(d[i+3],Math.round(255*(246-min)/20));const col=p%w;if(col>0)visit(p-1);if(col<w-1)visit(p+1);if(p>=w)visit(p-w);if(p<(h-1)*w)visit(p+w);}
-    ctx.putImageData(image,0,0);return canvas.toDataURL("image/png");
+    // Engraving artwork is dark linework on a light background. Convert paper
+    // brightness to transparency EVERYWHERE, including white pockets between
+    // fur strokes. Edge-only flood fill leaves visible white islands on metal.
+    const bitmap=await createImageBitmap(blob);
+    const canvas=document.createElement("canvas");
+    canvas.width=bitmap.width;canvas.height=bitmap.height;
+    const ctx=canvas.getContext("2d",{willReadFrequently:true});
+    if(!ctx){bitmap.close();throw new Error("Could not prepare the transparent engraving artwork.");}
+    ctx.drawImage(bitmap,0,0);bitmap.close();
+    const image=ctx.getImageData(0,0,canvas.width,canvas.height);
+    const d=image.data;
+    for(let i=0;i<d.length;i+=4){
+      const existingAlpha=d[i+3]/255;
+      const luminance=.2126*d[i]+.7152*d[i+1]+.0722*d[i+2];
+      // White/off-white paper disappears; fine gray anti-aliased strokes remain.
+      const ink=Math.max(0,Math.min(1,(244-luminance)/190));
+      d[i]=29;d[i+1]=25;d[i+2]=22;
+      d[i+3]=Math.round(255*ink*existingAlpha);
+    }
+    ctx.putImageData(image,0,0);
+    return canvas.toDataURL("image/png");
   }
   async function createArtwork(){
     if(!original||!photoReady||photoBusy||aiWorking)return;
