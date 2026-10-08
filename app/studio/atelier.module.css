@@ -39,3 +39,8 @@
 .engravingName strong{text-transform:none;letter-spacing:.045em}
 
 .rotateActions{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px}.rotateActions button{flex:1;min-width:76px;padding:9px 10px!important;min-height:38px!important;font-size:11px!important}
+
+/* Rotation controls: compact, balanced single row instead of stacked buttons. */
+.controlPanel .rotateActions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.35fr);gap:8px;width:100%;margin:-8px 0 2px;align-items:stretch}
+.controlPanel .rotateActions button{width:100%;min-width:0;min-height:42px!important;padding:8px 6px!important;white-space:nowrap;font-size:11px!important;line-height:1.2;border-radius:5px}
+@media(max-width:420px){.controlPanel .rotateActions{grid-template-columns:1fr 1fr 1.3fr;gap:6px}.controlPanel .rotateActions button{font-size:10px!important;padding:8px 4px!important}}
