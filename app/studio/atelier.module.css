@@ -27,3 +27,10 @@
 .discardBar{display:flex;justify-content:flex-end;padding:8px clamp(18px,4vw,56px) 0;max-width:1440px;margin:0 auto}
 .discardButton{appearance:none;border:0;background:transparent;color:#8b7765;font:500 12px/1.5 Arial,sans-serif;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:10px 4px}
 .discardButton:hover{color:#6d4035}.discardButton:disabled{opacity:.4;cursor:not-allowed}
+
+/* Uploaded portrait: use the available canvas rather than a narrow contain thumbnail. */
+.photoFrame{height:300px;width:100%;display:flex;align-items:center;justify-content:center;background:#eee7d9}
+.photoFrame img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.dropzone:has(.uploaded){height:auto;min-height:430px;gap:14px;justify-content:flex-start}
+.uploaded{flex:1;gap:10px}
+@media(max-width:700px){.photoFrame{height:270px}.dropzone:has(.uploaded){min-height:390px}}
