@@ -112,6 +112,7 @@ function StudioContent(){
     try{
       const source=await preparePortraitUpload(original),form=new FormData();
       form.append("image",source,"pet-photo.jpg");
+      form.append("detail",["portrait-coin"].includes(selectedProduct)?"keepsake":"jewelry");
       const response=await fetch("/api/create-portrait",{method:"POST",body:form,signal:controller.signal});
       if(!response.ok){
         const info=await response.json().catch(()=>({}));
