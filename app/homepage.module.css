@@ -721,3 +721,5 @@
 .homepageHeader .siteHeader {transition:background .2s ease,box-shadow .2s ease}
 .headerScrolled .siteHeader {background:rgba(251,248,242,.94);box-shadow:0 3px 16px rgba(48,38,33,.06)}
 @media(prefers-reduced-motion:reduce){.homepageHeader .siteHeader {transition:none}}
+
+.jewelryGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}@media(max-width:760px){.jewelryGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}}
