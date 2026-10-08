@@ -37,3 +37,5 @@
 
 /* Respect the exact capitalization entered by the customer on the engraved name. */
 .engravingName strong{text-transform:none;letter-spacing:.045em}
+
+.rotateActions{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px}.rotateActions button{flex:1;min-width:76px;padding:9px 10px!important;min-height:38px!important;font-size:11px!important}
