@@ -17,7 +17,7 @@ const productLibrary=[
   {family:"KEEP",id:"fur-keepsake",name:"Fur Keepsake",note:"A fitted vessel for a small lock of their fur.",finish:true,options:["Keepsake capsule"]}
 ];
 
-const ENGRAVING_SYMBOLS=[{id:"none",label:"None"},{id:"heart",label:"Heart"},{id:"paw",label:"Paw print"},{id:"star",label:"Star"},{id:"infinity",label:"Infinity"},{id:"sparkle",label:"Sparkle"}];
+const ENGRAVING_SYMBOLS=[{id:"none",label:"None"},{id:"heart",label:"Heart"},{id:"paw",label:"Paw print"},{id:"star",label:"Star"},{id:"infinity",label:"Infinity"}];
 function EngravingSymbol({symbol,size=26}){const shapes={heart:<path d="M12 21s-9-5.6-9-12a5 5 0 0 1 9-2.7A5 5 0 0 1 21 9c0 6.4-9 12-9 12Z"/>,paw:<><circle cx="5.5" cy="8" r="1.6"/><circle cx="10" cy="5.5" r="1.6"/><circle cx="15" cy="5.5" r="1.6"/><circle cx="19.5" cy="8" r="1.6"/><path d="M12 11c-2.5 0-3.4 2.6-5.2 4.2-2.2 2.1-.5 5.1 2 4.2 2.2-.9 4.4-.9 6.4 0 2.5.9 4.2-2.1 4.2-2.5 0-4.2-2.1-2-4.2-1.8-1.6-2.7-4.2-5.2-4.2Z"/></>,star:<path d="m12 2 3.1 6.5 7.1 1-5.1 5 1.2 7-6.3-3.3-6.3 3.3 1.2-7-5.1-5 7.1-1Z"/>,infinity:<path d="M12 12c-2.4-3.5-4.2-4.5-6.1-4.5a4.5 4.5 0 0 0 0 9c2 0 3.7-1 6.1-4.5Zm0 0c2.4-3.5 4.2-4.5 6.1-4.5a4.5 4.5 0 0 1 0 9c-2 0-3.7-1-6.1-4.5Z"/>,sparkle:<path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5Z"/>};if(!shapes[symbol])return null;return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{flexShrink:0}}>{shapes[symbol]}</svg>}
 
 function Choice({active,onClick,children}){return <button type="button" className={"choice-pill "+(active?"selected":"")} onClick={onClick}>{children}</button>}
