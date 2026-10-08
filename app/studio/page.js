@@ -3,7 +3,7 @@ import {Suspense,useEffect,useRef,useState} from "react";
 import {useSearchParams} from "next/navigation";
 import {preparePhoto,readPhoto,preparePortraitUpload} from "../lib/preparePhoto";
 import atelier from "./atelier.module.css";
-import {StudioProgress,PhotoStep,ArtworkStep,FinishStep} from "./Atelier";
+import {StudioProgress,ProductStep,PhotoStep,ArtworkStep,FinishStep} from "./Atelier";
 import OrderBuilder from "./OrderBuilder";
 import {createPetIdentity} from "../lib/petIdentity";
 import {createClient} from "../lib/supabaseClient";
@@ -20,7 +20,7 @@ async function clearDraft(){try{const db=await openDraftDB();await new Promise((
 function StudioContent(){
   const searchParams=useSearchParams();
   const input=useRef(null),photoRequest=useRef(0);
-  const [hydrated,setHydrated]=useState(false),[original,setOriginal]=useState(""),[medallionPortrait,setMedallionPortrait]=useState(""),[selectedProduct]=useState(()=>searchParams.get("product")||"portrait-coin");
+  const [hydrated,setHydrated]=useState(false),[original,setOriginal]=useState(""),[medallionPortrait,setMedallionPortrait]=useState(""),[selectedProduct,setSelectedProduct]=useState(()=>searchParams.get("product")||"portrait-coin");
   const [name,setName]=useState(""),[years,setYears]=useState(""),[step,setStep]=useState(1),[metal,setMetal]=useState("gold"),[packageType,setPackageType]=useState("complete"),[memoryText,setMemoryText]=useState(""),[email,setEmail]=useState("");
   const [zoom,setZoom]=useState(1.55),[x,setX]=useState(50),[y,setY]=useState(50),[aiPortrait,setAiPortrait]=useState(""),[aiWorking,setAiWorking]=useState(false),[error,setError]=useState("");
   const [photoBusy,setPhotoBusy]=useState(false),[photoReady,setPhotoReady]=useState(false),[photoError,setPhotoError]=useState("");
@@ -41,7 +41,7 @@ function StudioContent(){
       const master=pet.pet_assets?.find(a=>a.kind==="portrait_master"),engraving=pet.pet_assets?.find(a=>a.kind==="portrait_engraving");
       if(master?.storage_path){const {data}=await supabase.storage.from("pet-assets").createSignedUrl(master.storage_path,3600);if(live)setAiPortrait(data?.signedUrl||"")}
       if(engraving?.storage_path){const {data}=await supabase.storage.from("pet-assets").createSignedUrl(engraving.storage_path,3600);if(live)setMedallionPortrait(data?.signedUrl||"")}
-      if(live)setStep(pet.status==="portrait_ready"?4:2);
+      if(live)setStep(pet.status==="portrait_ready"?5:3);
     }else{
       let saved=null;
       try{saved=JSON.parse(sessionStorage.getItem(SESSION_KEY)||"null")}catch{}
@@ -53,24 +53,24 @@ function StudioContent(){
       if(mode==="new"){
         // "new" is a one-time entry instruction. Do not erase an unfinished draft
         // just because the user left Studio and came back through the homepage.
-        if(!saved||saved.step>=4){sessionStorage.removeItem(SESSION_KEY);await clearDraft();saved=null;setStep(1)}else{setStep(saved.step||1)}
+        if(!saved||saved.step>=5){sessionStorage.removeItem(SESSION_KEY);await clearDraft();saved=null;setStep(1)}else{setStep(saved.step||1)}
         window.history.replaceState(null,"","/studio");
       }
-      if(saved){if(saved.original){setPhotoBusy(true);try{const blob=await fetch(saved.original).then(r=>r.blob());const restored=await preparePhoto(new File([blob],"pet-photo",{type:blob.type}));if(live){setOriginal(restored.url);setSourceFile(restored.file);setPhotoReady(true)}}catch{if(live)setPhotoError("This photo couldn’t be opened. Choose another photo, or export your iPhone photo as JPG.")}finally{if(live)setPhotoBusy(false)}}setPetId(saved.petId||"");setMedallionPortrait(saved.medallionPortrait||"");setName(saved.name||"");setYears(saved.years||"");setMetal(saved.metal||"gold");setPackageType(saved.packageType||"complete");setMemoryText(saved.memoryText||"");setEmail(saved.email||"");setZoom(saved.zoom||1.55);setX(saved.x||50);setY(saved.y||38);setAiPortrait(saved.aiPortrait||"");setStep(saved.step||1)}
+      if(saved){if(saved.original){setPhotoBusy(true);try{const blob=await fetch(saved.original).then(r=>r.blob());const restored=await preparePhoto(new File([blob],"pet-photo",{type:blob.type}));if(live){setOriginal(restored.url);setSourceFile(restored.file);setPhotoReady(true)}}catch{if(live)setPhotoError("This photo couldn’t be opened. Choose another photo, or export your iPhone photo as JPG.")}finally{if(live)setPhotoBusy(false)}}setSelectedProduct(searchParams.get("product")||saved.selectedProduct||"portrait-coin");setPetId(saved.petId||"");setMedallionPortrait(saved.medallionPortrait||"");setName(saved.name||"");setYears(saved.years||"");setMetal(saved.metal||"gold");setPackageType(saved.packageType||"complete");setMemoryText(saved.memoryText||"");setEmail(saved.email||"");setZoom(saved.zoom||1.55);setX(saved.x||50);setY(saved.y||38);setAiPortrait(saved.aiPortrait||"");setStep(saved.step||1)}
     }
   }catch(err){if(live)setError(err.message||"We couldn't load this Pet Identity.")}finally{if(live)setHydrated(true)}})();return()=>{live=false}},[searchParams]);
-  useEffect(()=>{if(!hydrated)return;const draft={original,medallionPortrait,name,years,step,metal,packageType,memoryText,email,zoom,x,y,aiPortrait,petId};
+  useEffect(()=>{if(!hydrated)return;const draft={selectedProduct,original,medallionPortrait,name,years,step,metal,packageType,memoryText,email,zoom,x,y,aiPortrait,petId};
     // Keep a lightweight copy in sessionStorage and the complete draft in IndexedDB.
     // This avoids the silent 5 MB-class Web Storage quota problem with photo data URLs.
     try{sessionStorage.setItem(SESSION_KEY,JSON.stringify({...draft,original:"",medallionPortrait:"",aiPortrait:""}))}catch{}
     writeDraft(draft);
-  },[hydrated,original,medallionPortrait,name,years,step,metal,packageType,memoryText,email,zoom,x,y,aiPortrait,petId]);
+  },[hydrated,selectedProduct,original,medallionPortrait,name,years,step,metal,packageType,memoryText,email,zoom,x,y,aiPortrait,petId]);
 
   async function pick(e){
     const file=e.target.files?.[0];if(!file)return;e.target.value="";
     const request=++photoRequest.current;
     if(file.size>20*1024*1024){setPhotoBusy(false);setPhotoError("Choose a photo smaller than 20 MB.");setPhotoReady(false);return;}
-    setPhotoBusy(true);setPhotoReady(false);setPhotoError("");setOriginal("");setSourceFile(null);setAiPortrait("");setMedallionPortrait("");setError("");setStep(1);
+    setPhotoBusy(true);setPhotoReady(false);setPhotoError("");setOriginal("");setSourceFile(null);setAiPortrait("");setMedallionPortrait("");setError("");setStep(2);
     try{const photo=await preparePhoto(file);if(request!==photoRequest.current)return;setOriginal(photo.url);setSourceFile(photo.file);setPhotoReady(true)}
     catch{if(request===photoRequest.current)setPhotoError("This photo couldn’t be opened. Choose another photo, or export your iPhone photo as JPG.")}
     finally{if(request===photoRequest.current)setPhotoBusy(false)}
@@ -111,10 +111,10 @@ function StudioContent(){
         throw new Error(info.error||(response.status===413?"This photo was too large to send. Please refresh Studio and try again.":response.status===504?"Portrait generation took too long. Please try again.":"Portrait generation failed. Please try again."));
       }
       const portrait=await removeWhiteBackground(await response.blob());
-      const durableDraft={original,medallionPortrait:portrait,name,years,step:2,metal,packageType,memoryText,email,zoom,x,y,aiPortrait:portrait,petId};
+      const durableDraft={selectedProduct,original,medallionPortrait:portrait,name,years,step:3,metal,packageType,memoryText,email,zoom,x,y,aiPortrait:portrait,petId};
       await writeDraft(durableDraft);
       try{sessionStorage.setItem(SESSION_KEY,JSON.stringify({...durableDraft,original:"",medallionPortrait:"",aiPortrait:""}))}catch{}
-      setAiPortrait(portrait);setMedallionPortrait(portrait);setStep(2);
+      setAiPortrait(portrait);setMedallionPortrait(portrait);setStep(3);
     }catch(err){
       setError(err.name==="AbortError"?"Portrait generation took too long. Please try again.":err.message||"We couldn't create the artwork. Please try again.");
     }finally{window.clearTimeout(timeout);setAiWorking(false)}
@@ -157,7 +157,7 @@ function StudioContent(){
         const {error}=await supabase.from("pet_assets").insert(asset);
         if(error)throw error;
       }
-      setStep(4);window.scrollTo({top:0,behavior:"smooth"});
+      setStep(5);window.scrollTo({top:0,behavior:"smooth"});
     }catch(err){setError(err.message||"We couldn't save this Pet Identity.")}
     finally{setSaving(false)}
   }
@@ -165,10 +165,11 @@ function StudioContent(){
   const go=n=>{setStep(n);window.scrollTo({top:0,behavior:"smooth"})};
   return <main className={`${atelier.studio} studio-atelier`}>
     <StudioProgress step={step} go={go}/>
-    {step===1&&<PhotoStep {...{input,pick,original,photoReady,photoBusy,photoError,setPhotoReady,setPhotoError,go}}/>}
-    {step===2&&<ArtworkStep {...{name,original,aiPortrait,medallionPortrait,aiWorking,error,createArtwork,zoom,setZoom,x,setX,y,setY,go}}/>}
-    {step===3&&<FinishStep {...{name,setName,years,setYears,metal,setMetal,medallionPortrait,zoom,x,y,saving,error,savePetIdentity,go}}/>}
-    {step===4&&<section className="flow-step flow-order"><OrderBuilder initialProduct={selectedProduct} metal={metal} setMetal={setMetal} petName={name} years={years} petIdentity={petIdentity} onBack={()=>go(3)}/></section>}
+    {step===1&&<ProductStep {...{selectedProduct,setSelectedProduct,go}}/>}
+    {step===2&&<PhotoStep {...{input,pick,original,photoReady,photoBusy,photoError,setPhotoReady,setPhotoError,go}}/>}
+    {step===3&&<ArtworkStep {...{name,original,aiPortrait,medallionPortrait,aiWorking,error,createArtwork,zoom,setZoom,x,setX,y,setY,go}}/>}
+    {step===4&&<FinishStep {...{selectedProduct,name,setName,years,setYears,metal,setMetal,medallionPortrait,zoom,x,y,saving,error,savePetIdentity,go}}/>}
+    {step===5&&<section className="flow-step flow-order"><OrderBuilder initialProduct={selectedProduct} metal={metal} setMetal={setMetal} petName={name} years={years} petIdentity={petIdentity} onBack={()=>go(4)}/></section>}
   </main>
 }
 
