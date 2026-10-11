@@ -8,3 +8,15 @@
 .storyImage>.photo{height:600px}
 .price{margin-top:9px;font-size:13px;color:#40382f;letter-spacing:.025em}
 @media(max-width:700px){.heroArt>.photo{min-height:0;height:430px}.storyImage>.photo{height:400px}}
+
+/* Collection 01 — editorial hero refinement */
+.hero{grid-template-columns:minmax(0,56%) minmax(0,44%);min-height:760px;background:#f1ebe4}
+.heroArt{min-height:760px;overflow:hidden;isolation:isolate}
+.heroArt>.photo{min-height:760px;height:100%}
+.heroArt>.photo img{object-fit:cover;object-position:50% 47%;transform:scale(1.015)}
+.heroContent{padding:80px clamp(32px,5.1vw,90px);background:linear-gradient(120deg,#faf7f2 0%,#f1e9df 100%)}
+.heroContent h1{font-size:clamp(54px,5.1vw,86px);letter-spacing:-.055em;line-height:1.025}
+.heroContent>p:not(.eyebrow){max-width:390px}
+.heroImageNote{position:absolute;left:30px;bottom:28px;color:#46382b;font-size:10px;letter-spacing:.21em;padding:10px 14px;background:rgba(249,246,239,.83);backdrop-filter:blur(5px)}
+.button{transition:background .2s ease,transform .2s ease}.button:hover{background:#65513f;transform:translateY(-2px)}
+@media(max-width:700px){.hero{grid-template-columns:1fr;min-height:0}.heroArt{min-height:0;height:470px}.heroArt>.photo{min-height:0;height:470px}.heroArt>.photo img{object-position:center 40%;transform:none}.heroContent{padding:58px 27px 64px}.heroContent h1{font-size:clamp(44px,12vw,60px);margin:22px 0}.heroImageNote{left:16px;bottom:17px;font-size:9px}.heroContent small{line-height:1.6}}
