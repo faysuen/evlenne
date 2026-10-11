@@ -47,3 +47,9 @@
  .footerLinks{gap:18px 35px}
  .footerBottom{flex-direction:column;gap:13px;line-height:1.5}
 }
+
+/* JEWELRY BRAND IDENTITY — explicitly separate from archived pet-logo art */
+.wordmark,.footerWordmark{display:inline-flex;align-items:flex-start;justify-content:center;white-space:nowrap;font-family:Georgia,'Times New Roman',serif;font-size:clamp(26px,2.45vw,38px);font-weight:400;letter-spacing:.135em;line-height:1;color:#362e29;transform:scaleX(.94);transform-origin:center;text-decoration:none}
+.wordmarkStar{display:inline-block;font-family:Georgia,serif;font-size:.33em;letter-spacing:0;color:#a38a68;margin-left:5px;transform:translateY(-.28em)}
+.footerWordmark{font-size:41px;justify-content:flex-start;transform-origin:left}
+@media(max-width:850px){.wordmark{font-size:30px;letter-spacing:.12em}.footerWordmark{font-size:37px}}
