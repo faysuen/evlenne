@@ -1,0 +1,1 @@
+Upload the Evlenne AI Jewelry Render Images ZIP contents into this directory (not the ZIP itself). Preserve exact filenames such as necklace-01.webp, earrings-01.webp, bracelet-01.webp, charm-01.webp, signature-01.webp. All images are design renders and not product photographs.
