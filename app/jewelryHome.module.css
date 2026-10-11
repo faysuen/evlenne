@@ -20,3 +20,28 @@
 .heroImageNote{position:absolute;left:30px;bottom:28px;color:#46382b;font-size:10px;letter-spacing:.21em;padding:10px 14px;background:rgba(249,246,239,.83);backdrop-filter:blur(5px)}
 .button{transition:background .2s ease,transform .2s ease}.button:hover{background:#65513f;transform:translateY(-2px)}
 @media(max-width:700px){.hero{grid-template-columns:1fr;min-height:0}.heroArt{min-height:0;height:470px}.heroArt>.photo{min-height:0;height:470px}.heroArt>.photo img{object-position:center 40%;transform:none}.heroContent{padding:58px 27px 64px}.heroContent h1{font-size:clamp(44px,12vw,60px);margin:22px 0}.heroImageNote{left:16px;bottom:17px;font-size:9px}.heroContent small{line-height:1.6}}
+
+/* 2026-10: supplier-first design archive, avoiding invented finished jewelry imagery */
+.brandComposition{height:100%;min-height:760px;background:linear-gradient(138deg,#e9ddce,#cbb7a0 52%,#e7ddd0);padding:clamp(42px,6vw,110px);display:flex;flex-direction:column;justify-content:center;gap:26px;color:#44372d}
+.brandComposition>span,.brandComposition>p{font:11px/1.9 Arial,sans-serif;letter-spacing:.13em}
+.brandComposition strong{font:400 clamp(56px,6vw,105px)/.97 Georgia,serif;letter-spacing:-.05em}
+.brandComposition em{color:#997651;font-weight:400}
+.introStrip{text-align:center;padding:95px 22px 100px;background:#eee6dd}
+.introStrip>p{font:10px Arial,sans-serif;letter-spacing:.24em;color:#a08469}
+.introStrip h2{font:400 clamp(35px,4vw,60px)/1.15 Georgia,serif;letter-spacing:-.025em;margin:18px 0}
+.introStrip span{display:block;margin:auto;max-width:580px;color:#7c6d60;font:14px/1.85 Arial,sans-serif}
+.materialGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.materialCard{background:#f3eee7;border:1px solid #e5dace;min-height:355px;display:flex;flex-direction:column}
+.materialIndex{display:flex;align-items:flex-start;justify-content:space-between;padding:23px 24px 14px;border-bottom:1px solid #e2d8cb}
+.materialIndex span{font:9px Arial,sans-serif;letter-spacing:.17em;color:#957f69}
+.materialIndex b{font:400 42px Georgia,serif;color:#b7a18d}
+.materialBody{padding:24px;display:flex;flex-direction:column;flex:1}
+.materialBody h3{font:400 clamp(24px,2.5vw,36px)/1.1 Georgia,serif;margin:10px 0}
+.materialBody>p:not(.eyebrow){font:13px/1.8 Arial,sans-serif;color:#7b6b5e}
+.materialMeta{margin-top:auto;padding-top:28px;display:flex;justify-content:space-between;gap:12px;font:10px Arial,sans-serif;letter-spacing:.11em;color:#957d67}
+.materialNote{margin:30px 0 0;max-width:790px;font:12px/1.8 Arial,sans-serif;color:#776c60}
+.editorialDetail{height:600px;display:flex;flex-direction:column;justify-content:center;padding:8vw;background:radial-gradient(circle at 70% 20%,#f1e9df,#c8b5a3);color:#514438}
+.editorialDetail>span{font:12px Arial,sans-serif;letter-spacing:.28em}
+.editorialDetail strong{font:400 clamp(34px,4.3vw,63px)/1.14 Georgia,serif;margin-top:45px}
+@media(max-width:900px){.materialGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.brandComposition{min-height:430px;padding:42px 28px}.brandComposition strong{font-size:clamp(47px,11vw,70px)}.materialGrid{grid-template-columns:1fr}.materialCard{min-height:290px}.introStrip{padding:69px 25px}.editorialDetail{height:400px;padding:40px}}
