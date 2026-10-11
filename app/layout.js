@@ -6,8 +6,5 @@ const serif=Newsreader({subsets:["latin"],style:["normal","italic"],weight:["400
 const sans=Arimo({subsets:["latin"],weight:["400"],variable:"--font-pets-sans"});
 const studioSerif=Cormorant_Garamond({subsets:["latin"],weight:["400","500","600"],style:["normal","italic"],variable:"--font-studio-serif"});
 const studioSans=Inter({subsets:["latin"],weight:["400","500","600","700"],variable:"--font-studio-sans"});
-export const metadata={
-  title:"Evlenne | Personalized Pet Lifestyle",
-  description:"One pet. A world made personal. Create a reusable pet identity for personalized jewelry, keepsakes, travel pieces and more."
-};
+export const metadata={title:"Evlenne | Sculptural & Artistic Jewelry",description:"Evlenne explores modern sculptural jewelry and artistic details. Discover the first collection, coming soon."};
 export default function RootLayout({children}){return <html lang="en"><body className={`${serif.variable} ${sans.variable} ${studioSerif.variable} ${studioSans.variable}`}><AuthRedirect/><SiteHeader/>{children}<SiteFooter/></body></html>}
