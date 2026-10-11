@@ -2,6 +2,28 @@
 import Link from "next/link";
 import {useState} from "react";
 import {usePathname} from "next/navigation";
-const wordmark={fontFamily:"Georgia,serif",fontSize:30,letterSpacing:".14em",color:"#40382f",textDecoration:"none"};
-export function SiteHeader(){const [open,setOpen]=useState(false);const pathname=usePathname();return <header style={{background:"#f8f5f0",color:"#40382f",borderBottom:"1px solid #e8e0d6",position:"relative",zIndex:20}}><div style={{maxWidth:1440,margin:"auto",minHeight:81,padding:"16px clamp(20px,5vw,70px)",display:"flex",justifyContent:"space-between",alignItems:"center",gap:20,flexWrap:"wrap"}}><Link href="/" style={wordmark}>EVLENNE <span style={{color:"#b89a72",fontSize:20}}>✦</span></Link><nav aria-label="Main navigation" style={{display:"flex",alignItems:"center",gap:"clamp(12px,2vw,32px)",flexWrap:"wrap",font:"11px Arial,sans-serif",letterSpacing:".12em"}}><Link href="/#collections" style={{color:"inherit",textDecoration:"none"}}>COLLECTIONS</Link><Link href="/#the-edit" style={{color:"inherit",textDecoration:"none"}}>THE EDIT</Link><Link href="/#story" style={{color:"inherit",textDecoration:"none"}}>OUR STORY</Link></nav></div></header>}
-export function SiteFooter(){return <footer style={{background:"#eae4dc",color:"#40382f",padding:"75px clamp(20px,5vw,70px) 28px",textAlign:"center"}}><div style={{font:"42px Georgia,serif",letterSpacing:".1em"}}>EVLENNE ✦</div><p style={{font:"16px Georgia,serif",margin:"14px 0 42px"}}>Jewelry for a brighter you.</p><div style={{display:"flex",justifyContent:"center",gap:28,font:"11px Arial,sans-serif",letterSpacing:".1em",marginBottom:55}}><Link href="/#collections" style={{color:"inherit"}}>COLLECTIONS</Link><Link href="/#story" style={{color:"inherit"}}>ABOUT</Link><a href="mailto:hello@evlenne.com" style={{color:"inherit"}}>CONTACT</a></div><small style={{font:"10px Arial,sans-serif",letterSpacing:".08em"}}>© {new Date().getFullYear()} EVLENNE · PRE-LAUNCH CONCEPT COLLECTION</small></footer>}
+import styles from "./SiteChrome.module.css";
+
+const links=[
+ {text:"THE COLLECTIONS",href:"/#collections"},
+ {text:"SHOP THE EDIT",href:"/#the-edit"},
+ {text:"OUR STORY",href:"/#story"}
+];
+export function SiteHeader(){
+ const [open,setOpen]=useState(false);
+ const pathname=usePathname();
+ return <header className={styles.siteHeader}>
+   <div className={styles.topLine}>EVLENNE <span>✦</span> MODERN JEWELRY · ARTISTIC FORMS</div>
+   <div className={styles.headerInner}>
+    <nav className={styles.desktopLeft} aria-label="Main collections"><Link href="/#collections">COLLECTIONS</Link><Link href="/#the-edit">THE EDIT</Link></nav>
+    <Link className={styles.brandLogo} href="/" aria-label="Evlenne home"><img src="/brand/evlenne-logo-star.png" alt="EVLENNE" /></Link>
+    <div className={styles.rightArea}><Link className={styles.storyLink} href="/#story">OUR STORY</Link><a className={styles.contactLink} href="mailto:hello@evlenne.com" aria-label="Contact Evlenne">CONTACT <span>↗</span></a></div>
+    <button className={styles.menuToggle} type="button" aria-expanded={open} aria-controls="evlenne-mobile-nav" onClick={()=>setOpen(!open)}>{open?"CLOSE":"MENU"}<span aria-hidden="true">{open?"×":"+"}</span></button>
+   </div>
+   <nav id="evlenne-mobile-nav" className={open?styles.mobileNavOpen:styles.mobileNav} aria-label="Mobile navigation">
+    {links.map(link=><Link key={link.href} href={link.href} onClick={()=>setOpen(false)}>{link.text}<span>↗</span></Link>)}
+    <a href="mailto:hello@evlenne.com" onClick={()=>setOpen(false)}>CONTACT <span>↗</span></a>
+   </nav>
+ </header>;
+}
+export function SiteFooter(){return <footer className={styles.siteFooter}><div className={styles.footerTop}><div><img className={styles.footerLogo} src="/brand/evlenne-logo-star.png" alt="EVLENNE"/><p>Sculptural forms. Artistic details. Everyday expression.</p></div><div className={styles.footerLinks}><Link href="/#the-edit">THE EDIT</Link><Link href="/#collections">COLLECTIONS</Link><Link href="/#story">OUR STORY</Link><a href="mailto:hello@evlenne.com">CONTACT</a></div></div><div className={styles.footerBottom}><span>© {new Date().getFullYear()} EVLENNE</span><span>MODERN JEWELRY · DESIGNED WITH INTENTION</span></div></footer>}
